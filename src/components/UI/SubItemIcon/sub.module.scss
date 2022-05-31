@@ -1,0 +1,17 @@
+.item {
+  align-items: flex-end;
+  display: flex;
+  margin-bottom: 5px;
+
+  &.warning label {
+    color: var(--wasd-color-warning) !important;
+  }
+
+  > :not(div) {
+    margin-bottom: 8px;
+  }
+
+  > span {
+    margin-left: 5px;
+  }
+}

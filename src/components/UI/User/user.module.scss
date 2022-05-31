@@ -1,0 +1,101 @@
+.wrapper {
+  display: flex;
+  min-width: 105px;
+  width: min-content;
+  list-style-type: none;
+  vertical-align: top;
+  margin-right: 5px;
+  margin-bottom: 25px;
+  padding: 6px;
+  transition: transform 0.2s cubic-bezier(0.333, 0, 0, 1) 0s;
+
+  span {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}
+
+.card {
+  background-color: rgba(var(--wasd-color-switch--rgb), 0.08);
+  color: rgba(var(--wasd-color-switch--rgb), 0.64);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  text-align: center;
+  width: auto;
+  height: auto;
+  position: relative;
+  min-width: -webkit-fill-available;
+  transition: all 0.175s ease 0s;
+  margin: 0px;
+  outline: none;
+  text-decoration: none;
+
+  &:hover,
+  &:hover span {
+    transition: background-color 0.25s;
+    background-color: var(--wasd-color-corp-blue) !important;
+    z-index: 1;
+  }
+
+  img {
+    height: 50px;
+    position: relative;
+    margin: 8px;
+    min-width: 76px;
+    max-width: 55%;
+    object-fit: scale-down;
+    vertical-align: middle;
+  }
+
+  > div {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &span:hover,
+  &:hover span {
+    white-space: normal;
+    overflow-wrap: break-word;
+    color: var(--wasd-color-white);
+    text-decoration: none;
+  }
+
+  span {
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 0.09px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: inherit;
+    background-color: rgba(var(--wasd-color-switch--rgb), 0.08);
+    text-align: center;
+    height: min-content;
+    position: relative;
+    transition: all 0.175s ease 0s;
+    text-decoration: none;
+    padding: 0px 5px 5px;
+    overflow: hidden;
+    min-height: 23px;
+  }
+
+  span:nth-child(1)::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 10%;
+    width: 80%;
+    height: 14px;
+  }
+  span:nth-child(2)::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 17%;
+    width: 65%;
+    height: 10px;
+  }
+}

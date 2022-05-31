@@ -1,0 +1,49 @@
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .count {
+    position: absolute;
+    margin: 5px;
+    font-size: 12px;
+  }
+  button {
+    width: 30px;
+    height: 30px;
+    border-radius: 20%;
+    border: none;
+    opacity: 0.65;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  button:first-child {
+    margin-right: 5px;
+  }
+  button:last-child {
+    margin-left: 5px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 14px;
+  font-weight: 400;
+
+  .message {
+    padding: 25px;
+    background-color: #141820;
+    color: #ffffffe0;
+  }
+  .time {
+    color: #ffffffa3;
+    font-size: 10px;
+    margin-right: 8px;
+  }
+  .text {
+    margin: 10px 4px;
+  }
+}

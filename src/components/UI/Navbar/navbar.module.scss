@@ -1,0 +1,83 @@
+.root {
+  z-index: 2;
+  max-width: 948px;
+  margin: 0 auto;
+  position: absolute !important;
+  top: 32px;
+  left: 0;
+  right: 0;
+
+  .nav {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    z-index: 1;
+
+    img {
+      width: 150px;
+    }
+
+    &-item {
+      cursor: pointer;
+      outline: none;
+    }
+
+    &-link {
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: rgba(var(--color-system-white), 0.64);
+      align-items: center;
+
+      &:not(:first-child) {
+        padding-left: 15px;
+      }
+
+      &:hover {
+        color: rgba(var(--color-system-white), 0.8);
+      }
+
+      &[aria-current] {
+        color: rgb(var(--color-system-white));
+      }
+    }
+
+    &-drop::after {
+      content: "";
+      border-bottom: 0;
+      border-left: 0.3em solid transparent;
+      border-right: 0.3em solid transparent;
+      border-top: 0.3em solid;
+      display: inline-block;
+      margin-left: 0.255em;
+      vertical-align: 0.255em;
+    }
+
+    .login svg {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      background-position: center;
+      background-size: cover;
+
+      position: relative;
+      margin-right: 5px;
+      border-radius: 20px;
+    }
+    .user-role {
+      padding-right: 10px;
+      color: #9d2d2d;
+      position: absolute;
+      right: 100%;
+    }
+  }
+}
