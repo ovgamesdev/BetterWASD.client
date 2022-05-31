@@ -10,8 +10,8 @@ const Emotes = () => {
   const [isFirsLoading, setIsFirsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState({
-    sharedEmotes: Array(8).fill({}),
-    channelEmotes: Array(8).fill({}),
+    sharedEmotes: Array(40).fill({}),
+    channelEmotes: [],
   });
 
   useTitle(
@@ -42,7 +42,7 @@ const Emotes = () => {
 
       {!error ? (
         <div className="items">
-          <div className="item block item_right" style={{ marginTop: "0px" }}>
+          <div className="item block item_right">
             <div className="item__title">
               Эмоции пользователя{" "}
               <a
@@ -59,9 +59,11 @@ const Emotes = () => {
             <div className="item__border"></div>
 
             {data.channelEmotes.length !== 0 && (
-              <div>
-                <div className="item__title"> Эмоции канала </div>
-                <div className="emotes">
+              <>
+                <div className="item__title">
+                  Эмоции канала ({data.channelEmotes.length})
+                </div>
+                <div className="emotes" style={{ marginBottom: "25px" }}>
                   {data.channelEmotes.map((emote, index) => (
                     <Emote
                       key={emote._id || index}
@@ -70,13 +72,13 @@ const Emotes = () => {
                     />
                   ))}
                 </div>
-              </div>
+              </>
             )}
 
             {data.sharedEmotes.length !== 0 && (
-              <div>
-                <div className="item__title" style={{ marginTop: "25px" }}>
-                  Общие эмоции
+              <>
+                <div className="item__title">
+                  Общие эмоции ({data.sharedEmotes.length})
                 </div>
                 <div className="emotes">
                   {data.sharedEmotes.map((emote, index) => (
@@ -88,7 +90,7 @@ const Emotes = () => {
                     />
                   ))}
                 </div>
-              </div>
+              </>
             )}
           </div>
         </div>

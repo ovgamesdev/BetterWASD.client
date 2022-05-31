@@ -135,10 +135,10 @@ const EmotesTop = () => {
       {total > limit && (
         <ReactPaginate
           pageCount={Math.ceil(total / limit)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          nextLabel="Следующая"
-          previousLabel="Предыдущая"
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          nextLabel=">"
+          previousLabel="<"
           onPageChange={(e) => setPage(e.selected + 1)}
           containerClassName={"pagination justify-content-center"}
           pageClassName={"page-item"}

@@ -278,7 +278,10 @@ const Emote = () => {
             {data.global !== false ? (
               <div>Глобальная эмоция</div>
             ) : (
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{ display: "flex", alignItems: "center" }}
+                className="user_login"
+              >
                 автор
                 <img
                   style={{
@@ -332,51 +335,47 @@ const Emote = () => {
           !isOwner &&
           auth.user &&
           (data.sharing || auth.user?.user_role !== "ADMIN") ? (
-            <div className="card-footer">
-              <div className="flat-btn ovg" style={{ display: "flex" }}>
-                {auth.user?.user_role === "ADMIN" && (
-                  <button
-                    onClick={() => setIsChangeMode(true)}
-                    style={{ width: "167px" }}
-                    className={classnames("medium", "ovg", "primary")}
-                  >
-                    Изменить эмоцию
-                  </button>
-                )}
-                {data.sharing && (
-                  <button
-                    onClick={likeEmote}
-                    style={{ marginLeft: "5px", width: "167px" }}
-                    disabled={isLoadingLike}
-                    className={classnames(
-                      "medium",
-                      "ovg",
-                      data.likes.is_liked ? "warning" : "primary"
-                    )}
-                  >
-                    {isLoadingLike ? (
-                      <ButtonLoading />
-                    ) : data.likes.is_liked ? (
-                      "Удалить из канала"
-                    ) : (
-                      "Добавить на канал"
-                    )}
-                  </button>
-                )}
-              </div>
+            <div className="card-footer flat-btn ovg">
+              {auth.user?.user_role === "ADMIN" && (
+                <button
+                  onClick={() => setIsChangeMode(true)}
+                  style={{ width: "167px" }}
+                  className={classnames("medium", "ovg", "primary")}
+                >
+                  Изменить эмоцию
+                </button>
+              )}
+              {data.sharing && (
+                <button
+                  onClick={likeEmote}
+                  style={{ marginLeft: "5px", width: "167px" }}
+                  disabled={isLoadingLike}
+                  className={classnames(
+                    "medium",
+                    "ovg",
+                    data.likes.is_liked ? "warning" : "primary"
+                  )}
+                >
+                  {isLoadingLike ? (
+                    <ButtonLoading />
+                  ) : data.likes.is_liked ? (
+                    "Удалить из канала"
+                  ) : (
+                    "Добавить на канал"
+                  )}
+                </button>
+              )}
             </div>
           ) : (
             isOwner && (
-              <div className="card-footer">
-                <div className="flat-btn ovg" style={{ display: "flex" }}>
-                  <button
-                    onClick={() => setIsChangeMode(true)}
-                    style={{ width: "167px" }}
-                    className={classnames("medium", "ovg", "primary")}
-                  >
-                    Изменить эмоцию
-                  </button>
-                </div>
+              <div className="card-footer flat-btn ovg">
+                <button
+                  onClick={() => setIsChangeMode(true)}
+                  style={{ width: "167px" }}
+                  className={classnames("medium", "ovg", "primary")}
+                >
+                  Изменить эмоцию
+                </button>
               </div>
             )
           )}
@@ -421,7 +420,10 @@ const Emote = () => {
                 alt="emote"
               />
             </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{ display: "flex", alignItems: "center" }}
+              className="user_login"
+            >
               автор
               <img
                 style={{

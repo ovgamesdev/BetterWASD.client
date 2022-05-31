@@ -7,6 +7,10 @@
   left: 0;
   right: 0;
 
+  @media (max-width: 639px) {
+    top: 15px;
+  }
+
   .nav {
     position: relative;
     display: flex;
@@ -14,6 +18,30 @@
     justify-content: space-between;
     align-items: baseline;
     z-index: 1;
+
+    @media (max-width: 639px) {
+      margin: 0 10px;
+
+      > :first-child {
+        flex-direction: column;
+
+        > :not(:first-child) {
+          display: none;
+        }
+      }
+
+      > :nth-child(2) {
+        .menu {
+          .item-mobile {
+            display: block;
+          }
+        }
+
+        .nav-link {
+          top: 0px !important;
+        }
+      }
+    }
 
     img {
       width: 150px;
@@ -79,5 +107,85 @@
       position: absolute;
       right: 100%;
     }
+  }
+}
+
+.dropdown {
+  cursor: pointer;
+}
+
+.dropdown:hover:after,
+.dropdown:hover .button {
+  color: rgba(var(--color-system-white), 0.8);
+}
+
+.menu {
+  flex-direction: column;
+  background-color: #142340;
+  box-shadow: 0 4px 8px rgba(var(--color-system-black), 0.16);
+  border-radius: 4px;
+  padding: 5px 0;
+  min-width: max-content;
+  width: 120px;
+
+  position: absolute;
+  inset: 0px auto auto 0px;
+  transform: translate(35px, 22px);
+}
+
+.item {
+  color: rgba(var(--color-system-white), 0.64);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &-mobile {
+    display: none;
+  }
+
+  .avatar {
+    width: 20px;
+    height: 20px;
+    background-position: center;
+    background-size: cover;
+    margin-right: 5px;
+    border-radius: 20px;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.dropdown-avatar {
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-size: cover;
+  margin-right: 5px;
+  border-radius: 20px;
+}
+
+.divider {
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+  border: 0;
+  border-top: 1px solid #434857;
+}
+
+.svg {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+}
+
+@media screen and (max-width: 1060px) {
+  .menu {
+    transform: translate(-20%, 22px);
   }
 }

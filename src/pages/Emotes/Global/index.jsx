@@ -13,7 +13,7 @@ const EmotesGlobal = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(Array(19).fill({}));
+  const [data, setData] = useState(Array(22).fill({}));
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -83,10 +83,10 @@ const EmotesGlobal = () => {
       {total > limit && (
         <ReactPaginate
           pageCount={Math.ceil(total / limit)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          nextLabel="Следующая"
-          previousLabel="Предыдущая"
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          nextLabel=">"
+          previousLabel="<"
           onPageChange={(e) => setPage(e.selected + 1)}
           containerClassName={"pagination justify-content-center"}
           pageClassName={"page-item"}

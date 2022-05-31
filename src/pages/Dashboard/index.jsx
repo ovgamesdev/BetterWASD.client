@@ -14,10 +14,7 @@ const DashboardRoutes = () => {
   useTitle("BetterWASD | Панель управления");
 
   return (
-    <section
-      className="question-section paint"
-      style={{ paddingBottom: "160px" }}
-    >
+    <section className="question-section" style={{ paddingBottom: "160px" }}>
       <div className="items">
         <div className="item item_left">
           <NavbarDashboard defaultActiveKey="#/dashboard/editors" />

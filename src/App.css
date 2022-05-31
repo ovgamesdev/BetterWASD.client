@@ -21,7 +21,8 @@ body {
   padding: 0!important;
   overflow-x: hidden;
   overflow-y: auto;
-  display: flex;
+  /* display: flex; */
+  display: block;
   width: 100%;
   flex-direction: column;
   position: absolute;
@@ -66,6 +67,12 @@ span.role:hover {
 section {
   padding-top: 120px;
   padding-bottom: 20px;
+}
+
+@media (max-width: 639px) {
+  section {
+    padding-top: 70px;
+  }
 }
 
 section > .title {
@@ -170,6 +177,12 @@ section .block .descr {
 .main-section .block {
   min-width: 948px;
   margin: 0 auto;
+}
+@media (max-width: 639px) {
+  .main-section .block {
+    min-width: 0px;
+    margin: 15px;
+  }
 }
 
 .main-section .main-title {
@@ -374,6 +387,23 @@ a {
   width: 100%;
 }
 
+@media (max-width: 639px) {
+  .question-section {
+    padding-bottom: 160px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .items {
+    flex-direction: column !important;
+  }
+  .item_left {
+    margin-right: 0 !important;
+    width: 100% !important;
+    margin-bottom: 40px;
+  }
+
+}
+
 /* NotFound */
 .notFound {
   height: 100%;
@@ -464,6 +494,56 @@ section .card.block:not(:first-child) {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+@media (max-width: 639px) {
+  .main-section .block {
+    order: 1;
+  } 
+
+  .slideshow-img {
+    height: 56.5vw;
+    width: 100%;
+  }
+
+  .slideshow-container {
+    position: relative !important;
+    width: auto !important;
+    margin: 15px !important;
+  }
+
+  .card-header {
+    flex-direction: column;
+  }
+
+  .card-header .emote-state {
+    margin-top: 5px;
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    order: 1;
+  }
+
+  .card-header .user_login {
+    margin-top: 5px;
+  }
+
+  .card-footer.flat-btn {
+    flex-direction: column;
+  }
+
+  .card-footer.flat-btn button {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-bottom: 5px;
+  }
+
+  .tabs-wrapper .items {
+    height: 35px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
 }
 
 .card-body p {

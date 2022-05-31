@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 
-import styles from "./dropdown.module.scss";
-import navStyles from "./navbar.module.scss";
+import styles from "./navbar.module.scss";
 
 const Navbar = () => {
   const auth = useAuth();
@@ -24,8 +23,8 @@ const Navbar = () => {
   };
 
   return (
-    <header className={navStyles.root}>
-      <div className={navStyles.nav}>
+    <header className={styles.root}>
+      <div className={styles.nav}>
         <div className="d-flex" style={{ alignItems: "flex-end" }}>
           <NavLink to="/">
             <img
@@ -33,20 +32,20 @@ const Navbar = () => {
               src="https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/d14e632c63580b2628abeb7f4159311c2399d37d/Wasd_Better_color_logo_dark.svg"
             />
           </NavLink>
-          <NavLink exact="true" to="/emotes" className={navStyles["nav-link"]}>
+          <NavLink exact="true" to="/emotes" className={styles["nav-link"]}>
             эмоции
           </NavLink>
           {auth.user ? (
             <NavLink
               exact="true"
               to="/dashboard"
-              className={navStyles["nav-link"]}
+              className={styles["nav-link"]}
             >
               панель управления
             </NavLink>
           ) : null}
           {/* {auth.user && auth.editor === null ? (
-            <NavLink to="/subscribe" className={navStyles["nav-link"]}>
+            <NavLink to="/subscribe" className={styles["nav-link"]}>
               подписаться
             </NavLink>
           ) : null} */}
@@ -54,9 +53,7 @@ const Navbar = () => {
         <div className="d-flex" style={{ alignItems: "flex-end" }}>
           {auth.user ? (
             <div
-              className={
-                navStyles["nav-link"] + " d-flex " + navStyles["nav-drop"]
-              }
+              className={styles["nav-link"] + " d-flex " + styles["nav-drop"]}
               style={{ top: "10px", position: "relative" }}
               tabIndex={0}
               onClick={() => {
@@ -67,12 +64,12 @@ const Navbar = () => {
               }}
             >
               {auth.user.user_role && (
-                <div className={[navStyles["user-role"]]}>
+                <div className={[styles["user-role"]]}>
                   {auth.user.user_role}
                 </div>
               )}
               <div
-                className={navStyles["avatar"]}
+                className={styles["avatar"]}
                 style={{
                   backgroundImage: `url(${
                     auth.editor?.profile_image || auth.user.profile_image
@@ -85,6 +82,24 @@ const Navbar = () => {
               </div>
               {showDropdown && (
                 <div className={styles.menu}>
+                  <div
+                    onClick={() => navigate("/emotes")}
+                    className={styles.item + " " + styles["item-mobile"]}
+                  >
+                    эмоции
+                  </div>
+                  <div
+                    onClick={() => navigate("/dashboard")}
+                    to="/dashboard"
+                    className={styles.item + " " + styles["item-mobile"]}
+                  >
+                    панель управления
+                  </div>
+
+                  <hr
+                    className={styles.divider + " " + styles["item-mobile"]}
+                  />
+
                   {auth.user.channel_editor &&
                     auth.user.channel_editor.map(
                       (editor, index) =>
@@ -95,7 +110,7 @@ const Navbar = () => {
                             onClick={() => toEditor(editor)}
                           >
                             <div
-                              className={styles.avatar}
+                              className={styles["dropdown-avatar"]}
                               style={{
                                 backgroundImage: `url(${editor.user?.channel_image})`,
                               }}
@@ -110,7 +125,7 @@ const Navbar = () => {
                       className={styles.item}
                     >
                       <div
-                        className={styles.avatar}
+                        className={styles["dropdown-avatar"]}
                         style={{
                           backgroundImage: `url(${auth.user.profile_image})`,
                         }}
@@ -146,13 +161,7 @@ const Navbar = () => {
           ) : (
             <NavLink
               to="/login"
-              className={
-                styles.root +
-                " d-flex " +
-                navStyles["nav-link"] +
-                " " +
-                navStyles.login
-              }
+              className={"d-flex " + styles["nav-link"] + " " + styles.login}
             >
               <svg
                 aria-hidden="true"

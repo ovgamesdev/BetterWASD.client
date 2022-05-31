@@ -17,7 +17,7 @@ const Home = () => {
   ];
 
   return (
-    <div>
+    <>
       <section className="main-section">
         <div className="block">
           <div className="main-title">Набор для улучшения WASD.TV</div>
@@ -56,7 +56,7 @@ const Home = () => {
         {" • "}
         <Link to="privacy">Privacy Policy</Link>
       </footer>
-    </div>
+    </>
   );
 };
 
