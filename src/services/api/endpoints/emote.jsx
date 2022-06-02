@@ -41,6 +41,15 @@ const endpoint = {
       `/v1/emote/tv-emote/${typeof user_id !== "undefined" ? user_id : ""}`,
       data
     ),
+  updateAlias: (id, alias, user_id) =>
+    axios.put(
+      `/v1/emote/${id}/alias/${typeof user_id !== "undefined" ? user_id : ""}`,
+      { alias: alias }
+    ),
+  deleteAlias: (id, user_id) =>
+    axios.delete(
+      `/v1/emote/${id}/alias/${typeof user_id !== "undefined" ? user_id : ""}`
+    ),
 };
 
 export default endpoint;
