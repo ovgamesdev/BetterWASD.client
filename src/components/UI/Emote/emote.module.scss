@@ -9,8 +9,29 @@
   padding: 6px;
   transition: transform 0.2s cubic-bezier(0.333, 0, 0, 1) 0s;
 
+  @media (max-width: 739px) {
+    margin-right: 0px;
+    min-width: 0px;
+  }
+
+  @media (max-width: 639px) {
+    width: 20%;
+  }
+
+  @media (max-width: 539px) {
+    width: 25%;
+  }
+
+  @media (max-width: 439px) {
+    width: 33%;
+  }
+
   &.user {
     margin-bottom: 50px;
+
+    @media (max-width: 739px) {
+      margin-bottom: 45px;
+    }
 
     span:nth-child(1) {
       border-radius: 0;

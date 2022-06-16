@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import useTitle from "../../../hooks/useTitle";
+import useTitle from "../../../hooks/useTitle/index.tsx";
 import { decode } from "../../../lib/code-mnem";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
@@ -14,7 +14,10 @@ import api from "../../../services/api";
 import useAuth from "../../../hooks/useAuth";
 
 import classnames from "classnames";
-import styles from "./../../modal.module.scss";
+import styles from "./emote.module.scss";
+import modal_styles from "./../../modal.module.scss";
+
+import { toast } from "react-toastify";
 
 const Emote = () => {
   const { id } = useParams();
@@ -24,6 +27,7 @@ const Emote = () => {
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [isLoadingRemove, setIsLoadingRemove] = useState(false);
   const [isLoadingLike, setIsLoadingLike] = useState(false);
+  const [isLoadingPersonal, setIsLoadingPersonal] = useState(false);
   const [isLoadingAlias, setIsLoadingAlias] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
@@ -147,6 +151,9 @@ const Emote = () => {
 
   const onDelete = async () => {
     setIsLoadingRemove(true);
+    const isDelete = global.confirm("Вы уверены?");
+    if (!isDelete) return setIsLoadingRemove(false);
+
     const { data: nData } = await api.emote.deleteEmote(
       data._id,
       auth.editor?.user_id
@@ -177,7 +184,45 @@ const Emote = () => {
     setIsLoadingLike(false);
   };
 
+  const personalEmote = async () => {
+    setIsLoadingPersonal(true);
+    if (data.personals.is_personaled) {
+      const { data: nData } = await api.emote.personalEmote(
+        data._id,
+        auth.editor?.user_id
+      );
+      if (typeof nData.users === "object") {
+        setData({ ...data, personals: { ...nData } });
+      } else {
+        toast(nData.message, {
+          className: "black-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
+      }
+    } else {
+      const { data: nData } = await api.emote.unpersonalEmote(
+        data._id,
+        auth.editor?.user_id
+      );
+      if (typeof nData.users === "object") {
+        setData({ ...data, personals: { ...nData } });
+      } else {
+        toast(nData.message, {
+          className: "black-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
+      }
+    }
+    setIsLoadingPersonal(false);
+  };
+
   const setAlias = async () => {
+    if (data.alias === null && aliasCode === "") {
+      return setShowAlias(false);
+    }
+
     setIsLoadingAlias(true);
     if (aliasCode === "") {
       const { data: nData } = await api.emote.deleteAlias(
@@ -210,8 +255,11 @@ const Emote = () => {
   if (isLoading) {
     return (
       <div className="item item__rigtt" style={{ width: "100%" }}>
-        <div className="card block skelet-loading" style={column[3]}>
-          <div className="card-header d-flex">
+        <div
+          className={styles.root + " " + styles.block + " skelet-loading"}
+          style={column[3]}
+        >
+          <div className={styles["root-header"]}>
             <div
               style={{ width: "150px", height: "18px", marginRight: "50px" }}
               className="loading"
@@ -221,19 +269,9 @@ const Emote = () => {
               className="loading"
             ></div>
           </div>
-          <div className="card-body" style={{ minHeight: "180px" }}>
-            <div
-              className="card-body"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "140px",
-                minHeight: "140px",
-              }}
-            >
+          <div className={styles["root-body"]}>
+            <div className={styles.content}>
               <img
-                style={column[5]}
                 width={28}
                 height={28}
                 src="data:image/gif;base64,R0lGODlhAQABAPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAABAAEAAAgEAP8FBAA7"
@@ -241,7 +279,6 @@ const Emote = () => {
                 className="loading"
               />
               <img
-                style={column[5]}
                 width={56}
                 height={56}
                 src="data:image/gif;base64,R0lGODlhAQABAPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAABAAEAAAgEAP8FBAA7"
@@ -249,7 +286,6 @@ const Emote = () => {
                 className="loading"
               />
               <img
-                style={column[5]}
                 width={112}
                 height={112}
                 src="data:image/gif;base64,R0lGODlhAQABAPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAABAAEAAAgEAP8FBAA7"
@@ -259,29 +295,30 @@ const Emote = () => {
             </div>
             <div
               className="date loading"
-              style={{ width: "150px", height: "14px" }}
+              style={{ width: "150px", height: "14px", position: "absolute" }}
             ></div>
           </div>
           {auth.user ? (
-            <div
-              className="card-footer flat-btn ovg"
-              style={{ display: "flex" }}
-            >
+            <div className={styles["root-footer"] + " flat-btn ovg"}>
               <div
                 style={{ width: "165px", height: "32px" }}
+                className="loading"
+              ></div>
+              <div
+                style={{ width: "165px", height: "32px", marginLeft: "5px" }}
                 className="loading"
               ></div>
             </div>
           ) : null}
         </div>
-        <div className="card block skelet-loading" style={column[3]}>
-          <div className="card-header d-flex">
+        <div className={styles.root + " " + styles.block + " skelet-loading"}>
+          <div className={styles["root-header"]}>
             <div
               style={{ width: "100px", height: "18px" }}
               className="loading"
             ></div>
           </div>
-          <div className="card-body">
+          <div className={styles["root-body"]}>
             <div className="emotes">
               {Array(10)
                 .fill({})
@@ -303,65 +340,37 @@ const Emote = () => {
     <>
       <div className="item item__rigtt" style={{ width: "100%" }}>
         {!isChangeMode && (
-          <div className="card block" style={column[3]}>
-            <div className="card-header d-flex">
-              <div
-                style={{
-                  textTransform: "none",
-                  wordBreak: "break-all",
-                  marginRight: "50px",
-                }}
-              >
-                {encoded}{" "}
+          <div className={styles.root + " " + styles.block} style={column[3]}>
+            <div className={styles["root-header"]}>
+              <div className={styles.title}>
+                {encoded}
                 {data.alias && (
-                  <span
-                    style={{ color: "rgba(150,150,150,.8)", fontSize: "12px" }}
-                  >
-                    ({data.alias})
-                  </span>
+                  <span className={styles.alias}>({data.alias})</span>
                 )}
               </div>
-              <div className="emote-state">
+              <div className={styles.state}>
                 {!data.sharing && (
-                  <div className="private-emote">ПРИВАТНАЯ ЭМОЦИЯ</div>
+                  <div className={styles.private}>ПРИВАТНАЯ ЭМОЦИЯ</div>
                 )}
                 {!!data.visibility_simple?.filter((t) => t === "ZERO_WIDTH")
-                  .length && <div className="zero-width">ZERO-WIDTH</div>}
+                  .length && (
+                  <div className={styles.zero_width}>ZERO-WIDTH</div>
+                )}
               </div>
               {data.global !== false ? (
                 <div>Глобальная эмоция</div>
               ) : (
-                <div
-                  style={{ display: "flex", alignItems: "center" }}
-                  className="user_login"
-                >
+                <div className={styles.user_login}>
                   автор
-                  <img
-                    style={{
-                      height: "14px",
-                      margin: "0 5px",
-                      borderRadius: "25px",
-                    }}
-                    src={data.user.channel_image}
-                    alt="ava"
-                  />
+                  <img src={data.user.channel_image} alt="ava" />
                   <Link to={"/users/" + data.user.user_id}>
                     {data.user.user_login}
                   </Link>
                 </div>
               )}
             </div>
-            <div className="card-body" style={{ minHeight: "180px" }}>
-              <div
-                className="card-body"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "140px",
-                  minHeight: "140px",
-                }}
-              >
+            <div className={styles["root-body"]}>
+              <div className={styles.content}>
                 <img
                   style={column[5]}
                   src={HOSTURL + "/cached/emote/" + data._id + "/1x"}
@@ -379,33 +388,30 @@ const Emote = () => {
                 />
               </div>
               <Moment
-                className="date"
+                className={styles.date}
                 date={new Date(data.createdAt)}
-                format="Создано DD.MM.YYYY, HH:mm"
+                format="Создано DD.MM.YYYY"
               />
             </div>
             {data.global === false &&
             !isOwner &&
             auth.user &&
             (data.sharing || auth.user?.user_role !== "ADMIN") ? (
-              <div
-                className="card-footer flat-btn ovg"
-                style={{ display: "flex" }}
-              >
+              <div className={styles["root-footer"] + " flat-btn ovg"}>
                 {auth.user?.user_role === "ADMIN" && (
                   <button
                     onClick={() => setIsChangeMode(true)}
-                    style={{ width: "167px" }}
+                    style={{ minWidth: "167px" }}
                     className={classnames("medium", "ovg", "primary")}
                   >
                     Изменить эмоцию
                   </button>
                 )}
-                {data.sharing && (
+                {data.sharing && !data.global && (
                   <>
                     <button
                       onClick={likeEmote}
-                      style={{ marginLeft: "5px", width: "167px" }}
+                      style={{ minWidth: "167px" }}
                       disabled={isLoadingLike}
                       className={classnames(
                         "medium",
@@ -423,47 +429,87 @@ const Emote = () => {
                     </button>
                     <button
                       onClick={() => setShowAlias(true)}
-                      style={{ marginLeft: "5px", width: "167px" }}
+                      style={{ minWidth: "167px" }}
                       className={classnames("medium", "ovg", "primary")}
                     >
-                      Изменить псевноним
+                      Изменить псевдоним
                     </button>
+                    {auth.user.is_subscriber_active && !auth.editor && (
+                      <button
+                        onClick={personalEmote}
+                        style={{ minWidth: "167px" }}
+                        disabled={isLoadingPersonal}
+                        className={classnames(
+                          "medium",
+                          "ovg",
+                          data.personals.is_personaled ? "warning" : "primary"
+                        )}
+                      >
+                        {isLoadingPersonal ? (
+                          <ButtonLoading />
+                        ) : data.personals.is_personaled ? (
+                          "Удалить из персональных"
+                        ) : (
+                          "Добавить как персональную"
+                        )}
+                      </button>
+                    )}
                   </>
                 )}
               </div>
             ) : (
               isOwner && (
                 <div
-                  className="card-footer flat-btn ovg"
+                  className={styles["root-footer"] + " flat-btn ovg"}
                   style={{ display: "flex" }}
                 >
                   <button
                     onClick={() => setIsChangeMode(true)}
-                    style={{ width: "167px" }}
+                    style={{ minWidth: "167px" }}
                     className={classnames("medium", "ovg", "primary")}
                   >
                     Изменить эмоцию
                   </button>
-                  <button
-                    onClick={() => setShowAlias(true)}
-                    style={{ marginLeft: "5px", width: "167px" }}
-                    className={classnames("medium", "ovg", "primary")}
-                  >
-                    Изменить псевноним
-                  </button>
+                  {!data.global && (
+                    <button
+                      onClick={() => setShowAlias(true)}
+                      style={{ minWidth: "167px" }}
+                      className={classnames("medium", "ovg", "primary")}
+                    >
+                      Изменить псевдоним
+                    </button>
+                  )}
+                  {auth.user.is_subscriber_active && !auth.editor && (
+                    <button
+                      onClick={personalEmote}
+                      style={{ minWidth: "167px" }}
+                      disabled={isLoadingPersonal}
+                      className={classnames(
+                        "medium",
+                        "ovg",
+                        data.personals.is_personaled ? "warning" : "primary"
+                      )}
+                    >
+                      {isLoadingPersonal ? (
+                        <ButtonLoading />
+                      ) : data.personals.is_personaled ? (
+                        "Удалить из персональных"
+                      ) : (
+                        "Добавить как персональную"
+                      )}
+                    </button>
+                  )}
                 </div>
               )
             )}
           </div>
         )}
         {data?.likes?.total !== 0 && !isChangeMode ? (
-          <div className="card block" style={column[3]}>
-            <div className="card-header d-flex">
-              <div style={{ textTransform: "none" }}>
-                Каналы ({data?.likes?.total})
-              </div>
+          <div className={styles.root + " " + styles.block} style={column[3]}>
+            <div className={styles["root-header"]}>
+              <div className={styles.title}>Каналы ({data?.likes?.total})</div>
             </div>
-            <div className="card-body" style={{ minHeight: "150px" }}>
+            <div className={styles["root-body"]}>
               <div className="emotes">
                 {data && data.likes && data.likes.users
                   ? data.likes.users.map((user) => (
@@ -475,46 +521,24 @@ const Emote = () => {
           </div>
         ) : null}
         {isChangeMode ? (
-          <div className="card block" style={column[3]}>
-            <div className="card-header d-flex">
-              <div
-                style={{
-                  textTransform: "none",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+          <div className={styles.root + " " + styles.block} style={column[3]}>
+            <div className={styles["root-header"]}>
+              <div className={styles.title}>
                 Настройка
                 <img
-                  style={{
-                    height: "25px",
-                    marginLeft: "85px",
-                    position: "absolute",
-                  }}
                   src={HOSTURL + "/cached/emote/" + data._id + "/1x"}
                   alt="emote"
                 />
               </div>
-              <div
-                style={{ display: "flex", alignItems: "center" }}
-                className="user_login"
-              >
+              <div className={styles.user_login}>
                 автор
-                <img
-                  style={{
-                    height: "14px",
-                    margin: "0 5px",
-                    borderRadius: "25px",
-                  }}
-                  src={data.user.channel_image}
-                  alt="ava"
-                />
+                <img src={data.user.channel_image} alt="ava" />
                 <Link to={"/users/" + data.user.user_id}>
                   {data.user.user_login}
                 </Link>
               </div>
             </div>
-            <div className="card-body">
+            <div className={styles["root-body"]}>
               <div>
                 <span>Код эмоции</span>
                 {codeError && (
@@ -653,10 +677,7 @@ const Emote = () => {
                 </div>
               )}
             </div>
-            <div
-              className="card-footer flat-btn ovg"
-              style={{ display: "flex" }}
-            >
+            <div className={styles["root-footer"] + " flat-btn ovg"}>
               <button
                 onClick={() => setIsChangeMode(false)}
                 className="primary medium ovg"
@@ -682,7 +703,7 @@ const Emote = () => {
                   )
                 }
                 className="primary medium ovg"
-                style={{ marginLeft: "5px", width: "166px" }}
+                style={{ width: "166px" }}
               >
                 {isLoadingUpdate ? <ButtonLoading /> : "Обновить эмоцию"}
               </button>
@@ -690,7 +711,7 @@ const Emote = () => {
                 onClick={onDelete}
                 disabled={isLoadingRemove}
                 className="warning medium ovg"
-                style={{ marginLeft: "5px", width: "164px" }}
+                style={{ width: "164px" }}
               >
                 {isLoadingRemove ? <ButtonLoading /> : "Удалить эмоцию"}
               </button>
@@ -703,36 +724,34 @@ const Emote = () => {
       {showAlias && (
         <ovg-modal-window
           data-show="show"
-          className={styles["show"]}
+          className={modal_styles["show"]}
           onClick={(e) => {
             !isLoading &&
-              setShowAlias(
-                !(
-                  e.target.dataset.show === "show" ||
-                  e.target.className.match("hide")
-                )
-              );
+              e.target.dataset.show === "show" &&
+              setShowAlias(false);
             setAliasError(null);
           }}
         >
           <div
             className={
-              styles["modal-block"] + " " + styles["modal-block_medium"]
+              modal_styles["modal-block"] +
+              " " +
+              modal_styles["modal-block_medium"]
             }
             style={{ width: "440px" }}
           >
-            <div className={styles["modal-block__title"]}>
+            <div className={modal_styles["modal-block__title"]}>
               <span>
-                Псевноним эмоции «{data.code}» для канала{" "}
+                Псевдоним эмоции «{data.code}» для канала{" "}
                 {auth.editor?.user_login || auth.user?.user_login}
               </span>
             </div>
 
             <div
-              className={styles["modal-block__content"]}
+              className={modal_styles["modal-block__content"]}
               style={{ padding: "0 24px" }}
             >
-              <div className={styles.row}>
+              <div className={modal_styles.row}>
                 <div className="col-36">
                   <span style={{ color: "rgb(255,255,255)", fontSize: "16px" }}>
                     Код эмоции
@@ -779,11 +798,12 @@ const Emote = () => {
               </div>
             </div>
 
-            <div className={styles["modal-block__footer"]}>
+            <div className={modal_styles["modal-block__footer"]}>
               <div className="flat-btn ovg" style={{ display: "flex" }}>
                 <button
                   className={classnames("medium", "ovg", "basic", "hide")}
                   style={{ marginRight: "5px" }}
+                  onClick={() => setShowAlias(false)}
                 >
                   отмена
                 </button>

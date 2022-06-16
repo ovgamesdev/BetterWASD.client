@@ -1,5 +1,5 @@
 import React from "react";
-import useTitle from "../../hooks/useTitle";
+import useTitle from "../../hooks/useTitle/index.tsx";
 import NavbarDashboard from "../../components/UI/Navbar/Dashboard";
 import "./../user.css";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -8,6 +8,8 @@ import DashboardEmotes from "./Emotes";
 import DashboardPaint from "./Paint";
 import DashboardSub from "./Sub";
 import DashboardEditor from "./Editor";
+import DashboardPro from "./Pro";
+import DashboardAlertBox from "./AlertBox";
 import UserOnlyRoute from "../../routes/components/UserOnlyRoute";
 
 const DashboardRoutes = () => {
@@ -36,6 +38,22 @@ const DashboardRoutes = () => {
             element={
               <UserOnlyRoute to="/dashboard/emotes">
                 <DashboardEditor />
+              </UserOnlyRoute>
+            }
+          />
+          <Route
+            path="pro"
+            element={
+              <UserOnlyRoute to="/dashboard/emotes">
+                <DashboardPro />
+              </UserOnlyRoute>
+            }
+          />
+          <Route
+            path="alertbox"
+            element={
+              <UserOnlyRoute to="/dashboard/alertbox">
+                <DashboardAlertBox />
               </UserOnlyRoute>
             }
           />

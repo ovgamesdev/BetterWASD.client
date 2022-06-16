@@ -18,10 +18,9 @@ body {
 .wrapper {
   height: 100%;
   margin-top: 0;
-  padding: 0!important;
+  padding: 0 10px;
   overflow-x: hidden;
   overflow-y: auto;
-  /* display: flex; */
   display: block;
   width: 100%;
   flex-direction: column;
@@ -143,7 +142,6 @@ section .block .descr {
   justify-content: center;
   margin: 0 auto;
   height: 100vh;
-  /*min-height: 900px;*/
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -404,67 +402,6 @@ a {
 
 }
 
-/* NotFound */
-.notFound {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.notFound > h1 {
-  padding-bottom: 10px;
-  font-size: 90px;
-}
-
-/* card */
-.card {
-  word-wrap: break-word;
-  background-clip: border-box;
-  background-color: #142340;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  position: relative;
-}
-
-.card .card-header {
-  background-color: rgba(0,0,0,.1);
-  border-bottom: 1px solid #212d3f;
-  margin-bottom: 0;
-  padding: 16px 40px;
-  color: rgba(var(--color-system-white),.8);
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-}
-
-.card .card-body {
-  flex: 1 1 auto;
-  min-height: 200px;
-  padding: 1.25rem;
-}
-.card .card-body > img {
-  vertical-align: middle;
-  margin: 0 5px;
-}
-
-.card .card-body .date {
-  position: absolute;
-  font-size: 12px;
-  color: var(--wasd-color-text-third);
-}
-
-.card .card-footer {
-  background-color: rgba(0, 0, 0, 0.1);
-  border-top: 1px solid #212d3f;
-  padding: 16px 40px;
-  color: rgba(var(--color-system-white),.8);
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-}
 
 .text-center {
   text-align: center!important;
@@ -478,14 +415,6 @@ a {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-}
-
-section .card.block {
-  margin: 0 auto;
-}
-
-section .card.block:not(:first-child) {
-  margin-top: 20px;
 }
 
 .slideshow-img {
@@ -512,42 +441,11 @@ section .card.block:not(:first-child) {
     margin: 15px !important;
   }
 
-  .card-header {
-    flex-direction: column;
-  }
-
-  .card-header .emote-state {
-    margin-top: 5px;
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    order: 1;
-  }
-
-  .card-header .user_login {
-    margin-top: 5px;
-  }
-
-  .card-footer.flat-btn {
-    flex-direction: column;
-  }
-
-  .card-footer.flat-btn button {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-bottom: 5px;
-  }
-
   .tabs-wrapper .items {
     height: 35px;
     width: 100%;
     flex-wrap: wrap;
   }
-}
-
-.card-body p {
-  font-size: 13px;
 }
 
 /* pagination */
@@ -577,7 +475,6 @@ section .card.block:not(:first-child) {
   z-index: 3;
   color: #f6f7f8;
   background-color: #1a75ff;
-  /*border-color: #0d6efd;*/
 }
 
 .page-item.disabled .page-link {
@@ -620,8 +517,9 @@ button {
   cursor: pointer;
 }
 
-.disabled {
+.disabled, [disabled] {
   pointer-events: none;
+  cursor: default;
 }
 
 .error {
@@ -644,7 +542,6 @@ wasd-input[ovg] {
   flex-direction: row;
   font-family: Roboto, sans-serif;
   justify-content: space-between;
-  /*padding: 8px 0;*/
   width: 100%;
 }
 
@@ -680,7 +577,7 @@ wasd-input[ovg] {
   color: var(--wasd-color-switch);
   font-family: Roboto, sans-serif;
   font-size: 14px;
-  height: 32px;
+  height: 38px;
   margin: 4px 0 0;
   outline: none;
   padding: 0 8px;
@@ -751,7 +648,6 @@ button.button-icon[ovg]:hover {
 
 
 .warning input {
-  /* color: rgba(var(--wasd-color-warning--rgb), .8) !important; */
   background-color: rgba(var(--wasd-color-warning--rgb), .25) !important;
 }
 .warning input:focus {
@@ -769,7 +665,7 @@ svg.search {
   color: #ccc;
   left: 8px;
   position: absolute;
-  top: 8px;
+  top: 11px;
   text-align: center;
   display: inline-block;
   font-size: inherit;
@@ -829,4 +725,21 @@ svg.search {
 .emote-state .private-emote {
   font-size: 12px;
   color: #f44336;
+}
+
+/* Toastify */
+.Toastify .black-background {
+  background: #142340;
+  box-shadow: 0 4px 8px rgba(var(--color-system-black),.16);
+  color: rgba(var(--color-system-white), 0.8);
+}
+.Toastify button {
+  color: #f6f7f8;
+} 
+.Toastify .fancy-progress-bar {
+  background: linear-gradient(
+    to right,
+    #258fe5,
+    #258fe5
+  );
 }

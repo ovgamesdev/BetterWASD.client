@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useTitle from "../../../hooks/useTitle";
+import useTitle from "../../../hooks/useTitle/index.tsx";
 import ButtonLoading from "../../../components/UI/Loading";
 import api from "../../../services/api";
 import useAuth from "../../../hooks/useAuth";
@@ -177,7 +177,14 @@ const DashboardPaint = () => {
         )}
       </div>
 
-      <div className="flat-btn ovg buttons">
+      <div
+        className="flat-btn ovg buttons"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {getColor()?.toString().length > 155 &&
           auth.user?.user_role !== "ADMIN" && (
             <span

@@ -10,10 +10,9 @@ import Terms from "../../pages/Terms";
 // import Emote from "../../pages/Emotes/Emote";
 import User from "../../pages/User";
 import Privacy from "../../pages/Privacy";
-import Subscription from "../../pages/Subscription";
-import XsollaCallback from "../../pages/XsollaCallback";
 import Dashboard from "../../pages/Dashboard";
 import EmotesRoutes from "../../pages/Emotes";
+import AlertBox from "../../pages/AlertBox";
 
 function AppRoutes() {
   const auth = useAuth();
@@ -23,13 +22,10 @@ function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/privacy" element={<Privacy />} />
-
-      <Route path="/emotes/*" element={<EmotesRoutes />}>
-        {/* <Route path=":id" element={<EmotesRoutes />} /> */}
-      </Route>
-
-      {/* <Route path="/emotes/:id" element={<Emote />} /> */}
+      <Route path="/emotes/*" element={<EmotesRoutes />} />
       <Route path="/users/:id" element={<User />} />
+
+      <Route path="/alert-box/v1/:token" element={<AlertBox />} />
 
       <Route
         path="/dashboard/*"
@@ -49,22 +45,6 @@ function AppRoutes() {
         }
       />
       <Route path="/logout" element={<Navigate to="/" />} />
-      <Route
-        path="/subscribe"
-        element={
-          <PrivateRoute>
-            <Subscription />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/xsolla/callback"
-        element={
-          <PrivateRoute>
-            <XsollaCallback />
-          </PrivateRoute>
-        }
-      />
 
       <Route path="*" element={<NotFound />} />
     </Routes>
