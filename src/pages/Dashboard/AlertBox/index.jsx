@@ -207,7 +207,7 @@ const DashboardAlertBox = () => {
         <div className="item__border"></div>
 
         {isLoading ? <Loading /> : null}
-        {!isLoading && (
+        {!isLoading && settings && (
           <>
             <div className="section__body">
               <div className="row">
