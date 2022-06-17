@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import io from "socket.io-client";
 import api from "../../services/api";
@@ -148,8 +148,10 @@ const WebSocket = async (token, callback = () => {}) => {
       }
     };
 
-    fetchRaid();
-    setInterval(() => fetchRaid(), 30000); // 30000
+    setTimeout(() => {
+      fetchRaid();
+      setInterval(() => fetchRaid(), 30000); // 30000
+    }, settings.alert_delay);
   };
 };
 

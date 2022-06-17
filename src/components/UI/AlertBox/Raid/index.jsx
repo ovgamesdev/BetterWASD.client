@@ -27,6 +27,7 @@ const Raid = (props) => {
     channel_name,
   } = props.info;
 
+  // eslint-disable-next-line no-unused-vars
   const [playing, toggle, audio] = useAudio(raid_sound, raid_sound_volume);
   const [isShowText, setShowText] = useState(false);
 
@@ -47,6 +48,7 @@ const Raid = (props) => {
     return () => {
       audio.pause();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const messageTemplate = reactStringReplace(

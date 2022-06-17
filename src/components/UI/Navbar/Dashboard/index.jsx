@@ -19,7 +19,7 @@ const NavbarDashboard = () => {
       {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
       {auth.editor === null && (
-        <NavLink to="/dashboard/alertbox">Оповещения</NavLink>
+        <NavLink to="/dashboard/alertbox">Оповещения (beta)</NavLink>
       )}
       {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}

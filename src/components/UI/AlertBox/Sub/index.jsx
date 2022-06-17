@@ -27,6 +27,7 @@ const Sub = (props) => {
     user_login,
   } = props.info;
 
+  // eslint-disable-next-line no-unused-vars
   const [playing, toggle, audio] = useAudio(sub_sound, sub_sound_volume);
   const [isShowText, setShowText] = useState(false);
 
@@ -47,6 +48,7 @@ const Sub = (props) => {
     return () => {
       audio.pause();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const messageTemplate = reactStringReplace(

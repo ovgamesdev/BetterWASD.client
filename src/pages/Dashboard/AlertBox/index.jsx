@@ -528,7 +528,7 @@ const DashboardAlertBox = () => {
                           };
                           audio.onerror = (e) => {
                             setIsPlayed(false);
-                            toast.error("Мы не можем воспроизвести это");
+                            toast.error("Мы не можем воспроизвести этот звук");
                           };
                         }}
                       >
@@ -817,7 +817,7 @@ const DashboardAlertBox = () => {
                           };
                           audio.onerror = (e) => {
                             setIsPlayed(false);
-                            toast.error("Мы не можем воспроизвести это");
+                            toast.error("Мы не можем воспроизвести этот звук");
                           };
                         }}
                       >
@@ -1104,7 +1104,7 @@ const DashboardAlertBox = () => {
                           };
                           audio.onerror = (e) => {
                             setIsPlayed(false);
-                            toast.error("Мы не можем воспроизвести это");
+                            toast.error("Мы не можем воспроизвести этот звук");
                           };
                         }}
                       >

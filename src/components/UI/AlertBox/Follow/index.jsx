@@ -27,6 +27,7 @@ const Follow = (props) => {
     payload,
   } = props.info;
 
+  // eslint-disable-next-line no-unused-vars
   const [playing, toggle, audio] = useAudio(follow_sound, follow_sound_volume);
   const [isShowText, setShowText] = useState(false);
 
@@ -47,6 +48,7 @@ const Follow = (props) => {
     return () => {
       audio.pause();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const messageTemplate = reactStringReplace(
