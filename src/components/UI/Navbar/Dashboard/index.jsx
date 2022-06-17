@@ -26,11 +26,11 @@ const NavbarDashboard = () => {
       {auth.editor === null && (
         <NavLink to="/dashboard/editors">Редакторы</NavLink>
       )}
-      {auth.editor === null && <br></br>}
+      {/* {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
       {auth.editor === null && (
         <NavLink to="/dashboard/pro">BetterWASD Pro</NavLink>
-      )}
+      )} */}
       {/* {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
       {auth.editor === null && (

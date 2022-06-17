@@ -11,29 +11,29 @@ import "../text-animations.css";
 import "../style.css";
 import "../custom.css";
 
-const Follow = (props) => {
+const Sub = (props) => {
   console.log(props);
 
   const {
-    // follow_hide_animation,
-    follow_image,
-    follow_layout,
-    follow_message_template,
-    // follow_show_animation,
-    follow_sound,
-    follow_sound_volume,
-    follow_text_animation,
-    follow_text_delay,
-    payload,
+    // sub_hide_animation,
+    sub_image,
+    sub_layout,
+    sub_message_template,
+    // sub_show_animation,
+    sub_sound,
+    sub_sound_volume,
+    sub_text_animation,
+    sub_text_delay,
+    user_login,
   } = props.info;
 
-  const [playing, toggle, audio] = useAudio(follow_sound, follow_sound_volume);
+  const [playing, toggle, audio] = useAudio(sub_sound, sub_sound_volume);
   const [isShowText, setShowText] = useState(false);
 
   useEffect(() => {
     audio.play();
 
-    setTimeout(() => setShowText(true), follow_text_delay);
+    setTimeout(() => setShowText(true), sub_text_delay);
 
     // setTimeout(() => {
     //   let speech = new SpeechSynthesisUtterance();
@@ -42,7 +42,7 @@ const Follow = (props) => {
     //   // speech.volume
     //   // speech.pitch
     //   window.speechSynthesis.speak(speech);
-    // }, follow_text_delay);
+    // }, sub_text_delay);
 
     return () => {
       audio.pause();
@@ -50,20 +50,17 @@ const Follow = (props) => {
   }, []);
 
   const messageTemplate = reactStringReplace(
-    follow_message_template,
+    sub_message_template,
     "{name}",
     () => (
       <span
-        key={payload.user_login}
+        key={user_login}
         data-token="name"
         style={{ color: "rgb(50, 95, 192)", position: "relative" }}
       >
         <span>
-          {payload.user_login.split("").map((w, i) => (
-            <span
-              key={i}
-              className={"animated-letter " + follow_text_animation}
-            >
+          {user_login.split("").map((w, i) => (
+            <span key={i} className={"animated-letter " + sub_text_animation}>
               {w}
             </span>
           ))}
@@ -75,14 +72,14 @@ const Follow = (props) => {
   const userMessage = "";
 
   return (
-    <div id="widget" className="widget-AlertBox" data-layout={follow_layout}>
+    <div id="widget" className="widget-AlertBox" data-layout={sub_layout}>
       <div id="alert-box">
         <div id="particles"></div>
         <div id="wrap">
           <div id="alert-image-wrap">
             <div
               id="alert-image"
-              style={{ backgroundImage: "url(" + follow_image + ")" }}
+              style={{ backgroundImage: "url(" + sub_image + ")" }}
             ></div>
           </div>
 
@@ -108,4 +105,4 @@ const Follow = (props) => {
   );
 };
 
-export default Follow;
+export default Sub;

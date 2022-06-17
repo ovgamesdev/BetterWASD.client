@@ -7,6 +7,8 @@ import useAuth from "../../../hooks/useAuth";
 import Select from "react-select";
 import TabGroup from "../../../components/UI/TabGroupV2";
 import Loading from "../../../components/UI/Loading/Button";
+import Option from "../../../components/UI/DropDown/Option";
+import Control from "../../../components/UI/DropDown/Control";
 
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import RangeSlider from "react-bootstrap-range-slider";
@@ -15,18 +17,19 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 import "./options.scss";
+import ReactTooltip from "react-tooltip";
 
 const colourOptions = [
   { label: "Подписка", value: "subscriptions" },
   { label: "Переподписка", value: "resubs" },
   { label: "Фоллоу", value: "follows" },
-  // { label: "Рейд", value: "raids" },
+  { label: "Рейд", value: "raids" },
 ];
 const tabOptions = [
   { label: "Основные настройки", value: "general" },
-  { label: "Подписка", value: "subscriptions" },
   { label: "Фоллоу", value: "follows" },
-  // { label: "Рейд", value: "raids" },
+  { label: "Подписка", value: "subscriptions" },
+  { label: "Рейд", value: "raids" },
 ];
 
 // const animationAlert = [
@@ -75,35 +78,35 @@ const tabOptions = [
 
 const animationText = [
   {
-    label: "None",
+    label: "Нет",
     value: "",
   },
   {
-    label: "Bounce",
+    label: "Подпрыгивание",
     value: "bounce",
   },
   {
-    label: "Pulse",
+    label: "Пульс",
     value: "pulse",
   },
   {
-    label: "Rubber Band",
+    label: "Резиновая лента",
     value: "rubberBand",
   },
   {
-    label: "Tada",
+    label: "Тада",
     value: "tada",
   },
   {
-    label: "Wave",
+    label: "Волна",
     value: "wave",
   },
   {
-    label: "Wiggle",
+    label: "Покачивание",
     value: "wiggle",
   },
   {
-    label: "Wobble",
+    label: "Колебание",
     value: "wobble",
   },
 ];
@@ -135,6 +138,31 @@ const customSelectStyles = {
   }),
 };
 
+const customFilterStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    color: state.isSelected
+      ? "var(--wasd-color-switch)"
+      : "var(--wasd-color-text-fourth)",
+    backgroundColor: "var(--color-second-layer)",
+  }),
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: "var(--color-second-layer)",
+    borderColor: "var(--wasd-color-text-fourth)",
+    fontSize: "14px",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    zIndex: "1080",
+    backgroundColor: "var(--color-second-layer)",
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "var(--wasd-color-switch)",
+  }),
+};
+
 // const findAlertOption = (value) => {
 //   let res = null;
 //   animationAlert.forEach((g) => {
@@ -142,6 +170,7 @@ const customSelectStyles = {
 //   });
 //   return res;
 // };
+
 const findTextOption = (value) => animationText.find((o) => o.value === value);
 
 const optionsToSearch = (options) =>
@@ -156,11 +185,14 @@ const DashboardAlertBox = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
-  const [activeTab, setActiveTab] = useState("subscriptions");
+  const [activeTab, setActiveTab] = useState("");
   const [filters, setFilters] = useState(optionsToSearch(colourOptions));
 
   const [settings, setSettings] = useState(null);
   const [widgetUrl, setWidgetUrl] = useState(null);
+
+  const [isPlayed, setIsPlayed] = useState(false);
+  const [isFilterEdited, setFilterEdited] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -188,7 +220,7 @@ const DashboardAlertBox = () => {
       toast("Оповещения сохранены!");
     } catch (err) {
       console.log(err.response);
-      toast(err.response.data.error);
+      toast.error(err.response.data.error);
     } finally {
       setIsLoadingUpdate(false);
     }
@@ -215,45 +247,56 @@ const DashboardAlertBox = () => {
                   <label>Ссылка на виджет</label>
                 </div>
                 <div className="right">
-                  <div className="wasd-input-wrapper" ovg="">
-                    <div ovg="" className="wasd-input">
-                      <input
+                  <div style={{ display: "flex" }}>
+                    <div className="wasd-input-wrapper" ovg="">
+                      <div
                         ovg=""
-                        style={{ margin: 0 }}
-                        value={widgetUrl + filters}
-                        readOnly
+                        className="wasd-input"
+                        style={{ cursor: "pointer" }}
                         onClick={() => {
-                          navigator.clipboard.writeText(widgetUrl + filters);
+                          navigator.clipboard.writeText(
+                            `${widgetUrl}${isFilterEdited ? filters : ""}`
+                          );
                           toast("Ссылка на виджет скопирована!");
                         }}
-                      />
+                      >
+                        <input
+                          ovg=""
+                          style={{ margin: 0 }}
+                          className="blur"
+                          value={widgetUrl + filters}
+                          readOnly
+                        />
+                        <div className="copy-input">
+                          Cкопировать URL-адрес виджета
+                        </div>
+                      </div>
                     </div>
+                    <Select
+                      styles={customFilterStyles}
+                      options={colourOptions}
+                      isMulti
+                      closeMenuOnSelect={false}
+                      isClearable={false}
+                      hideSelectedOptions={false}
+                      defaultValue={colourOptions}
+                      components={{
+                        Option,
+                        Control,
+                      }}
+                      onChange={(value) => {
+                        setFilters(optionsToSearch(value));
+                        setFilterEdited(true);
+                      }}
+                      allowSelectAll={true}
+                    />
                   </div>
                 </div>
               </div>
-
-              {/* <p>Ссылка на виджет</p>
-              <input
-                style={{ width: "100%" }}
-                value={widgetUrl + filters}
-                readOnly
-              /> */}
               <p style={{ fontSize: "14px" }}>
                 Используйте приведенный выше URL-адрес в OBS Studio или просто
                 запустите его с помощью захвата окна.
               </p>
-
-              <Select
-                styles={customSelectStyles}
-                isMulti
-                defaultValue={colourOptions}
-                isClearable
-                isSearchable={false}
-                onChange={(value) => setFilters(optionsToSearch(value))}
-                options={colourOptions}
-                closeMenuOnSelect={false}
-                hideSelectedOptions={false}
-              />
             </div>
             <TabGroup
               style={{ marginTop: "25px", marginBottom: "10px" }}
@@ -297,7 +340,7 @@ const DashboardAlertBox = () => {
                         label: settings.follow_layout,
                         value: settings.follow_layout,
                       }}
-                      isClearable
+                      isClearable={false}
                       isSearchable={false}
                       onChange={(value) =>
                         setSettings({
@@ -369,20 +412,31 @@ const DashboardAlertBox = () => {
                     <label>Шаблон сообщения</label>
                   </div>
                   <div className="right">
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          value={settings.follow_message_template}
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              follow_message_template: e.target.value,
-                            })
-                          }
-                        />
+                    <div style={{ display: "flex" }}>
+                      <div className="wasd-input-wrapper" ovg="">
+                        <div ovg="" className="wasd-input">
+                          <input
+                            ovg=""
+                            style={{ margin: 0 }}
+                            value={settings.follow_message_template}
+                            placeholder="используйте {name} чтобы заменить его на имя фолловера"
+                            onChange={(e) =>
+                              setSettings({
+                                ...settings,
+                                follow_message_template: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
                       </div>
+                      <div
+                        className="tooltip_wrapper"
+                        data-tip="{name} - Имя фолловера"
+                      >
+                        ?
+                      </div>
+
+                      <ReactTooltip />
                     </div>
                   </div>
                 </div>
@@ -397,7 +451,7 @@ const DashboardAlertBox = () => {
                         defaultValue={findTextOption(
                           settings.follow_text_animation
                         )}
-                        isClearable
+                        isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
                           setSettings({
@@ -442,6 +496,7 @@ const DashboardAlertBox = () => {
                             ovg=""
                             style={{ margin: 0 }}
                             value={settings.follow_image}
+                            placeholder="https://example.com/image.gif"
                             onChange={(e) =>
                               setSettings({
                                 ...settings,
@@ -461,10 +516,20 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <div className="preview">
                       <button
+                        disabled={isPlayed}
                         onClick={() => {
+                          if (isPlayed) return;
                           const audio = new Audio(settings.follow_sound);
                           audio.volume = settings.follow_sound_volume / 100;
+                          setIsPlayed(true);
                           audio.play();
+                          audio.onended = () => {
+                            setIsPlayed(false);
+                          };
+                          audio.onerror = (e) => {
+                            setIsPlayed(false);
+                            toast.error("Мы не можем воспроизвести это");
+                          };
                         }}
                       >
                         play
@@ -475,6 +540,7 @@ const DashboardAlertBox = () => {
                             ovg=""
                             style={{ margin: 0 }}
                             value={settings.follow_sound}
+                            placeholder="https://example.com/sound.mp3"
                             onChange={(e) =>
                               setSettings({
                                 ...settings,
@@ -551,7 +617,580 @@ const DashboardAlertBox = () => {
                 </div>
               </>
             )}
-            {activeTab === "subscriptions" && <>скоро</>}
+            {activeTab === "subscriptions" && (
+              <>
+                <div className="row">
+                  <div className="left">
+                    <label>Расположение</label>
+                  </div>
+                  <div className="right">
+                    <Select
+                      styles={customSelectStyles}
+                      defaultValue={{
+                        label: settings.sub_layout,
+                        value: settings.sub_layout,
+                      }}
+                      isClearable={false}
+                      isSearchable={false}
+                      onChange={(value) =>
+                        setSettings({
+                          ...settings,
+                          sub_layout: value.value,
+                        })
+                      }
+                      options={[
+                        {
+                          label: "вверху",
+                          value: "above",
+                        },
+                        {
+                          label: "баннер",
+                          value: "banner",
+                        },
+                        {
+                          label: "боковая",
+                          value: "side",
+                        },
+                      ]}
+                      hideSelectedOptions={false}
+                    />
+                  </div>
+                </div>
+                {/* <div className="row">
+                  <div className="left">
+                    <label>Анимация оповещения</label>
+                  </div>
+                  <div className="right">
+                    <div className="split">
+                      <Select
+                        styles={customSelectStyles}
+                        defaultValue={findAlertOption(
+                          settings.sub_show_animation
+                        )}
+                        isClearable
+                        isSearchable={false}
+                        onChange={(value) =>
+                          setSettings({
+                            ...settings,
+                            sub_show_animation: value.value,
+                          })
+                        }
+                        options={animationAlert}
+                        hideSelectedOptions={false}
+                      />
+                      <Select
+                        styles={customSelectStyles}
+                        defaultValue={findAlertOption(
+                          settings.sub_hide_animation
+                        )}
+                        isClearable
+                        isSearchable={false}
+                        onChange={(value) =>
+                          setSettings({
+                            ...settings,
+                            sub_hide_animation: value.value,
+                          })
+                        }
+                        options={animationAlert}
+                        hideSelectedOptions={false}
+                      />
+                    </div>
+                  </div>
+                </div> */}
+                <div className="row">
+                  <div className="left">
+                    <label>Шаблон сообщения</label>
+                  </div>
+                  <div className="right">
+                    <div style={{ display: "flex" }}>
+                      <div className="wasd-input-wrapper" ovg="">
+                        <div ovg="" className="wasd-input">
+                          <input
+                            ovg=""
+                            style={{ margin: 0 }}
+                            value={settings.sub_message_template}
+                            placeholder="используйте {name} чтобы заменить его на имя подписчика"
+                            onChange={(e) =>
+                              setSettings({
+                                ...settings,
+                                sub_message_template: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="tooltip_wrapper"
+                        data-tip="{name} - Имя подписчика"
+                      >
+                        ?
+                      </div>
+
+                      <ReactTooltip />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Анимация текста</label>
+                  </div>
+                  <div className="right">
+                    <div className="split">
+                      <Select
+                        styles={customSelectStyles}
+                        defaultValue={findTextOption(
+                          settings.sub_text_animation
+                        )}
+                        isClearable={false}
+                        isSearchable={false}
+                        onChange={(value) =>
+                          setSettings({
+                            ...settings,
+                            sub_text_animation: value.value,
+                          })
+                        }
+                        options={animationText}
+                        hideSelectedOptions={false}
+                      />
+                      <div
+                        style={{
+                          font: '600 16px "Open Sans"',
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {"Sample Text".split("").map((w, i) => (
+                          <span
+                            key={i}
+                            className={
+                              "animated-letter " + settings.sub_text_animation
+                            }
+                          >
+                            {w}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Изображение</label>
+                  </div>
+                  <div className="right">
+                    <div className="preview">
+                      <img src={settings.sub_image} alt="preview" />
+                      <div className="wasd-input-wrapper" ovg="">
+                        <div ovg="" className="wasd-input">
+                          <input
+                            ovg=""
+                            style={{ margin: 0 }}
+                            value={settings.sub_image}
+                            placeholder="https://example.com/image.gif"
+                            onChange={(e) =>
+                              setSettings({
+                                ...settings,
+                                sub_image: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Звук</label>
+                  </div>
+                  <div className="right">
+                    <div className="preview">
+                      <button
+                        disabled={isPlayed}
+                        onClick={() => {
+                          if (isPlayed) return;
+                          const audio = new Audio(settings.sub_sound);
+                          audio.volume = settings.sub_sound_volume / 100;
+                          setIsPlayed(true);
+                          audio.play();
+                          audio.onended = () => {
+                            setIsPlayed(false);
+                          };
+                          audio.onerror = (e) => {
+                            setIsPlayed(false);
+                            toast.error("Мы не можем воспроизвести это");
+                          };
+                        }}
+                      >
+                        play
+                      </button>
+                      <div className="wasd-input-wrapper" ovg="">
+                        <div ovg="" className="wasd-input">
+                          <input
+                            ovg=""
+                            style={{ margin: 0 }}
+                            value={settings.sub_sound}
+                            placeholder="https://example.com/sound.mp3"
+                            onChange={(e) =>
+                              setSettings({
+                                ...settings,
+                                sub_sound: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Громкость звука</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={settings.sub_sound_volume}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          sub_sound_volume: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v + "%"}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Длительность оповещения</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={2000}
+                      max={300000}
+                      step={1000}
+                      value={settings.sub_alert_duration}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          sub_alert_duration: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v / 1000 + "сек"}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Задержка текста оповещения</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={0}
+                      max={60000}
+                      step={1000}
+                      value={settings.sub_text_delay}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          sub_text_delay: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v / 1000 + "сек"}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+            {activeTab === "raids" && (
+              <>
+                <div className="row">
+                  <div className="left">
+                    <label>Расположение</label>
+                  </div>
+                  <div className="right">
+                    <Select
+                      styles={customSelectStyles}
+                      defaultValue={{
+                        label: settings.raid_layout,
+                        value: settings.raid_layout,
+                      }}
+                      isClearable={false}
+                      isSearchable={false}
+                      onChange={(value) =>
+                        setSettings({
+                          ...settings,
+                          raid_layout: value.value,
+                        })
+                      }
+                      options={[
+                        {
+                          label: "вверху",
+                          value: "above",
+                        },
+                        {
+                          label: "баннер",
+                          value: "banner",
+                        },
+                        {
+                          label: "боковая",
+                          value: "side",
+                        },
+                      ]}
+                      hideSelectedOptions={false}
+                    />
+                  </div>
+                </div>
+                {/* <div className="row">
+                  <div className="left">
+                    <label>Анимация оповещения</label>
+                  </div>
+                  <div className="right">
+                    <div className="split">
+                      <Select
+                        styles={customSelectStyles}
+                        defaultValue={findAlertOption(
+                          settings.raid_show_animation
+                        )}
+                        isClearable
+                        isSearchable={false}
+                        onChange={(value) =>
+                          setSettings({
+                            ...settings,
+                            raid_show_animation: value.value,
+                          })
+                        }
+                        options={animationAlert}
+                        hideSelectedOptions={false}
+                      />
+                      <Select
+                        styles={customSelectStyles}
+                        defaultValue={findAlertOption(
+                          settings.raid_hide_animation
+                        )}
+                        isClearable
+                        isSearchable={false}
+                        onChange={(value) =>
+                          setSettings({
+                            ...settings,
+                            raid_hide_animation: value.value,
+                          })
+                        }
+                        options={animationAlert}
+                        hideSelectedOptions={false}
+                      />
+                    </div>
+                  </div>
+                </div> */}
+                <div className="row">
+                  <div className="left">
+                    <label>Шаблон сообщения</label>
+                  </div>
+                  <div className="right">
+                    <div style={{ display: "flex" }}>
+                      <div className="wasd-input-wrapper" ovg="">
+                        <div ovg="" className="wasd-input">
+                          <input
+                            ovg=""
+                            style={{ margin: 0 }}
+                            value={settings.raid_message_template}
+                            placeholder="используйте {name} чтобы заменить его на имя рейдера"
+                            onChange={(e) =>
+                              setSettings({
+                                ...settings,
+                                raid_message_template: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="tooltip_wrapper"
+                        data-tip="{name} - Имя рейдера"
+                      >
+                        ?
+                      </div>
+
+                      <ReactTooltip />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Анимация текста</label>
+                  </div>
+                  <div className="right">
+                    <div className="split">
+                      <Select
+                        styles={customSelectStyles}
+                        defaultValue={findTextOption(
+                          settings.raid_text_animation
+                        )}
+                        isClearable={false}
+                        isSearchable={false}
+                        onChange={(value) =>
+                          setSettings({
+                            ...settings,
+                            raid_text_animation: value.value,
+                          })
+                        }
+                        options={animationText}
+                        hideSelectedOptions={false}
+                      />
+                      <div
+                        style={{
+                          font: '600 16px "Open Sans"',
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {"Sample Text".split("").map((w, i) => (
+                          <span
+                            key={i}
+                            className={
+                              "animated-letter " + settings.raid_text_animation
+                            }
+                          >
+                            {w}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Изображение</label>
+                  </div>
+                  <div className="right">
+                    <div className="preview">
+                      <img src={settings.raid_image} alt="preview" />
+                      <div className="wasd-input-wrapper" ovg="">
+                        <div ovg="" className="wasd-input">
+                          <input
+                            ovg=""
+                            style={{ margin: 0 }}
+                            value={settings.raid_image}
+                            placeholder="https://example.com/image.gif"
+                            onChange={(e) =>
+                              setSettings({
+                                ...settings,
+                                raid_image: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Звук</label>
+                  </div>
+                  <div className="right">
+                    <div className="preview">
+                      <button
+                        disabled={isPlayed}
+                        onClick={() => {
+                          if (isPlayed) return;
+                          const audio = new Audio(settings.raid_sound);
+                          audio.volume = settings.raid_sound_volume / 100;
+                          setIsPlayed(true);
+                          audio.play();
+                          audio.onended = () => {
+                            setIsPlayed(false);
+                          };
+                          audio.onerror = (e) => {
+                            setIsPlayed(false);
+                            toast.error("Мы не можем воспроизвести это");
+                          };
+                        }}
+                      >
+                        play
+                      </button>
+                      <div className="wasd-input-wrapper" ovg="">
+                        <div ovg="" className="wasd-input">
+                          <input
+                            ovg=""
+                            style={{ margin: 0 }}
+                            value={settings.raid_sound}
+                            placeholder="https://example.com/sound.mp3"
+                            onChange={(e) =>
+                              setSettings({
+                                ...settings,
+                                raid_sound: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Громкость звука</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={settings.raid_sound_volume}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          raid_sound_volume: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v + "%"}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Длительность оповещения</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={2000}
+                      max={300000}
+                      step={1000}
+                      value={settings.raid_alert_duration}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          raid_alert_duration: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v / 1000 + "сек"}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Задержка текста оповещения</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={0}
+                      max={60000}
+                      step={1000}
+                      value={settings.raid_text_delay}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          raid_text_delay: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v / 1000 + "сек"}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <div
               className="flat-btn ovg"
               style={{

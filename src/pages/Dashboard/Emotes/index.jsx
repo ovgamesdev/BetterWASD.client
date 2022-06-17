@@ -16,7 +16,11 @@ const DashboardEmotes = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCreateEmote, setIsLoadingCreateEmote] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    channelEmotes: Array(12 * 3).fill({}),
+    sharedEmotes: [],
+    personalEmotes: [],
+  });
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
   const [url, setURL] = useState("");
@@ -26,8 +30,8 @@ const DashboardEmotes = () => {
   useEffect(() => {
     setData({
       channelEmotes: Array(12 * 3).fill({}),
-      sharedEmotes: 0,
-      personalEmotes: 0,
+      sharedEmotes: [],
+      personalEmotes: [],
     });
     const fetchData = async () => {
       try {
@@ -87,6 +91,11 @@ const DashboardEmotes = () => {
     }
     setIsLoadingCreateEmote(false);
   };
+
+  console.log(data.channelEmotes, data.sharedEmotes, data.personalEmotes);
+
+  if (!data.channelEmotes || !data.sharedEmotes || !data.personalEmotes)
+    return null;
 
   return (
     <>

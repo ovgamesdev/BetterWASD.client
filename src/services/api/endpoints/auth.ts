@@ -13,7 +13,15 @@ const endpoint = {
   
   getAlertSettings: () => axios.get("/v1/profile/current/alert"),
   getAlertSettingsByToken: (token: string) => axios.get("/v1/profile/current/alert/" + token),
-  editAlertSettings: (data: any) => axios.put("/v1/profile/current/alert", data)
+  editAlertSettings: (data: any) => axios.put("/v1/profile/current/alert", data),
+  getRaidInfo: async (channel_id: number) => {
+    try {
+      const { data } = await axios.get(`https://wasd.tv/api/v2/broadcasts/public?with_extra=false&channel_id=${channel_id}`)
+      return Promise.resolve(data.result.channel.raid_info)
+    } catch (e) {
+      return Promise.reject()
+    }
+  },
 };
 
 export default endpoint;

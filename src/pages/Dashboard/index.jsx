@@ -8,7 +8,7 @@ import DashboardEmotes from "./Emotes";
 import DashboardPaint from "./Paint";
 import DashboardSub from "./Sub";
 import DashboardEditor from "./Editor";
-import DashboardPro from "./Pro";
+// import DashboardPro from "./Pro";
 import DashboardAlertBox from "./AlertBox";
 import UserOnlyRoute from "../../routes/components/UserOnlyRoute";
 
@@ -41,14 +41,14 @@ const DashboardRoutes = () => {
               </UserOnlyRoute>
             }
           />
-          <Route
+          {/* <Route
             path="pro"
             element={
               <UserOnlyRoute to="/dashboard/emotes">
                 <DashboardPro />
               </UserOnlyRoute>
             }
-          />
+          /> */}
           <Route
             path="alertbox"
             element={

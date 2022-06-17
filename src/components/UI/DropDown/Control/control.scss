@@ -1,0 +1,23 @@
+.control {
+  width: 170px;
+  margin-left: 10px;
+
+  > div > label {
+    position: absolute;
+    left: 10px;
+  }
+  > div > div {
+    width: 100%;
+    display: flex;
+    z-index: 5;
+
+    > span {
+      display: none;
+    }
+    > div {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import io from "socket.io-client";
 import api from "../../services/api";
@@ -10,10 +10,16 @@ const WebSocket = async (token, callback = () => {}) => {
 
   const [searchParams] = useSearchParams();
 
-  const subscriptions = !!searchParams.get("subscriptions");
-  // const resubs = !!searchParams.get("resubs");
   const follows = !!searchParams.get("follows");
-  // const raids = !!searchParams.get("raids");
+  const subscriptions = !!searchParams.get("subscriptions");
+  const resubs = !!searchParams.get("resubs");
+  const raids = !!searchParams.get("raids");
+
+  const isAll = !subscriptions && !resubs && !follows && !raids;
+
+  let lastFollowers = {};
+
+  console.log(isAll);
 
   useEffect(() => {
     const init = async () => {
@@ -34,6 +40,10 @@ const WebSocket = async (token, callback = () => {}) => {
           profileInfo.user_profile.channel_id
         );
 
+        if (isAll || raids) {
+          startFetchRaid(profileInfo.user_profile.channel_id, settings);
+        }
+
         socketRef.current.emit("join", {
           streamId,
           channelId: profileInfo.user_profile.channel_id,
@@ -49,7 +59,15 @@ const WebSocket = async (token, callback = () => {}) => {
 
         socketRef.current.on("event", (data) => {
           setTimeout(() => {
-            if (data.event_type === "NEW_FOLLOWER" && follows) {
+            if (
+              data.event_type === "NEW_FOLLOWER" &&
+              (isAll || follows) &&
+              !lastFollowers[data.payload.user_login]
+            ) {
+              lastFollowers[data.payload.user_login] = 1;
+
+              console.log(lastFollowers);
+
               callback({
                 event: data.event_type,
                 payload: {
@@ -67,7 +85,7 @@ const WebSocket = async (token, callback = () => {}) => {
 
         socketRef.current.on("subscribe", (data) => {
           setTimeout(() => {
-            if (data.event_type === "SUBSCRIBE" && subscriptions) {
+            if (data.event_type === "SUBSCRIBE" && (isAll || subscriptions)) {
               callback({
                 event: data.event_type,
                 payload: { ...data, ...settings },
@@ -104,6 +122,35 @@ const WebSocket = async (token, callback = () => {}) => {
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const startFetchRaid = (channel_id, settings) => {
+    let lastRaid = null;
+
+    const fetchRaid = async () => {
+      const isRaid = await api.auth.getRaidInfo(channel_id);
+
+      if (
+        isRaid &&
+        !(
+          lastRaid &&
+          lastRaid.begin_at === isRaid.begin_at &&
+          lastRaid.raid_mc_id === isRaid.raid_mc_id
+        )
+      ) {
+        lastRaid = isRaid;
+        callback({
+          event: "RAID",
+          payload: {
+            ...isRaid,
+            ...settings,
+          },
+        });
+      }
+    };
+
+    fetchRaid();
+    setInterval(() => fetchRaid(), 30000); // 30000
+  };
 };
 
 const fetchData = async (token) =>

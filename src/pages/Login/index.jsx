@@ -134,7 +134,7 @@ const Login = () => {
                           placeholder="Ваш токен"
                           type="text"
                           className={classnames(
-                            "api-token",
+                            "blur",
                             isLoading && "disabled"
                           )}
                           onChange={inputChange}

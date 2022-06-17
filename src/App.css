@@ -508,7 +508,7 @@ a {
   cursor: pointer;
 }
 
-input.api-token {
+input.blur {
   color: transparent !important;
   text-shadow: 0 0 6px rgba(var(--wasd-color-switch--rgb),0.5);
 }
