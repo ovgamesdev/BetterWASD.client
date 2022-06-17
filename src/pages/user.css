@@ -1,6 +1,6 @@
 [data-betterwasd-paint] { -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-color: currentcolor; background-clip: text !important; }
 
-.info__text__status__name > span { pointer-events: none; }
+.message__status--name > span { pointer-events: none; }
 /*[data-betterwasd-paint] .chat-author__intl-login { opacity: unset !important; }*/
 [data-betterwasd-paint="0"] { background-size: cover; filter: drop-shadow(rgb(120, 120, 120) 0.6px 0px 0.2px) drop-shadow(rgb(120, 120, 120) -0.6px 0px 0.2px) drop-shadow(rgb(120, 120, 120) 0px 0.6px 0.2px) drop-shadow(rgb(120, 120, 120) 0px -0.6px 0.2px) drop-shadow(rgb(120, 120, 120) 0px 0px 1.5px); background-image: radial-gradient(circle, rgb(215, 176, 48) 0%, rgb(255, 247, 182) 100%); color: rgb(215, 176, 48) !important; }
 [data-betterwasd-paint="1"] { background-size: cover; filter: drop-shadow(rgba(0, 0, 0, 0.4) -1px 0px 0.7px) drop-shadow(rgba(0, 0, 0, 0.4) 1px 0px 0.7px) drop-shadow(rgba(0, 0, 0, 0.4) 0px -1px 0.7px) drop-shadow(rgba(0, 0, 0, 0.4) 0px 1px 0.7px); background-image: radial-gradient(circle, rgb(80, 190, 200) 20%, rgb(45, 220, 245) 30%, rgb(60, 110, 230) 40%, rgb(240, 240, 240) 80%); color: rgb(80, 190, 200) !important; }

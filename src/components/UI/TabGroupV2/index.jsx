@@ -21,7 +21,7 @@ const TabGroup = (props) => {
         width: e.target.offsetWidth - 32,
       });
     }
-    props.onChange(index);
+    props.onChange(props.tabs[index]);
   };
 
   useEffect(() => {
@@ -33,8 +33,8 @@ const TabGroup = (props) => {
       className="tabs-wrapper horizontal left medium"
       style={{ padding: "0", ...props.style }}
     >
-      <div className="tabs">
-        <div className="items">
+      <div className="tabs" style={{ display: "grid" }}>
+        <div className="items" style={{ width: "100%" }}>
           {props.tabs &&
             props.tabs.map((tab, index) => (
               <button
@@ -48,7 +48,7 @@ const TabGroup = (props) => {
                   index === active.index ? "item-active" : ""
                 )}
               >
-                {tab.title}
+                {tab.label}
               </button>
             ))}
           <div

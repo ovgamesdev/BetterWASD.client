@@ -8,7 +8,7 @@ import useAuth from "../../hooks/useAuth";
 
 import styles from "../modal.module.scss";
 
-const Home = () => {
+const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -134,7 +134,7 @@ const Home = () => {
                           placeholder="Ваш токен"
                           type="text"
                           className={classnames(
-                            "api-token",
+                            "blur",
                             isLoading && "disabled"
                           )}
                           onChange={inputChange}
@@ -151,7 +151,7 @@ const Home = () => {
                 <div className="col-36">
                   <br></br>
                   <label style={{ fontSize: "13px" }}>
-                    *Сгененируцте новый токен а после чего вставьте в поле выше*
+                    *Сгенерируйте новый токен а после чего вставьте в поле выше*
                   </label>
                   <br></br>
                   <br></br>
@@ -196,4 +196,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

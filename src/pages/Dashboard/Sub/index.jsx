@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../../../components/UI/Loading/Button";
-import useTitle from "../../../hooks/useTitle";
+import useTitle from "../../../hooks/useTitle/index.tsx";
 import ButtonLoading from "../../../components/UI/Loading";
 import SubItemIcon from "../../../components/UI/SubItemIcon";
 import api from "../../../services/api";

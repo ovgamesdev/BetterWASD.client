@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Emote from "../../../components/UI/Emote";
-import useTitle from "../../../hooks/useTitle";
+import useTitle from "../../../hooks/useTitle/index.tsx";
 import ButtonLoading from "../../../components/UI/Loading";
 import api from "../../../services/api";
 import classnames from "classnames";
@@ -16,7 +16,11 @@ const DashboardEmotes = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCreateEmote, setIsLoadingCreateEmote] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    channelEmotes: Array(12 * 3).fill({}),
+    sharedEmotes: [],
+    personalEmotes: [],
+  });
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
   const [url, setURL] = useState("");
@@ -25,8 +29,9 @@ const DashboardEmotes = () => {
 
   useEffect(() => {
     setData({
-      channelEmotes: Array(12).fill({}),
-      sharedEmotes: Array(12).fill({}),
+      channelEmotes: Array(12 * 3).fill({}),
+      sharedEmotes: [],
+      personalEmotes: [],
     });
     const fetchData = async () => {
       try {
@@ -87,6 +92,11 @@ const DashboardEmotes = () => {
     setIsLoadingCreateEmote(false);
   };
 
+  console.log(data.channelEmotes, data.sharedEmotes, data.personalEmotes);
+
+  if (!data.channelEmotes || !data.sharedEmotes || !data.personalEmotes)
+    return null;
+
   return (
     <>
       <div className="item block item_right" style={{ marginTop: "0px" }}>
@@ -105,14 +115,15 @@ const DashboardEmotes = () => {
             </button>
           </div>
         </div>
-
         <div className="item__descr">
           Любые смайлики, добавленные здесь, могут использоваться в чате вашего
           канала на WASD.TV как вами, так и вашими зрителями.
         </div>
         <div className="item__border"></div>
 
-        {data.channelEmotes?.length || data.sharedEmotes?.length
+        {data.channelEmotes?.length ||
+        data.sharedEmotes?.length ||
+        data.personalEmotes?.length
           ? null
           : "Вы еще на добавили эмоции на свой канал"}
 
@@ -125,6 +136,25 @@ const DashboardEmotes = () => {
           {data.channelEmotes?.length
             ? data.channelEmotes.map((emote, index) => (
                 <Emote
+                  key={emote._id || index}
+                  emote={emote}
+                  loading={isLoading}
+                />
+              ))
+            : null}
+        </div>
+
+        {data.personalEmotes?.length ? (
+          <div className="item__title" style={{ marginTop: "25px" }}>
+            Персональные эмоции ({data.personalEmotes?.length}/
+            {auth.user.limits.personalEmotes})
+          </div>
+        ) : null}
+        <div className="emotes">
+          {data.personalEmotes?.length
+            ? data.personalEmotes.map((emote, index) => (
+                <Emote
+                  showUsername={true}
                   key={emote._id || index}
                   emote={emote}
                   loading={isLoading}

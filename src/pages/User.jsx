@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useTitle from "../hooks/useTitle";
+import useTitle from "../hooks/useTitle/index.tsx";
 import Emote from "../components/UI/Emote";
 import api from "../services/api";
 
@@ -12,6 +12,7 @@ const Emotes = () => {
   const [data, setData] = useState({
     sharedEmotes: Array(40).fill({}),
     channelEmotes: [],
+    personalEmotes: [],
   });
 
   useTitle(
@@ -58,7 +59,24 @@ const Emotes = () => {
             </div>
             <div className="item__border"></div>
 
-            {data.channelEmotes.length !== 0 && (
+            {!!data.personalEmotes?.length && (
+              <>
+                <div className="item__title">
+                  Персональные эмоции ({data.personalEmotes.length})
+                </div>
+                <div className="emotes" style={{ marginBottom: "25px" }}>
+                  {data.personalEmotes.map((emote, index) => (
+                    <Emote
+                      key={emote._id || index}
+                      emote={emote}
+                      loading={isFirsLoading}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+            {!!data.channelEmotes.length && (
               <>
                 <div className="item__title">
                   Эмоции канала ({data.channelEmotes.length})
@@ -75,7 +93,7 @@ const Emotes = () => {
               </>
             )}
 
-            {data.sharedEmotes.length !== 0 && (
+            {!!data.sharedEmotes.length && (
               <>
                 <div className="item__title">
                   Общие эмоции ({data.sharedEmotes.length})

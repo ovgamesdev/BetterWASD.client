@@ -1,15 +1,15 @@
-import auth from "./endpoints/auth";
-import emote from "./endpoints/emote";
-import paint from "./endpoints/paint";
-import subBadge from "./endpoints/sub-badge";
-import xsolla from "./endpoints/xsolla";
+import auth from "./endpoints/auth.ts";
+import emote from "./endpoints/emote.ts";
+import paint from "./endpoints/paint.ts";
+import subBadge from "./endpoints/sub-badge.ts";
+import wasd from "./endpoints/wasd.ts";
 
 const api = {
   auth,
   emote,
   paint,
   subBadge,
-  xsolla,
+  wasd,
 };
 
 export default api;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../../../components/UI/Loading/Line";
 import Emote from "../../../components/UI/Emote";
-import useTitle from "../../../hooks/useTitle";
+import useTitle from "../../../hooks/useTitle/index.tsx";
 import api from "../../../services/api";
 
 import ReactPaginate from "react-paginate";

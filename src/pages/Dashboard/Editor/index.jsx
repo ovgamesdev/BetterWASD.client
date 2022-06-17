@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useTitle from "../../../hooks/useTitle";
+import useTitle from "../../../hooks/useTitle/index.tsx";
 import EditorUser from "../../../components/UI/EditorUser";
 import api from "../../../services/api";
 import useAuth from "../../../hooks/useAuth";
