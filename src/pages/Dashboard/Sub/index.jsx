@@ -13,7 +13,7 @@ const objectMap = (obj, fn) =>
   Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
 
 const DashboardSub = () => {
-  useTitle("BetterWASD | Значок подписчика");
+  useTitle("BetterWASYA | Значок подписчика");
   const auth = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -100,7 +100,7 @@ const DashboardSub = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Значок подписчика </div>
       <div className="item__descr">
-        Значок подписчика в чате доступен пользователям с BetterWASD.
+        Значок подписчика в чате доступен пользователям с BetterWASYA.
         {/*<br></br><p style={{fontSize: '14px', color: 'var(--wasd-color-text-fourth)'}}>Выдается на месяц, после чего иконка сбросится.</p>*/}
       </div>
       <div className="item__border"></div>

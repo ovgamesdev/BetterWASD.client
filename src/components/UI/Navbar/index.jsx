@@ -30,7 +30,7 @@ const Navbar = () => {
             <NavLink to="/">
               <img
                 alt="BWASD"
-                src="https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/d14e632c63580b2628abeb7f4159311c2399d37d/Wasd_Better_color_logo_dark.svg"
+                src="https://raw.githubusercontent.com/ovgamesdev/res/main/Wasya_Better_color_logo_dark.svg"
               />
             </NavLink>
             <NavLink exact="true" to="/emotes" className={styles["nav-link"]}>

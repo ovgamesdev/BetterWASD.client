@@ -9,7 +9,7 @@ import EmotesGlobal from "./Global";
 import Emote from "./Emote";
 
 const EmotesRoutes = () => {
-  useTitle("BetterWASD | Эмоции");
+  useTitle("BetterWASYA | Эмоции");
 
   return (
     <section className="question-section" style={{ paddingBottom: "160px" }}>

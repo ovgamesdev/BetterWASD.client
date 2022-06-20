@@ -74,6 +74,10 @@ html {
   padding: 0;
 }
 
+.alert_mode {
+  overflow: hidden !important;
+}
+
 .alert_mode .Toastify,
 .alert_mode .Toastify__toast-container,
 .alert_mode .Toastify__toast,

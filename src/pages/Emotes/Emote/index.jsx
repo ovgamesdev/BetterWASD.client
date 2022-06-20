@@ -102,7 +102,7 @@ const Emote = () => {
   }, [id, auth.editor?.user_id]);
 
   const encoded = decode(data?.code);
-  useTitle(`BetterWASD | Emote ${data?.code ? "| " + encoded : ""}`, [data]);
+  useTitle(`BetterWASYA | Emote ${data?.code ? "| " + encoded : ""}`, [data]);
 
   if (error) return <NotFound />;
 

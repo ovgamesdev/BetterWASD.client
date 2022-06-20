@@ -2,16 +2,16 @@ import React from "react";
 import useTitle from "../hooks/useTitle/index.tsx";
 
 const Privacy = () => {
-  useTitle("BetterWASD | Privacy Policy");
+  useTitle("BetterWASYA | Privacy Policy");
 
   return (
     <section>
       <div className="title">Privacy Policy</div>
       <div className="item">
-        <p>Last updated: June 10, 2022</p>
+        <p>Last updated: June 17, 2022</p>
         <p>
-          OvGames ("us", "we", or "our") operates the betterwasd.vercel.app
-          website and ovgamesdev.github.io website and the BetterWASD browser
+          OvGames ("us", "we", or "our") operates the betterwasya.vercel.app
+          website and ovgamesdev.github.io website and the BetterWASYA browser
           extension (hereinafter referred to as the "Service").
         </p>
         <p>
@@ -34,8 +34,8 @@ const Privacy = () => {
               Service
               <br />
               <br />
-              Service means the betterwasd.vercel.app website and
-              ovgamesdev.github.io website and the BetterWASD browser extension
+              Service means the betterwasya.vercel.app website and
+              ovgamesdev.github.io website and the BetterWASYA browser extension
               operated by OvGames
             </p>
           </li>

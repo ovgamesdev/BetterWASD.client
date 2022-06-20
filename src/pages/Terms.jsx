@@ -2,17 +2,17 @@ import React from "react";
 import useTitle from "../hooks/useTitle/index.tsx";
 
 const Terms = () => {
-  useTitle("BetterWASD | Terms of Service");
+  useTitle("BetterWASYA | Terms of Service");
 
   return (
     <section>
       <div className="title">Terms of Service</div>
       <div className="item">
-        <p>Last updated: June 10, 2022</p>
+        <p>Last updated: June 17, 2022</p>
         <p>
           Please read these Terms of Service ("Terms", "Terms of Service")
-          carefully before using the betterwasd.vercel.app website and
-          ovgamesdev.github.io website and the BetterWASD browser extension
+          carefully before using the betterwasya.vercel.app website and
+          ovgamesdev.github.io website and the betterwasya browser extension
           (together, or individually, the "Service") operated by OvGames ("us",
           "we", or "our").
         </p>

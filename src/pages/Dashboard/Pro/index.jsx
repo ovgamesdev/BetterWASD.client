@@ -4,11 +4,14 @@ import "react-slideshow-image/dist/styles.css";
 import ButtonLoading from "../../../components/UI/Loading";
 import useAuth from "../../../hooks/useAuth";
 import usePaddle from "../../../hooks/usePaddle/index.tsx";
+import useTitle from "../../../hooks/useTitle";
 import api from "../../../services/api";
 
 import styles from "./pro.module.scss";
 
 const DashboardPro = () => {
+  useTitle("BetterWASYA | Pro");
+
   const [isLoading, setIsLoading] = useState(true);
   // const [isShowGift, setIsShowGift] = useState(false);
   const [subData, setSubData] = useState({ is_active: false });
@@ -101,14 +104,14 @@ const DashboardPro = () => {
 
   return (
     <div className="item block item_right" style={{ marginTop: "0px" }}>
-      <div className="item__title"> BetterWASD Pro </div>
+      <div className="item__title"> BetterWASYA Pro </div>
       <div className="item__descr">
         Проще говоря, бесплатные услуги стоят денег. Пожалуйста, подумайте о
-        поддержке BetterWASD, подписавшись на BetterWASD Pro. Мы также
+        поддержке BetterWASYA, подписавшись на BetterWASYA Pro. Мы также
         постараемся наградить вас в ответ какой-нибудь классной вещью:
         <div style={{ marginLeft: "15px" }}>
           <br /> • 5 персональных эмоций (эмоции, которые вы можете использовать
-          везде на wasd.tv с помощью BetterWASD)
+          везде на wasd.tv с помощью BetterWASYA)
           {/* <br /> • уникальный цвет имени пользователя */}
         </div>
       </div>

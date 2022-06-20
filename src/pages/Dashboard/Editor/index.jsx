@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../components/UI/Loading";
 
 const DashboardEditor = () => {
-  useTitle("BetterWASD | Редакторы");
+  useTitle("BetterWASYA | Редакторы");
   const auth = useAuth();
   const navigate = useNavigate();
 
@@ -75,7 +75,7 @@ const DashboardEditor = () => {
       <div className="item__title"> Редакторы </div>
       <div className="item__descr">
         Все пользователи, добавленные в этот список, могут управлять вашими
-        эмоциями и значками подписчика на BetterWASD.
+        эмоциями и значками подписчика на BetterWASYA.
       </div>
       <div className="item__border"></div>
 

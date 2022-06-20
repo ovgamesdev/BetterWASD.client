@@ -10,7 +10,7 @@ import useAuth from "../../../hooks/useAuth";
 import styles from "./../../modal.module.scss";
 
 const DashboardEmotes = () => {
-  useTitle("BetterWASD | Эмоции");
+  useTitle("BetterWASYA | Эмоции");
   const navigate = useNavigate();
   const auth = useAuth();
 

@@ -12,7 +12,7 @@ import "../style.css";
 import "../custom.css";
 
 const Sub = (props) => {
-  console.log(props);
+  // console.log(props);
 
   const {
     // sub_hide_animation,
@@ -32,7 +32,7 @@ const Sub = (props) => {
   const [isShowText, setShowText] = useState(false);
 
   useEffect(() => {
-    audio.play();
+    audio && audio.play();
 
     setTimeout(() => setShowText(true), sub_text_delay);
 
@@ -46,7 +46,7 @@ const Sub = (props) => {
     // }, sub_text_delay);
 
     return () => {
-      audio.pause();
+      audio && audio.pause();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

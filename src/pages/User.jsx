@@ -16,7 +16,7 @@ const Emotes = () => {
   });
 
   useTitle(
-    `BetterWASD | Профиль ${data?.user_login ? "| " + data?.user_login : ""}`,
+    `BetterWASYA | Профиль ${data?.user_login ? "| " + data?.user_login : ""}`,
     [data]
   );
 
@@ -55,7 +55,7 @@ const Emotes = () => {
               </a>
             </div>
             <div className="item__descr">
-              Эмоции доступны на этом канале с BetterWASD.
+              Эмоции доступны на этом канале с BetterWASYA.
             </div>
             <div className="item__border"></div>
 

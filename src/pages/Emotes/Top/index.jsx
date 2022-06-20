@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const EmotesTop = () => {
-  useTitle("BetterWASD | Топ эмоций");
+  useTitle("BetterWASYA | Топ эмоций");
 
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);
@@ -116,7 +116,9 @@ const EmotesTop = () => {
         </div>
       </div>
 
-      <div className="item__descr">Лучшие общие эмоции на всем BetterWASD.</div>
+      <div className="item__descr">
+        Лучшие общие эмоции на всем BetterWASYA.
+      </div>
       <div className="item__border"></div>
       <div className="emotes">
         {error && error.message}

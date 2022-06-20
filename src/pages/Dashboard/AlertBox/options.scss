@@ -39,7 +39,10 @@
     .preview {
       display: flex;
 
-      img {
+      .img {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
         width: 38px;
         height: 38px;
       }

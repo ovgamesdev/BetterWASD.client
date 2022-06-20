@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const EmotesGlobal = () => {
-  useTitle("BetterWASD | Глобальные эмоции");
+  useTitle("BetterWASYA | Глобальные эмоции");
 
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);
@@ -64,7 +64,7 @@ const EmotesGlobal = () => {
       <div className="item__title"> Глобальные эмоции </div>
       <div className="item__descr">
         Эмоции, которые можно использовать во всех чатах на WASD.TV с
-        BetterWASD.
+        BetterWASYA.
       </div>
       <div className="item__border"></div>
       <div className="emotes">

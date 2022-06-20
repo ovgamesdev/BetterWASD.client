@@ -6,13 +6,13 @@ import "react-slideshow-image/dist/styles.css";
 const Home = () => {
   const slideImages = [
     {
-      url: "https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/Screenshot%20_1.png",
+      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_1.png",
     },
     {
-      url: "https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/Screenshot%20_2.png",
+      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_2.png",
     },
     {
-      url: "https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/Screenshot%20_3.png",
+      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_3.png",
     },
   ];
 

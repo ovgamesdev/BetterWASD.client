@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const EmotesShared = () => {
-  useTitle("BetterWASD | Общие эмоции");
+  useTitle("BetterWASYA | Общие эмоции");
 
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);
@@ -117,7 +117,7 @@ const EmotesShared = () => {
 
       <div className="item__descr">
         Эмоции других пользователей, которые вы можете добавить в свой чат на
-        BetterWASD.
+        BetterWASYA.
       </div>
       <div className="item__border"></div>
       <div className="emotes">
