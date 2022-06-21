@@ -196,7 +196,10 @@ const fetchData = async (token) =>
   new Promise(async (resolve) => {
     try {
       const { data: jdata } = await api.auth.getAlertSettingsByToken(token);
-      // document.body.style.backgroundColor = jdata.settings.background_color;
+      document.documentElement.style.setProperty(
+        "--alert-bg",
+        jdata.settings.background_color
+      );
       resolve(jdata);
     } catch (e) {
       resolve(new Error("Сервер не отвечает"));

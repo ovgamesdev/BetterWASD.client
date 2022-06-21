@@ -6,7 +6,12 @@
   color: rgba(var(--wasd-color-switch--rgb), 0.48) !important;
 }
 
+:root {
+  --alert-bg: 'transparent'
+}
+
 body {
+  background-color: var(--alert-bg);
   color: var(--wasd-color-text-prime);
   font-weight: 400;
   font-family: Montserrat,sans-serif;
