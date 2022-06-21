@@ -1,4 +1,4 @@
-import axios from "../axios";
+import axios from "axios" // no auth token 
 
 const endpoint = {
   getUserInfo: async (userName: string) => {
@@ -36,6 +36,14 @@ const endpoint = {
   getJWTToken: async () => {
     try {
       const { data } = await axios.get(`https://wasd.tv/api/auth/chat-token`)
+      return Promise.resolve(data.result)
+    } catch (e) {
+      return Promise.reject()
+    }
+  },
+  getChannelInfoById: async (channel_id: number) => {
+    try {
+      const { data } = await axios.get(`https://wasd.tv/api/v2/broadcasts/public?with_extra=false&channel_id=${channel_id}`)
       return Promise.resolve(data.result)
     } catch (e) {
       return Promise.reject()

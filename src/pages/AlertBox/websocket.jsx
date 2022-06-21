@@ -31,12 +31,14 @@ const WebSocket = async (token, callback = () => {}) => {
           profileInfo.user_profile.channel_id
         );
 
-        if (isAll || raids) {
-          if (intervalId) {
-            clearInterval(intervalId);
-          }
-          startFetchRaid(profileInfo.user_profile.channel_id, settings);
+        if (intervalId) {
+          clearInterval(intervalId);
         }
+        startFetchRaid(profileInfo.user_profile.channel_id, settings, {
+          streamId,
+          profileInfo,
+          jwt,
+        });
 
         console.log(
           `Trying to connect:\n${profileInfo.user_profile.user_login} (ID: ${profileInfo.user_profile.channel_id}) | StreamID: ${streamId}`
@@ -129,28 +131,57 @@ const WebSocket = async (token, callback = () => {}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const startFetchRaid = (channel_id, settings) => {
+  const startFetchRaid = (channel_id, settings, info) => {
+    const { streamId, profileInfo, jwt } = info;
     let lastRaid = null;
+    let lastStreamId = streamId;
 
     const fetchRaid = async () => {
-      const isRaid = await api.auth.getRaidInfo(channel_id);
+      const channelInfo = await api.wasd.getChannelInfoById(channel_id);
 
-      if (
-        isRaid &&
-        !(
-          lastRaid &&
-          lastRaid.begin_at === isRaid.begin_at &&
-          lastRaid.raid_mc_id === isRaid.raid_mc_id
-        )
-      ) {
-        lastRaid = isRaid;
-        callback({
-          event: "RAID",
-          payload: {
-            ...isRaid,
-            ...settings,
-          },
-        });
+      try {
+        const newStreamId =
+          channelInfo.media_container.media_container_streams[0].stream_id;
+
+        if (newStreamId !== lastStreamId) {
+          console.log("new stream", newStreamId, lastStreamId);
+
+          socketRef.current.emit("leave", { streamId: lastStreamId });
+
+          socketRef.current.emit("join", {
+            streamId: newStreamId,
+            channelId: profileInfo.user_profile.channel_id,
+            jwt: jwt,
+            excludeStickers: true,
+          });
+          lastStreamId = newStreamId;
+
+          return;
+        }
+
+        if (isAll || raids) {
+          const isRaid = channelInfo.channel.raid_info;
+
+          if (
+            isRaid &&
+            !(
+              lastRaid &&
+              lastRaid.begin_at === isRaid.begin_at &&
+              lastRaid.raid_mc_id === isRaid.raid_mc_id
+            )
+          ) {
+            lastRaid = isRaid;
+            callback({
+              event: "RAID",
+              payload: {
+                ...isRaid,
+                ...settings,
+              },
+            });
+          }
+        }
+      } catch (e) {
+        console.log(e);
       }
     };
 
