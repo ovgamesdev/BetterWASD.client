@@ -8,21 +8,14 @@ const ColorPicker = ({ value, onChange }) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [color, setColor] = useState({ hex: value });
 
-  const { ref, isComponentVisible, setIsComponentVisible } =
-    useComponentVisible(true);
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true);
 
   // onBlur={() => setIsOpen(false)}
   return (
     <div className="picker-wrapper" ref={ref}>
-      <button
-        className="wrapper__button"
-        onClick={() => setIsComponentVisible(true)}
-      >
+      <button className="wrapper__button" onClick={() => setIsComponentVisible(true)}>
         {color.hex}
-        <div
-          className="wrapper__button-preview"
-          style={{ background: color.hex }}
-        ></div>
+        <div className="wrapper__button-preview" style={{ background: color.hex }}></div>
       </button>
       {isComponentVisible && (
         <div className="wrapper__picker">

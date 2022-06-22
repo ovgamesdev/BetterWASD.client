@@ -33,8 +33,7 @@ const DashboardEditor = () => {
         setIsLoading(false);
       }
     };
-    if (typeof auth.editor?.user_id !== "undefined")
-      return navigate("/dashboard/emotes");
+    if (typeof auth.editor?.user_id !== "undefined") return navigate("/dashboard/emotes");
 
     fetchData();
   }, [auth.editor?.user_id, navigate]);
@@ -74,21 +73,14 @@ const DashboardEditor = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Редакторы </div>
       <div className="item__descr">
-        Все пользователи, добавленные в этот список, могут управлять вашими
-        эмоциями и значками подписчика на BetterWASYA.
+        Все пользователи, добавленные в этот список, могут управлять вашими эмоциями и значками подписчика на BetterWASYA.
       </div>
       <div className="item__border"></div>
 
       <div>
         <div className="bonuses__icons">
           {data.map((editor, index) => (
-            <EditorUser
-              key={index}
-              user={editor}
-              loading={isLoading}
-              deleteEditor={deleteEditor}
-              isLoadingRemove={isLoadingRemove}
-            />
+            <EditorUser key={index} user={editor} loading={isLoading} deleteEditor={deleteEditor} isLoadingRemove={isLoadingRemove} />
           ))}
         </div>
 
@@ -108,13 +100,7 @@ const DashboardEditor = () => {
                   }}
                 />
               )}
-              <input
-                autoFocus
-                style={{ width: "205px", margin: "0" }}
-                ovg=""
-                onKeyDown={handler}
-                placeholder="Имя пользователя"
-              />
+              <input autoFocus style={{ width: "205px", margin: "0" }} ovg="" onKeyDown={handler} placeholder="Имя пользователя" />
             </div>
           </div>
         ) : (
@@ -137,24 +123,14 @@ const DashboardEditor = () => {
 
       {auth.user.channel_editor.length !== 0 && (
         <div>
-          <div className="item__title">
-            Пользователи, которыми вы управляете как редактор
-          </div>
-          <div className="item__descr">
-            Вы можете управлять эмодзи для любого из перечисленных ниже
-            пользователей.
-          </div>
+          <div className="item__title">Пользователи, которыми вы управляете как редактор</div>
+          <div className="item__descr">Вы можете управлять эмодзи для любого из перечисленных ниже пользователей.</div>
           <div className="item__border"></div>
 
           <div>
             <div className="bonuses__icons">
               {auth.user.channel_editor.map((editor, index) => (
-                <EditorUser
-                  key={index}
-                  user={editor}
-                  loading={isLoading}
-                  deleteEditor={deleteEditor}
-                />
+                <EditorUser key={index} user={editor} loading={isLoading} deleteEditor={deleteEditor} />
               ))}
             </div>
           </div>

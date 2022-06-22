@@ -82,10 +82,7 @@ const Emote = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const { data: res } = await api.emote.getEmoteById(
-          id,
-          auth.editor?.user_id
-        );
+        const { data: res } = await api.emote.getEmoteById(id, auth.editor?.user_id);
         setData(res);
         setNewData(res);
       } catch (e) {
@@ -154,10 +151,7 @@ const Emote = () => {
     const isDelete = global.confirm("Вы уверены?");
     if (!isDelete) return setIsLoadingRemove(false);
 
-    const { data: nData } = await api.emote.deleteEmote(
-      data._id,
-      auth.editor?.user_id
-    );
+    const { data: nData } = await api.emote.deleteEmote(data._id, auth.editor?.user_id);
     if (nData.ok) {
       setData(null);
       setNewData(null);
@@ -169,16 +163,10 @@ const Emote = () => {
   const likeEmote = async () => {
     setIsLoadingLike(true);
     if (data.likes.is_liked) {
-      const { data: nData } = await api.emote.unlikeEmote(
-        data._id,
-        auth.editor?.user_id
-      );
+      const { data: nData } = await api.emote.unlikeEmote(data._id, auth.editor?.user_id);
       if (nData) setData({ ...data, likes: { ...nData } });
     } else {
-      const { data: nData } = await api.emote.likeEmote(
-        data._id,
-        auth.editor?.user_id
-      );
+      const { data: nData } = await api.emote.likeEmote(data._id, auth.editor?.user_id);
       if (nData) setData({ ...data, likes: { ...nData } });
     }
     setIsLoadingLike(false);
@@ -187,10 +175,7 @@ const Emote = () => {
   const personalEmote = async () => {
     setIsLoadingPersonal(true);
     if (data.personals.is_personaled) {
-      const { data: nData } = await api.emote.personalEmote(
-        data._id,
-        auth.editor?.user_id
-      );
+      const { data: nData } = await api.emote.personalEmote(data._id, auth.editor?.user_id);
       if (typeof nData.users === "object") {
         setData({ ...data, personals: { ...nData } });
       } else {
@@ -201,10 +186,7 @@ const Emote = () => {
         });
       }
     } else {
-      const { data: nData } = await api.emote.unpersonalEmote(
-        data._id,
-        auth.editor?.user_id
-      );
+      const { data: nData } = await api.emote.unpersonalEmote(data._id, auth.editor?.user_id);
       if (typeof nData.users === "object") {
         setData({ ...data, personals: { ...nData } });
       } else {
@@ -225,17 +207,10 @@ const Emote = () => {
 
     setIsLoadingAlias(true);
     if (aliasCode === "") {
-      const { data: nData } = await api.emote.deleteAlias(
-        data._id,
-        auth.editor?.user_id
-      );
+      const { data: nData } = await api.emote.deleteAlias(data._id, auth.editor?.user_id);
       if (nData.ok === true) setData({ ...data, alias: null });
     } else {
-      const { data: nData } = await api.emote.updateAlias(
-        data._id,
-        aliasCode,
-        auth.editor?.user_id
-      );
+      const { data: nData } = await api.emote.updateAlias(data._id, aliasCode, auth.editor?.user_id);
       if (nData) setData({ ...data, alias: nData.alias });
     }
     setIsLoadingAlias(false);
@@ -244,10 +219,8 @@ const Emote = () => {
   };
 
   const isOwner = auth.editor
-    ? typeof data?.user?.user_id !== "undefined" &&
-      data?.user?.user_id === auth.editor?.user_id
-    : typeof data?.user?.user_id !== "undefined" &&
-      data?.user?.user_id === auth.user?.user_id;
+    ? typeof data?.user?.user_id !== "undefined" && data?.user?.user_id === auth.editor?.user_id
+    : typeof data?.user?.user_id !== "undefined" && data?.user?.user_id === auth.user?.user_id;
   // const is = isOwner || auth.user?.user_role === "ADMIN";
 
   if (!data) return null;
@@ -255,19 +228,10 @@ const Emote = () => {
   if (isLoading) {
     return (
       <div className="item item__rigtt" style={{ width: "100%" }}>
-        <div
-          className={styles.root + " " + styles.block + " skelet-loading"}
-          style={column[3]}
-        >
+        <div className={styles.root + " " + styles.block + " skelet-loading"} style={column[3]}>
           <div className={styles["root-header"]}>
-            <div
-              style={{ width: "150px", height: "18px", marginRight: "50px" }}
-              className="loading"
-            ></div>
-            <div
-              style={{ width: "180px", height: "18px" }}
-              className="loading"
-            ></div>
+            <div style={{ width: "150px", height: "18px", marginRight: "50px" }} className="loading"></div>
+            <div style={{ width: "180px", height: "18px" }} className="loading"></div>
           </div>
           <div className={styles["root-body"]}>
             <div className={styles.content}>
@@ -293,41 +257,25 @@ const Emote = () => {
                 className="loading"
               />
             </div>
-            <div
-              className="date loading"
-              style={{ width: "150px", height: "14px", position: "absolute" }}
-            ></div>
+            <div className="date loading" style={{ width: "150px", height: "14px", position: "absolute" }}></div>
           </div>
           {auth.user ? (
             <div className={styles["root-footer"] + " flat-btn ovg"}>
-              <div
-                style={{ width: "165px", height: "32px" }}
-                className="loading"
-              ></div>
-              <div
-                style={{ width: "165px", height: "32px", marginLeft: "5px" }}
-                className="loading"
-              ></div>
+              <div style={{ width: "165px", height: "32px" }} className="loading"></div>
+              <div style={{ width: "165px", height: "32px", marginLeft: "5px" }} className="loading"></div>
             </div>
           ) : null}
         </div>
         <div className={styles.root + " " + styles.block + " skelet-loading"}>
           <div className={styles["root-header"]}>
-            <div
-              style={{ width: "100px", height: "18px" }}
-              className="loading"
-            ></div>
+            <div style={{ width: "100px", height: "18px" }} className="loading"></div>
           </div>
           <div className={styles["root-body"]}>
             <div className="emotes">
               {Array(10)
                 .fill({})
                 .map((user, index) => (
-                  <User
-                    key={user.user_id || index}
-                    user={user}
-                    loading={isLoading}
-                  />
+                  <User key={user.user_id || index} user={user} loading={isLoading} />
                 ))}
             </div>
           </div>
@@ -344,18 +292,11 @@ const Emote = () => {
             <div className={styles["root-header"]}>
               <div className={styles.title}>
                 {encoded}
-                {data.alias && (
-                  <span className={styles.alias}>({data.alias})</span>
-                )}
+                {data.alias && <span className={styles.alias}>({data.alias})</span>}
               </div>
               <div className={styles.state}>
-                {!data.sharing && (
-                  <div className={styles.private}>ПРИВАТНАЯ ЭМОЦИЯ</div>
-                )}
-                {!!data.visibility_simple?.filter((t) => t === "ZERO_WIDTH")
-                  .length && (
-                  <div className={styles.zero_width}>ZERO-WIDTH</div>
-                )}
+                {!data.sharing && <div className={styles.private}>ПРИВАТНАЯ ЭМОЦИЯ</div>}
+                {!!data.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length && <div className={styles.zero_width}>ZERO-WIDTH</div>}
               </div>
               {data.global !== false ? (
                 <div>Глобальная эмоция</div>
@@ -363,40 +304,19 @@ const Emote = () => {
                 <div className={styles.user_login}>
                   автор
                   <img src={data.user.channel_image} alt="ava" />
-                  <Link to={"/users/" + data.user.user_id}>
-                    {data.user.user_login}
-                  </Link>
+                  <Link to={"/users/" + data.user.user_id}>{data.user.user_login}</Link>
                 </div>
               )}
             </div>
             <div className={styles["root-body"]}>
               <div className={styles.content}>
-                <img
-                  style={column[5]}
-                  src={HOSTURL + "/cached/emote/" + data._id + "/1x"}
-                  alt="1x"
-                />
-                <img
-                  style={column[5]}
-                  src={HOSTURL + "/cached/emote/" + data._id + "/2x"}
-                  alt="2x"
-                />
-                <img
-                  style={column[5]}
-                  src={HOSTURL + "/cached/emote/" + data._id + "/3x"}
-                  alt="3x"
-                />
+                <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/1x"} alt="1x" />
+                <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/2x"} alt="2x" />
+                <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/3x"} alt="3x" />
               </div>
-              <Moment
-                className={styles.date}
-                date={new Date(data.createdAt)}
-                format="Создано DD.MM.YYYY"
-              />
+              <Moment className={styles.date} date={new Date(data.createdAt)} format="Создано DD.MM.YYYY" />
             </div>
-            {data.global === false &&
-            !isOwner &&
-            auth.user &&
-            (data.sharing || auth.user?.user_role !== "ADMIN") ? (
+            {data.global === false && !isOwner && auth.user && (data.sharing || auth.user?.user_role !== "ADMIN") ? (
               <div className={styles["root-footer"] + " flat-btn ovg"}>
                 {auth.user?.user_role === "ADMIN" && (
                   <button
@@ -413,19 +333,9 @@ const Emote = () => {
                       onClick={likeEmote}
                       style={{ minWidth: "167px" }}
                       disabled={isLoadingLike}
-                      className={classnames(
-                        "medium",
-                        "ovg",
-                        data.likes.is_liked ? "warning" : "primary"
-                      )}
+                      className={classnames("medium", "ovg", data.likes.is_liked ? "warning" : "primary")}
                     >
-                      {isLoadingLike ? (
-                        <ButtonLoading />
-                      ) : data.likes.is_liked ? (
-                        "Удалить из канала"
-                      ) : (
-                        "Добавить на канал"
-                      )}
+                      {isLoadingLike ? <ButtonLoading /> : data.likes.is_liked ? "Удалить из канала" : "Добавить на канал"}
                     </button>
                     <button
                       onClick={() => setShowAlias(true)}
@@ -439,11 +349,7 @@ const Emote = () => {
                         onClick={personalEmote}
                         style={{ minWidth: "167px" }}
                         disabled={isLoadingPersonal}
-                        className={classnames(
-                          "medium",
-                          "ovg",
-                          data.personals.is_personaled ? "warning" : "primary"
-                        )}
+                        className={classnames("medium", "ovg", data.personals.is_personaled ? "warning" : "primary")}
                       >
                         {isLoadingPersonal ? (
                           <ButtonLoading />
@@ -459,10 +365,7 @@ const Emote = () => {
               </div>
             ) : (
               isOwner && (
-                <div
-                  className={styles["root-footer"] + " flat-btn ovg"}
-                  style={{ display: "flex" }}
-                >
+                <div className={styles["root-footer"] + " flat-btn ovg"} style={{ display: "flex" }}>
                   <button
                     onClick={() => setIsChangeMode(true)}
                     style={{ minWidth: "167px" }}
@@ -484,11 +387,7 @@ const Emote = () => {
                       onClick={personalEmote}
                       style={{ minWidth: "167px" }}
                       disabled={isLoadingPersonal}
-                      className={classnames(
-                        "medium",
-                        "ovg",
-                        data.personals.is_personaled ? "warning" : "primary"
-                      )}
+                      className={classnames("medium", "ovg", data.personals.is_personaled ? "warning" : "primary")}
                     >
                       {isLoadingPersonal ? (
                         <ButtonLoading />
@@ -511,11 +410,7 @@ const Emote = () => {
             </div>
             <div className={styles["root-body"]}>
               <div className="emotes">
-                {data && data.likes && data.likes.users
-                  ? data.likes.users.map((user) => (
-                      <User key={user.user_id} user={user} />
-                    ))
-                  : null}
+                {data && data.likes && data.likes.users ? data.likes.users.map((user) => <User key={user.user_id} user={user} />) : null}
               </div>
             </div>
           </div>
@@ -525,17 +420,12 @@ const Emote = () => {
             <div className={styles["root-header"]}>
               <div className={styles.title}>
                 Настройка
-                <img
-                  src={HOSTURL + "/cached/emote/" + data._id + "/1x"}
-                  alt="emote"
-                />
+                <img src={HOSTURL + "/cached/emote/" + data._id + "/1x"} alt="emote" />
               </div>
               <div className={styles.user_login}>
                 автор
                 <img src={data.user.channel_image} alt="ava" />
-                <Link to={"/users/" + data.user.user_id}>
-                  {data.user.user_login}
-                </Link>
+                <Link to={"/users/" + data.user.user_id}>{data.user.user_login}</Link>
               </div>
             </div>
             <div className={styles["root-body"]}>
@@ -550,10 +440,7 @@ const Emote = () => {
 
               <wasd-input>
                 <div ovg="" className="wasd-input-wrapper">
-                  <div
-                    ovg=""
-                    className={classnames("wasd-input", codeError && "warning")}
-                  >
+                  <div ovg="" className={classnames("wasd-input", codeError && "warning")}>
                     <input
                       data-type="code"
                       value={newData.code || ""}
@@ -582,9 +469,7 @@ const Emote = () => {
                   <div ovg="" className="wasd-input">
                     <textarea
                       value={newData.message || ""}
-                      onChange={(e) =>
-                        setNewData({ ...newData, message: e.target.value })
-                      }
+                      onChange={(e) => setNewData({ ...newData, message: e.target.value })}
                       style={{
                         height: "100px",
                         maxHeight: "200px",
@@ -604,10 +489,8 @@ const Emote = () => {
                   color: "var(--wasd-color-text-third)",
                 }}
               >
-                Если ваша эмоция будет решена для проверки вручную (либо
-                автоматически, либо кем-то, кто сообщил об этом), пожалуйста,
-                объясните эту эмоцию и предоставьте обоснование для
-                использования.
+                Если ваша эмоция будет решена для проверки вручную (либо автоматически, либо кем-то, кто сообщил об этом), пожалуйста,
+                объясните эту эмоцию и предоставьте обоснование для использования.
               </p>
 
               <div className="hover-pointer">
@@ -615,9 +498,7 @@ const Emote = () => {
                   id="sharing"
                   type="checkbox"
                   checked={newData.sharing || false}
-                  onChange={(e) =>
-                    setNewData({ ...newData, sharing: e.target.checked })
-                  }
+                  onChange={(e) => setNewData({ ...newData, sharing: e.target.checked })}
                 />
                 <label htmlFor="sharing" style={{ marginLeft: "5px" }}>
                   Совместное использование
@@ -630,8 +511,7 @@ const Emote = () => {
                   color: "var(--wasd-color-text-third)",
                 }}
               >
-                Включение общего доступа позволяет другим пользователям
-                добавлять эту эмоцию в свой чат WASD.TV.
+                Включение общего доступа позволяет другим пользователям добавлять эту эмоцию в свой чат WASD.TV.
               </p>
 
               {auth.user?.user_role === "ADMIN" && (
@@ -639,17 +519,11 @@ const Emote = () => {
                   <input
                     id="zero_width"
                     type="checkbox"
-                    checked={
-                      !!newData.visibility_simple.filter(
-                        (t) => t === "ZERO_WIDTH"
-                      ).length
-                    }
+                    checked={!!newData.visibility_simple.filter((t) => t === "ZERO_WIDTH").length}
                     onChange={(e) =>
                       setNewData({
                         ...newData,
-                        visibility_simple: e.target.checked
-                          ? ["ZERO_WIDTH"]
-                          : [],
+                        visibility_simple: e.target.checked ? ["ZERO_WIDTH"] : [],
                       })
                     }
                   />
@@ -667,9 +541,7 @@ const Emote = () => {
                     id="global"
                     type="checkbox"
                     checked={newData.global || false}
-                    onChange={(e) =>
-                      setNewData({ ...newData, global: e.target.checked })
-                    }
+                    onChange={(e) => setNewData({ ...newData, global: e.target.checked })}
                   />
                   <label htmlFor="global" style={{ marginLeft: "5px" }}>
                     Глобальная эмоция
@@ -678,11 +550,7 @@ const Emote = () => {
               )}
             </div>
             <div className={styles["root-footer"] + " flat-btn ovg"}>
-              <button
-                onClick={() => setIsChangeMode(false)}
-                className="primary medium ovg"
-                style={{ width: "164px" }}
-              >
+              <button onClick={() => setIsChangeMode(false)} className="primary medium ovg" style={{ width: "164px" }}>
                 Обратно к эмоции
               </button>
               <button
@@ -694,11 +562,8 @@ const Emote = () => {
                     data.code !== newData.code ||
                     data.global !== newData.global ||
                     data.sharing !== newData.sharing ||
-                    !!data.visibility_simple?.filter((t) => t === "ZERO_WIDTH")
-                      .length !==
-                      !!newData.visibility_simple?.filter(
-                        (t) => t === "ZERO_WIDTH"
-                      ).length ||
+                    !!data.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length !==
+                      !!newData.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length ||
                     data.message !== newData.message
                   )
                 }
@@ -707,12 +572,7 @@ const Emote = () => {
               >
                 {isLoadingUpdate ? <ButtonLoading /> : "Обновить эмоцию"}
               </button>
-              <button
-                onClick={onDelete}
-                disabled={isLoadingRemove}
-                className="warning medium ovg"
-                style={{ width: "164px" }}
-              >
+              <button onClick={onDelete} disabled={isLoadingRemove} className="warning medium ovg" style={{ width: "164px" }}>
                 {isLoadingRemove ? <ButtonLoading /> : "Удалить эмоцию"}
               </button>
             </div>
@@ -726,48 +586,26 @@ const Emote = () => {
           data-show="show"
           className={modal_styles["show"]}
           onClick={(e) => {
-            !isLoading &&
-              e.target.dataset.show === "show" &&
-              setShowAlias(false);
+            !isLoading && e.target.dataset.show === "show" && setShowAlias(false);
             setAliasError(null);
           }}
         >
-          <div
-            className={
-              modal_styles["modal-block"] +
-              " " +
-              modal_styles["modal-block_medium"]
-            }
-            style={{ width: "440px" }}
-          >
+          <div className={modal_styles["modal-block"] + " " + modal_styles["modal-block_medium"]} style={{ width: "440px" }}>
             <div className={modal_styles["modal-block__title"]}>
               <span>
-                Псевдоним эмоции «{data.code}» для канала{" "}
-                {auth.editor?.user_login || auth.user?.user_login}
+                Псевдоним эмоции «{data.code}» для канала {auth.editor?.user_login || auth.user?.user_login}
               </span>
             </div>
 
-            <div
-              className={modal_styles["modal-block__content"]}
-              style={{ padding: "0 24px" }}
-            >
+            <div className={modal_styles["modal-block__content"]} style={{ padding: "0 24px" }}>
               <div className={modal_styles.row}>
                 <div className="col-36">
-                  <span style={{ color: "rgb(255,255,255)", fontSize: "16px" }}>
-                    Код эмоции
-                  </span>
+                  <span style={{ color: "rgb(255,255,255)", fontSize: "16px" }}>Код эмоции</span>
                 </div>
                 <div className="col-64">
                   <wasd-input>
-                    <div
-                      ovg=""
-                      className="wasd-input-wrapper"
-                      style={{ flexDirection: "column", alignItems: "stretch" }}
-                    >
-                      <div
-                        ovg=""
-                        className={`wasd-input${aliasError ? " warning" : ""}`}
-                      >
+                    <div ovg="" className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+                      <div ovg="" className={`wasd-input${aliasError ? " warning" : ""}`}>
                         <input
                           ovg=""
                           placeholder={data.code}
@@ -791,8 +629,7 @@ const Emote = () => {
                       color: "var(--wasd-color-text-third)",
                     }}
                   >
-                    Коды эмоций могут быть буквами и цифрами. Не менее 3
-                    символов.
+                    Коды эмоций могут быть буквами и цифрами. Не менее 3 символов.
                   </p>
                 </div>
               </div>

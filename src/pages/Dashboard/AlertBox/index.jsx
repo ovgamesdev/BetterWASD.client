@@ -402,12 +402,8 @@ const animationText = [
 const customSelectStyles = {
   option: (provided, state) => ({
     ...provided,
-    color: state.isSelected
-      ? "var(--wasd-color-switch)"
-      : "var(--wasd-color-text-fourth)",
-    backgroundColor: state.isSelected
-      ? "rgba(var(--color-system-blue), 1)"
-      : "var(--color-second-layer)",
+    color: state.isSelected ? "var(--wasd-color-switch)" : "var(--wasd-color-text-fourth)",
+    backgroundColor: state.isSelected ? "rgba(var(--color-system-blue), 1)" : "var(--color-second-layer)",
   }),
   control: (provided) => ({
     ...provided,
@@ -429,9 +425,7 @@ const customSelectStyles = {
 const customFilterStyles = {
   option: (provided, state) => ({
     ...provided,
-    color: state.isSelected
-      ? "var(--wasd-color-switch)"
-      : "var(--wasd-color-text-fourth)",
+    color: state.isSelected ? "var(--wasd-color-switch)" : "var(--wasd-color-text-fourth)",
     backgroundColor: "var(--color-second-layer)",
   }),
   control: (provided) => ({
@@ -478,10 +472,7 @@ const findAlertHideOption = (value) => {
 
 const findTextOption = (value) => animationText.find((o) => o.value === value);
 
-const optionsToSearch = (options) =>
-  options
-    .map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`)
-    .join("");
+const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
 
 const DashboardAlertBox = () => {
   useTitle("BetterWASYA | Оповещения");
@@ -512,8 +503,7 @@ const DashboardAlertBox = () => {
         setIsLoading(false);
       }
     };
-    if (typeof auth.editor?.user_id !== "undefined")
-      return navigate("/dashboard/emotes");
+    if (typeof auth.editor?.user_id !== "undefined") return navigate("/dashboard/emotes");
 
     fetchData();
   }, [auth.editor?.user_id, navigate]);
@@ -533,14 +523,9 @@ const DashboardAlertBox = () => {
 
   return (
     <>
-      <div
-        className="item block item_right"
-        style={{ marginTop: "0px", width: "69.6%" }}
-      >
+      <div className="item block item_right" style={{ marginTop: "0px", width: "69.6%" }}>
         <div className="item__title"> Оповещения </div>
-        <div className="item__descr">
-          Порадуйте ваших зрителей с помощью красивых оповещений на стриме.
-        </div>
+        <div className="item__descr">Порадуйте ваших зрителей с помощью красивых оповещений на стриме.</div>
         <div className="item__border"></div>
 
         {isLoading ? <Loading /> : null}
@@ -559,22 +544,12 @@ const DashboardAlertBox = () => {
                         className="wasd-input"
                         style={{ cursor: "pointer" }}
                         onClick={() => {
-                          navigator.clipboard.writeText(
-                            `${widgetUrl}${isFilterEdited ? filters : ""}`
-                          );
+                          navigator.clipboard.writeText(`${widgetUrl}${isFilterEdited ? filters : ""}`);
                           toast("Ссылка на виджет скопирована!");
                         }}
                       >
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          className="blur"
-                          value={widgetUrl + filters}
-                          readOnly
-                        />
-                        <div className="copy-input">
-                          Cкопировать URL-адрес виджета
-                        </div>
+                        <input ovg="" style={{ margin: 0 }} className="blur" value={widgetUrl + filters} readOnly />
+                        <div className="copy-input">Cкопировать URL-адрес виджета</div>
                       </div>
                     </div>
                     <Select
@@ -599,8 +574,7 @@ const DashboardAlertBox = () => {
                 </div>
               </div>
               <p style={{ fontSize: "14px" }}>
-                Используйте приведенный выше URL-адрес в OBS Studio или просто
-                запустите его с помощью захвата окна.
+                Используйте приведенный выше URL-адрес в OBS Studio или просто запустите его с помощью захвата окна.
               </p>
             </div>
             <TabGroup
@@ -698,9 +672,7 @@ const DashboardAlertBox = () => {
                     <div className="split">
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findAlertShowOption(
-                          settings.follow_show_animation
-                        )}
+                        defaultValue={findAlertShowOption(settings.follow_show_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -714,9 +686,7 @@ const DashboardAlertBox = () => {
                       />
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findAlertHideOption(
-                          settings.follow_hide_animation
-                        )}
+                        defaultValue={findAlertHideOption(settings.follow_hide_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -753,10 +723,7 @@ const DashboardAlertBox = () => {
                           />
                         </div>
                       </div>
-                      <div
-                        className="tooltip_wrapper"
-                        data-tip="{name} - Имя фолловера"
-                      >
+                      <div className="tooltip_wrapper" data-tip="{name} - Имя фолловера">
                         ?
                       </div>
 
@@ -772,9 +739,7 @@ const DashboardAlertBox = () => {
                     <div className="split">
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findTextOption(
-                          settings.follow_text_animation
-                        )}
+                        defaultValue={findTextOption(settings.follow_text_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -793,13 +758,7 @@ const DashboardAlertBox = () => {
                         }}
                       >
                         {"Sample Text".split("").map((w, i) => (
-                          <span
-                            key={i}
-                            className={
-                              "animated-letter " +
-                              settings.follow_text_animation
-                            }
-                          >
+                          <span key={i} className={"animated-letter " + settings.follow_text_animation}>
                             {w}
                           </span>
                         ))}
@@ -915,9 +874,7 @@ const DashboardAlertBox = () => {
                       onChange={(changeEvent) =>
                         setSettings({
                           ...settings,
-                          follow_alert_duration: Number(
-                            changeEvent.target.value
-                          ),
+                          follow_alert_duration: Number(changeEvent.target.value),
                         })
                       }
                       tooltipLabel={(v) => v / 1000 + "сек"}
@@ -993,9 +950,7 @@ const DashboardAlertBox = () => {
                     <div className="split">
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findAlertShowOption(
-                          settings.sub_show_animation
-                        )}
+                        defaultValue={findAlertShowOption(settings.sub_show_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -1009,9 +964,7 @@ const DashboardAlertBox = () => {
                       />
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findAlertHideOption(
-                          settings.sub_hide_animation
-                        )}
+                        defaultValue={findAlertHideOption(settings.sub_hide_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -1048,10 +1001,7 @@ const DashboardAlertBox = () => {
                           />
                         </div>
                       </div>
-                      <div
-                        className="tooltip_wrapper"
-                        data-tip="{name} - Имя подписчика"
-                      >
+                      <div className="tooltip_wrapper" data-tip="{name} - Имя подписчика">
                         ?
                       </div>
 
@@ -1067,9 +1017,7 @@ const DashboardAlertBox = () => {
                     <div className="split">
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findTextOption(
-                          settings.sub_text_animation
-                        )}
+                        defaultValue={findTextOption(settings.sub_text_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -1088,12 +1036,7 @@ const DashboardAlertBox = () => {
                         }}
                       >
                         {"Sample Text".split("").map((w, i) => (
-                          <span
-                            key={i}
-                            className={
-                              "animated-letter " + settings.sub_text_animation
-                            }
-                          >
+                          <span key={i} className={"animated-letter " + settings.sub_text_animation}>
                             {w}
                           </span>
                         ))}
@@ -1285,9 +1228,7 @@ const DashboardAlertBox = () => {
                     <div className="split">
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findAlertShowOption(
-                          settings.raid_show_animation
-                        )}
+                        defaultValue={findAlertShowOption(settings.raid_show_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -1301,9 +1242,7 @@ const DashboardAlertBox = () => {
                       />
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findAlertHideOption(
-                          settings.raid_hide_animation
-                        )}
+                        defaultValue={findAlertHideOption(settings.raid_hide_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -1340,10 +1279,7 @@ const DashboardAlertBox = () => {
                           />
                         </div>
                       </div>
-                      <div
-                        className="tooltip_wrapper"
-                        data-tip="{name} - Имя рейдера"
-                      >
+                      <div className="tooltip_wrapper" data-tip="{name} - Имя рейдера">
                         ?
                       </div>
 
@@ -1359,9 +1295,7 @@ const DashboardAlertBox = () => {
                     <div className="split">
                       <Select
                         styles={customSelectStyles}
-                        defaultValue={findTextOption(
-                          settings.raid_text_animation
-                        )}
+                        defaultValue={findTextOption(settings.raid_text_animation)}
                         isClearable={false}
                         isSearchable={false}
                         onChange={(value) =>
@@ -1380,12 +1314,7 @@ const DashboardAlertBox = () => {
                         }}
                       >
                         {"Sample Text".split("").map((w, i) => (
-                          <span
-                            key={i}
-                            className={
-                              "animated-letter " + settings.raid_text_animation
-                            }
-                          >
+                          <span key={i} className={"animated-letter " + settings.raid_text_animation}>
                             {w}
                           </span>
                         ))}
@@ -1540,12 +1469,7 @@ const DashboardAlertBox = () => {
                 alignItems: "center",
               }}
             >
-              <button
-                onClick={onSave}
-                disabled={isLoadingUpdate}
-                className={`primary medium ovg`}
-                style={{ width: "300px" }}
-              >
+              <button onClick={onSave} disabled={isLoadingUpdate} className={`primary medium ovg`} style={{ width: "300px" }}>
                 {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
               </button>
             </div>

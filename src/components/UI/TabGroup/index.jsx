@@ -28,10 +28,7 @@ const TabGroup = (props) => {
   }, [first, active.element]);
 
   return (
-    <section
-      className="tabs-wrapper horizontal left medium"
-      style={{ padding: "0", ...props.style }}
-    >
+    <section className="tabs-wrapper horizontal left medium" style={{ padding: "0", ...props.style }}>
       <div className="tabs">
         <div className="items">
           {props.tabs &&
@@ -42,18 +39,12 @@ const TabGroup = (props) => {
                   index === active.index && setFirst(e);
                 }}
                 onClick={(e) => onClick(e, index)}
-                className={classnames(
-                  "item",
-                  index === active.index ? "item-active" : ""
-                )}
+                className={classnames("item", index === active.index ? "item-active" : "")}
               >
                 {tab.title}
               </button>
             ))}
-          <div
-            className="inkbar animated"
-            style={{ width: position.width + "px", left: position.left + "px" }}
-          ></div>
+          <div className="inkbar animated" style={{ width: position.width + "px", left: position.left + "px" }}></div>
         </div>
       </div>
     </section>

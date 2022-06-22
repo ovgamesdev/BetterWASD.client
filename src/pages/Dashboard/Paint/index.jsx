@@ -35,12 +35,8 @@ const DashboardPaint = () => {
     "#7b4b4b",
   ];
   const auth = useAuth();
-  const [carusel, setCarusel] = useState(
-    auth.user?.paint?.length < 5 ? Number(auth.user?.paint) : 0
-  );
-  const [color, setColor] = useState(
-    auth.user?.paint?.length < 5 ? "rgba(255,255,255,1)" : auth.user?.paint
-  );
+  const [carusel, setCarusel] = useState(auth.user?.paint?.length < 5 ? Number(auth.user?.paint) : 0);
+  const [color, setColor] = useState(auth.user?.paint?.length < 5 ? "rgba(255,255,255,1)" : auth.user?.paint);
   const [picker, setPicker] = useState(auth.user?.paint?.length > 5);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [isLoadingRemove, setIsLoadingRemove] = useState(false);
@@ -64,8 +60,7 @@ const DashboardPaint = () => {
 
   useEffect(() => {
     setA("100");
-    if (typeof auth.editor?.user_id !== "undefined")
-      return navigate("/dashboard/emotes");
+    if (typeof auth.editor?.user_id !== "undefined") return navigate("/dashboard/emotes");
   }, [setA, auth.editor?.user_id, navigate]);
 
   const getColor = () => (picker ? color : carusel);
@@ -81,8 +76,7 @@ const DashboardPaint = () => {
   };
 
   const isEdit =
-    getColor().toString() === auth.user.paint?.toString() ||
-    (getColor().toString().length > 155 && auth.user?.user_role !== "ADMIN");
+    getColor().toString() === auth.user.paint?.toString() || (getColor().toString().length > 155 && auth.user?.user_role !== "ADMIN");
 
   return (
     <div className="item block item_right" style={{ marginTop: "0px" }}>
@@ -96,10 +90,7 @@ const DashboardPaint = () => {
       <TabGroup
         onChange={(e) => setPicker(!!e)}
         active={picker ? 1 : 0}
-        tabs={[
-          { title: "Предустановленные цвета" },
-          { title: "Цветовая палитра/градиент" },
-        ]}
+        tabs={[{ title: "Предустановленные цвета" }, { title: "Цветовая палитра/градиент" }]}
       />
 
       <br></br>
@@ -114,9 +105,7 @@ const DashboardPaint = () => {
           </button>
         )}
         <div className={previewStyle.wrapper}>
-          {getColor().toString().length < 4 && (
-            <div className={previewStyle.count}>{getColor()}</div>
-          )}
+          {getColor().toString().length < 4 && <div className={previewStyle.count}>{getColor()}</div>}
 
           <span className={previewStyle.message}>
             <span className={previewStyle.time}>10:00</span>
@@ -125,18 +114,14 @@ const DashboardPaint = () => {
                 <span
                   data-betterwasya-paint={carusel}
                   style={{
-                    color:
-                      userColors[auth.user.user_id % (userColors.length - 1)],
+                    color: userColors[auth.user.user_id % (userColors.length - 1)],
                   }}
                 >
                   {auth.user.user_login}
                 </span>
               </span>
             ) : color?.match("gradient") ? (
-              <span
-                data-betterwasya-paint=""
-                style={{ backgroundImage: color }}
-              >
+              <span data-betterwasya-paint="" style={{ backgroundImage: color }}>
                 {auth.user.user_login}
               </span>
             ) : (
@@ -188,27 +173,21 @@ const DashboardPaint = () => {
           alignItems: "center",
         }}
       >
-        {getColor()?.toString().length > 155 &&
-          auth.user?.user_role !== "ADMIN" && (
-            <span
-              className=""
-              style={{
-                marginBottom: "5px",
-                color: "rgba(var(--wasd-color-warning--rgb), .75)",
-              }}
-            >
-              Вы используете большое количество цветов
-            </span>
-          )}
+        {getColor()?.toString().length > 155 && auth.user?.user_role !== "ADMIN" && (
+          <span
+            className=""
+            style={{
+              marginBottom: "5px",
+              color: "rgba(var(--wasd-color-warning--rgb), .75)",
+            }}
+          >
+            Вы используете большое количество цветов
+          </span>
+        )}
         <button
           onClick={onSave}
           disabled={isLoadingUpdate}
-          className={classnames(
-            "primary",
-            "medium",
-            "ovg",
-            isEdit ? "disabled" : ""
-          )}
+          className={classnames("primary", "medium", "ovg", isEdit ? "disabled" : "")}
           style={{ width: "300px" }}
         >
           {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
@@ -216,12 +195,7 @@ const DashboardPaint = () => {
         <button
           onClick={onDelete}
           disabled={isLoadingRemove}
-          className={classnames(
-            "warning",
-            "medium",
-            "ovg",
-            typeof auth.user?.paint !== "string" ? "disabled" : ""
-          )}
+          className={classnames("warning", "medium", "ovg", typeof auth.user?.paint !== "string" ? "disabled" : "")}
           style={{ marginTop: "5px", width: "300px" }}
         >
           {isLoadingRemove ? <ButtonLoading /> : "Восстановить по умолчанию"}

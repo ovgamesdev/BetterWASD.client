@@ -51,25 +51,17 @@ const Sub = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const messageTemplate = reactStringReplace(
-    sub_message_template,
-    "{name}",
-    () => (
-      <span
-        key={user_login}
-        data-token="name"
-        style={{ color: "rgb(50, 95, 192)", position: "relative" }}
-      >
-        <span>
-          {user_login.split("").map((w, i) => (
-            <span key={i} className={"animated-letter " + sub_text_animation}>
-              {w}
-            </span>
-          ))}
-        </span>
+  const messageTemplate = reactStringReplace(sub_message_template, "{name}", () => (
+    <span key={user_login} data-token="name" style={{ color: "rgb(50, 95, 192)", position: "relative" }}>
+      <span>
+        {user_login.split("").map((w, i) => (
+          <span key={i} className={"animated-letter " + sub_text_animation}>
+            {w}
+          </span>
+        ))}
       </span>
-    )
-  );
+    </span>
+  ));
 
   const userMessage = "";
 
@@ -79,10 +71,7 @@ const Sub = (props) => {
         <div id="particles"></div>
         <div id="wrap">
           <div id="alert-image-wrap">
-            <div
-              id="alert-image"
-              style={{ backgroundImage: "url(" + sub_image + ")" }}
-            ></div>
+            <div id="alert-image" style={{ backgroundImage: "url(" + sub_image + ")" }}></div>
           </div>
 
           <div id="alert-text-wrap" className={isShowText ? "" : "hidden"}>

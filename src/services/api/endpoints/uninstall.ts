@@ -5,6 +5,4 @@ const endpoint = {
   init: (user_id: any) => axios.post(`/v1/stat/tv/uninstall/${user_id}`),
 };
 
-
-
 export default endpoint;

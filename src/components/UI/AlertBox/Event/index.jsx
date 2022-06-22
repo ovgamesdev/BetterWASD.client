@@ -11,16 +11,7 @@ import "../custom.css";
 const Event = (props) => {
   console.log(props.info);
 
-  const {
-    image,
-    layout,
-    message_template,
-    sound,
-    sound_volume,
-    text_animation,
-    text_delay,
-    payload,
-  } = props.info;
+  const { image, layout, message_template, sound, sound_volume, text_animation, text_delay, payload } = props.info;
 
   // eslint-disable-next-line no-unused-vars
   const [playing, toggle, audio] = useAudio(sound, sound_volume);
@@ -47,11 +38,7 @@ const Event = (props) => {
   }, []);
 
   const messageTemplate = reactStringReplace(message_template, "{name}", () => (
-    <span
-      key={payload.user_login}
-      data-token="name"
-      style={{ color: "rgb(50, 95, 192)", position: "relative" }}
-    >
+    <span key={payload.user_login} data-token="name" style={{ color: "rgb(50, 95, 192)", position: "relative" }}>
       <span>
         {payload.user_login.split("").map((w, i) => (
           <span key={i} className={"animated-letter " + text_animation}>
@@ -70,10 +57,7 @@ const Event = (props) => {
         <div id="particles"></div>
         <div id="wrap">
           <div id="alert-image-wrap">
-            <div
-              id="alert-image"
-              style={{ backgroundImage: "url(" + image + ")" }}
-            ></div>
+            <div id="alert-image" style={{ backgroundImage: "url(" + image + ")" }}></div>
           </div>
 
           <div id="alert-text-wrap" className={isShowText ? "" : "hidden"}>

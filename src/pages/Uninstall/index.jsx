@@ -85,9 +85,7 @@ const Uninstall = () => {
       <section className="section-head">
         <div className="container">
           <div className="section-head__title-wrap">
-            <div className="section-head__title">
-              Почему вы удаляете расширение BetterWASYA.tv?
-            </div>
+            <div className="section-head__title">Почему вы удаляете расширение BetterWASYA.tv?</div>
           </div>
         </div>
       </section>
@@ -98,10 +96,7 @@ const Uninstall = () => {
             <div className="faq-tabs__block">
               <div className="faq-tabs__head">
                 <wasd-tab-group _nghost-uup-c145="">
-                  <section
-                    className="tabs-wrapper filter always-show center medium"
-                    style={{ paddingTop: 0 }}
-                  >
+                  <section className="tabs-wrapper filter always-show center medium" style={{ paddingTop: 0 }}>
                     <div className="tabs">
                       <div className="items">
                         {options.map((title, i) => (
@@ -114,10 +109,7 @@ const Uninstall = () => {
               </div>
               <router-outlet></router-outlet>
               <wasd-support _nghost-uup-c336="">
-                <div
-                  className="test-bar__wrap first"
-                  style={{ display: "none" }}
-                >
+                <div className="test-bar__wrap first" style={{ display: "none" }}>
                   <div className="test-bar__comment"></div>
                 </div>
                 {placeholderData && (
@@ -131,19 +123,11 @@ const Uninstall = () => {
                       ></textarea>
                     </div>
 
-                    <div
-                      className="test-bar__wrap second"
-                      style={{ margin: "10px 0 10px" }}
-                    >
-                      <div className="test-bar__comment">
-                        Как мы можем с вами связаться
-                      </div>
+                    <div className="test-bar__wrap second" style={{ margin: "10px 0 10px" }}>
+                      <div className="test-bar__comment">Как мы можем с вами связаться</div>
                     </div>
 
-                    <div
-                      className="text-question__container second"
-                      style={{ height: "50px" }}
-                    >
+                    <div className="text-question__container second" style={{ height: "50px" }}>
                       <input
                         type="email"
                         className="text-question"
@@ -157,13 +141,7 @@ const Uninstall = () => {
                 )}
                 <div className="send-question">
                   <div className="flat-btn ovg">
-                    <button
-                      className="primary medium ovg"
-                      disabled={
-                        !activeTab || (text.length < 5 && placeholderData)
-                      }
-                      onClick={submit}
-                    >
+                    <button className="primary medium ovg" disabled={!activeTab || (text.length < 5 && placeholderData)} onClick={submit}>
                       <span> Отправить </span>
                     </button>
                   </div>
@@ -195,10 +173,7 @@ const Uninstall = () => {
 
       {isSubmited && (
         <section className="section-default section-flex">
-          <div
-            className="container container-sm"
-            style={{ fontSize: "30px", textAlign: "center" }}
-          >
+          <div className="container container-sm" style={{ fontSize: "30px", textAlign: "center" }}>
             <i className="wasd-icons-save"></i> Ответ записан
           </div>
         </section>

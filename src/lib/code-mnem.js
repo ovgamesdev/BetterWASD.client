@@ -123,10 +123,7 @@ var x,
     "ucirc|uuml|yacute|thorn|yuml"
   ).split("|");
 for (x = 0; x < 96; x++) mnem[160 + x] = tab[x];
-tab = (
-  "Alpha|Beta|Gamma|Delta|Epsilon|Zeta|Eta|Theta|Iota|Kappa|" +
-  "Lambda|Mu|Nu|Xi|Omicron|Pi|Rho"
-).split("|");
+tab = "Alpha|Beta|Gamma|Delta|Epsilon|Zeta|Eta|Theta|Iota|Kappa|Lambda|Mu|Nu|Xi|Omicron|Pi|Rho".split("|");
 for (x = 0; x < 17; x++) mnem[913 + x] = tab[x];
 tab = "Sigma|Tau|Upsilon|Phi|Chi|Psi|Omega".split("|");
 for (x = 0; x < 7; x++) mnem[931 + x] = tab[x];
@@ -139,14 +136,14 @@ for (x = 0; x < 25; x++) mnem[945 + x] = tab[x];
 
 const encode = (text) => {
   if (!text) return "";
-  return text.replace(/[\u00A0-\u2666<>\&]/g, function (a) { // eslint-disable-line
+  return text.replace(/[\u00A0-\u2666<>&]/g, function (a) {
     return "&" + (mnem[(a = a.charCodeAt(0))] || "#" + a) + ";";
   });
 };
 
 const decode = (text) => {
   if (!text) return "";
-  return text.replace(/\&#?(\w+);/g, function (a, b) { // eslint-disable-line
+  return text.replace(/&#?(\w+);/g, function (a, b) {
     if (Number(b)) return String.fromCharCode(Number(b));
     for (x in mnem) {
       if (mnem[x] === b) return String.fromCharCode(x);

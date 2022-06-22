@@ -10,22 +10,16 @@ const NavbarDashboard = () => {
       <NavLink to="/dashboard/emotes">Эмоции</NavLink>
       {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
-      {auth.editor === null && (
-        <NavLink to="/dashboard/paint">Цвет имени</NavLink>
-      )}
+      {auth.editor === null && <NavLink to="/dashboard/paint">Цвет имени</NavLink>}
       <br></br>
       <br></br>
       <NavLink to="/dashboard/sub-badges">Значок подписчика</NavLink>
       {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
-      {auth.editor === null && (
-        <NavLink to="/dashboard/alertbox">Оповещения (beta)</NavLink>
-      )}
+      {auth.editor === null && <NavLink to="/dashboard/alertbox">Оповещения (beta)</NavLink>}
       {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
-      {auth.editor === null && (
-        <NavLink to="/dashboard/editors">Редакторы</NavLink>
-      )}
+      {auth.editor === null && <NavLink to="/dashboard/editors">Редакторы</NavLink>}
       {/* {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
       {auth.editor === null && (

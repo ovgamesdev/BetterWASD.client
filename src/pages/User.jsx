@@ -15,10 +15,7 @@ const Emotes = () => {
     personalEmotes: [],
   });
 
-  useTitle(
-    `BetterWASYA | Профиль ${data?.user_login ? "| " + data?.user_login : ""}`,
-    [data]
-  );
+  useTitle(`BetterWASYA | Профиль ${data?.user_login ? "| " + data?.user_login : ""}`, [data]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,31 +43,19 @@ const Emotes = () => {
           <div className="item block item_right">
             <div className="item__title">
               Эмоции пользователя{" "}
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href={"https://wasd.tv/" + data?.user_login}
-              >
+              <a target="_blank" rel="noreferrer" href={"https://wasd.tv/" + data?.user_login}>
                 {data?.user_login}
               </a>
             </div>
-            <div className="item__descr">
-              Эмоции доступны на этом канале с BetterWASYA.
-            </div>
+            <div className="item__descr">Эмоции доступны на этом канале с BetterWASYA.</div>
             <div className="item__border"></div>
 
             {!!data.personalEmotes?.length && (
               <>
-                <div className="item__title">
-                  Персональные эмоции ({data.personalEmotes.length})
-                </div>
+                <div className="item__title">Персональные эмоции ({data.personalEmotes.length})</div>
                 <div className="emotes" style={{ marginBottom: "25px" }}>
                   {data.personalEmotes.map((emote, index) => (
-                    <Emote
-                      key={emote._id || index}
-                      emote={emote}
-                      loading={isFirsLoading}
-                    />
+                    <Emote key={emote._id || index} emote={emote} loading={isFirsLoading} />
                   ))}
                 </div>
               </>
@@ -78,16 +63,10 @@ const Emotes = () => {
 
             {!!data.channelEmotes.length && (
               <>
-                <div className="item__title">
-                  Эмоции канала ({data.channelEmotes.length})
-                </div>
+                <div className="item__title">Эмоции канала ({data.channelEmotes.length})</div>
                 <div className="emotes" style={{ marginBottom: "25px" }}>
                   {data.channelEmotes.map((emote, index) => (
-                    <Emote
-                      key={emote._id || index}
-                      emote={emote}
-                      loading={isFirsLoading}
-                    />
+                    <Emote key={emote._id || index} emote={emote} loading={isFirsLoading} />
                   ))}
                 </div>
               </>
@@ -95,17 +74,10 @@ const Emotes = () => {
 
             {!!data.sharedEmotes.length && (
               <>
-                <div className="item__title">
-                  Общие эмоции ({data.sharedEmotes.length})
-                </div>
+                <div className="item__title">Общие эмоции ({data.sharedEmotes.length})</div>
                 <div className="emotes">
                   {data.sharedEmotes.map((emote, index) => (
-                    <Emote
-                      showUsername={true}
-                      key={emote._id || index}
-                      emote={emote}
-                      loading={isFirsLoading}
-                    />
+                    <Emote showUsername={true} key={emote._id || index} emote={emote} loading={isFirsLoading} />
                   ))}
                 </div>
               </>

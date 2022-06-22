@@ -27,9 +27,7 @@ const WebSocket = async (token, callback = () => {}) => {
 
         const jwt = await api.wasd.getJWTToken();
         const profileInfo = await api.wasd.getProfileInfo(user_id);
-        const streamId = await api.wasd.getStreamId(
-          profileInfo.user_profile.channel_id
-        );
+        const streamId = await api.wasd.getStreamId(profileInfo.user_profile.channel_id);
 
         if (intervalId) {
           clearInterval(intervalId);
@@ -70,11 +68,7 @@ const WebSocket = async (token, callback = () => {}) => {
 
         socketRef.current.on("event", (data) => {
           setTimeout(() => {
-            if (
-              data.event_type === "NEW_FOLLOWER" &&
-              (isAll || follows) &&
-              !lastFollowers[data.payload.user_login]
-            ) {
+            if (data.event_type === "NEW_FOLLOWER" && (isAll || follows) && !lastFollowers[data.payload.user_login]) {
               lastFollowers[data.payload.user_login] = 1;
 
               console.log(lastFollowers);
@@ -140,8 +134,7 @@ const WebSocket = async (token, callback = () => {}) => {
       const channelInfo = await api.wasd.getChannelInfoById(channel_id);
 
       try {
-        const newStreamId =
-          channelInfo.media_container.media_container_streams[0].stream_id;
+        const newStreamId = channelInfo.media_container.media_container_streams[0].stream_id;
 
         if (newStreamId !== lastStreamId) {
           socketRef.current.emit("leave", { streamId: lastStreamId });
@@ -160,14 +153,7 @@ const WebSocket = async (token, callback = () => {}) => {
         if (isAll || raids) {
           const isRaid = channelInfo.channel.raid_info;
 
-          if (
-            isRaid &&
-            !(
-              lastRaid &&
-              lastRaid.begin_at === isRaid.begin_at &&
-              lastRaid.raid_mc_id === isRaid.raid_mc_id
-            )
-          ) {
+          if (isRaid && !(lastRaid && lastRaid.begin_at === isRaid.begin_at && lastRaid.raid_mc_id === isRaid.raid_mc_id)) {
             lastRaid = isRaid;
             callback({
               event: "RAID",
@@ -194,10 +180,7 @@ const fetchData = async (token) =>
   new Promise(async (resolve) => {
     try {
       const { data: jdata } = await api.auth.getAlertSettingsByToken(token);
-      document.documentElement.style.setProperty(
-        "--alert-bg",
-        jdata.settings.background_color
-      );
+      document.documentElement.style.setProperty("--alert-bg", jdata.settings.background_color);
       resolve(jdata);
     } catch (e) {
       resolve(new Error("Сервер не отвечает"));

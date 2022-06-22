@@ -23,12 +23,7 @@ const TabGroup = (props) => {
   };
 
   return (
-    <div
-      className={classnames(
-        subStyle.item,
-        isLoadedImages[item] ? "" : "warning"
-      )}
-    >
+    <div className={classnames(subStyle.item, isLoadedImages[item] ? "" : "warning")}>
       <img
         width={20}
         height={20}
@@ -41,18 +36,13 @@ const TabGroup = (props) => {
 
       <div ovg="" className="wasd-input-wrapper">
         <div ovg="" className="wasd-input">
-          <label
-            ovg=""
-            className={classnames(isLoadedImages[item] ? "" : "show")}
-          >
+          <label ovg="" className={classnames(isLoadedImages[item] ? "" : "show")}>
             Недействительная ссылка на картинку
           </label>
           <input
             ovg=""
             value={subIcons[item] || ""}
-            onChange={(e) =>
-              setSubIcons({ ...subIcons, [item]: e.target.value })
-            }
+            onChange={(e) => setSubIcons({ ...subIcons, [item]: e.target.value })}
             placeholder="Ссылка на иконку подписчика"
           ></input>
         </div>
