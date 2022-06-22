@@ -1,0 +1,43 @@
+.loader_div {
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+.loader {
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  border: 7px solid #f3f3f3;
+  border-radius: 50%;
+  border-top-color: #3498db;
+  height: 75px;
+  width: 75px;
+}
+
+.tabs-wrapper.filter.always-show > .tabs .items {
+  flex-direction: column !important;
+  align-items: stretch !important;
+
+  .item {
+    margin-left: 0 !important;
+  }
+}
+
+.section-default {
+  padding: 50px 0;
+}
+
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  border-radius: 0;
+  -webkit-appearance: none;
+  outline: none;
+  font-family: Roboto-Regular, Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}

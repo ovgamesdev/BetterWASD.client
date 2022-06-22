@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./options.scss";
 import ReactTooltip from "react-tooltip";
+import ColorPicker from "../../../components/UI/ColorPicker";
 
 const colourOptions = [
   { label: "Подписка", value: "subscriptions" },
@@ -611,26 +612,44 @@ const DashboardAlertBox = () => {
             <div className="item__border"></div>
 
             {activeTab === "general" && (
-              <div className="row">
-                <div className="left">
-                  <label>Задержка оповещений</label>
+              <>
+                <div className="row">
+                  <div className="left">
+                    <label>Цвет фона</label>
+                  </div>
+                  <div className="right">
+                    <ColorPicker
+                      value={settings.background_color}
+                      onChange={(color) =>
+                        setSettings({
+                          ...settings,
+                          background_color: color,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="right">
-                  <RangeSlider
-                    min={0}
-                    max={30000}
-                    step={1000}
-                    value={settings.alert_delay}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        alert_delay: Number(changeEvent.target.value),
-                      })
-                    }
-                    tooltipLabel={(v) => v / 1000 + "сек"}
-                  />
+                <div className="row">
+                  <div className="left">
+                    <label>Задержка оповещений</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={0}
+                      max={30000}
+                      step={1000}
+                      value={settings.alert_delay}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          alert_delay: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v / 1000 + "сек"}
+                    />
+                  </div>
                 </div>
-              </div>
+              </>
             )}
             {activeTab === "follows" && (
               <>

@@ -3,6 +3,7 @@ import emote from "./endpoints/emote.ts";
 import paint from "./endpoints/paint.ts";
 import subBadge from "./endpoints/sub-badge.ts";
 import wasd from "./endpoints/wasd.ts";
+import uninstall from "./endpoints/uninstall.ts";
 
 const api = {
   auth,
@@ -10,6 +11,7 @@ const api = {
   paint,
   subBadge,
   wasd,
+  uninstall,
 };
 
 export default api;

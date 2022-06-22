@@ -1,0 +1,58 @@
+.section {
+  &-flex {
+    flex: 1;
+  }
+
+  &-head {
+    position: relative;
+    display: block;
+    padding: 50px 0;
+    background-image: url(https://static.wasd.tv/assets/fe/bg.171832b4da097c0663e8.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: block;
+      content: "";
+      opacity: 0.8;
+      background: var(--wasd-color-black);
+    }
+
+    .section-head__title {
+      color: var(--wasd-color-white);
+
+      font-size: 48px;
+      font-family: Roboto-Bold, sans-serif;
+      line-height: 56px;
+      display: block;
+      letter-spacing: 0.8px;
+      color: rgb(var(--color-system-white));
+
+      &-wrap {
+        display: flex;
+        flex-direction: row;
+        min-height: 18px;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.faq-tabs {
+  &__block {
+    max-width: 872px;
+    margin: 0 auto;
+  }
+  &__head {
+    position: relative;
+    display: block;
+    padding: 0 0 30px;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css";
+import "./style.scss";
 import classnames from "classnames";
 
 const TabGroup = (props) => {

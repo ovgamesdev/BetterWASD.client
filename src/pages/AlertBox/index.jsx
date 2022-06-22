@@ -5,9 +5,6 @@ import { toast, ToastContainer, cssTransition } from "react-toastify";
 import useTitle from "../../hooks/useTitle/index.tsx";
 import useWebSocket from "./websocket";
 
-// import Follow from "../../components/UI/AlertBox/Follow";
-// import Sub from "../../components/UI/AlertBox/Sub";
-// import Raid from "../../components/UI/AlertBox/Raid";
 import Event from "../../components/UI/AlertBox/Event";
 
 import "./animate.css";

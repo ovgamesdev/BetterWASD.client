@@ -31,7 +31,9 @@ const Login = () => {
       auth.setUser(loginData.user);
     } catch (e) {
       if (e.message.match("404") || e.message.match("401")) {
-        setError("Недействительный токен");
+        setError(
+          "Возможно, недействительный токен или ошибка с нашей стороны :("
+        );
       } else {
         const redirect = searchParams.get("redirect");
         if (redirect) {

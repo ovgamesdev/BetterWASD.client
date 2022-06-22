@@ -92,8 +92,6 @@ const DashboardEmotes = () => {
     setIsLoadingCreateEmote(false);
   };
 
-  console.log(data.channelEmotes, data.sharedEmotes, data.personalEmotes);
-
   if (!data.channelEmotes || !data.sharedEmotes || !data.personalEmotes)
     return null;
 

@@ -13,6 +13,7 @@ import Privacy from "../../pages/Privacy";
 import Dashboard from "../../pages/Dashboard";
 import EmotesRoutes from "../../pages/Emotes";
 import AlertBox from "../../pages/AlertBox";
+import Uninstall from "../../pages/Uninstall";
 
 function AppRoutes() {
   const auth = useAuth();
@@ -26,6 +27,7 @@ function AppRoutes() {
       <Route path="/users/:id" element={<User />} />
 
       <Route path="/alert-box/v1/:token" element={<AlertBox />} />
+      <Route path="/uninstall/:user_id" element={<Uninstall />} />
 
       <Route
         path="/dashboard/*"

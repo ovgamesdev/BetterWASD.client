@@ -144,8 +144,6 @@ const WebSocket = async (token, callback = () => {}) => {
           channelInfo.media_container.media_container_streams[0].stream_id;
 
         if (newStreamId !== lastStreamId) {
-          console.log("new stream", newStreamId, lastStreamId);
-
           socketRef.current.emit("leave", { streamId: lastStreamId });
 
           socketRef.current.emit("join", {

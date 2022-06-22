@@ -34,6 +34,9 @@ body {
 .wrapper:not(.alert_mode) {
   background-color: #0a1730;
 }
+.wrapper.uninstall_mode {
+  background-color: var(--wasd-color-bg-prime);
+}
 
 footer {
   text-align: right;
@@ -449,8 +452,14 @@ a {
     margin: 15px !important;
   }
 
-  .tabs-wrapper .items {
+  .tabs-wrapper:not(.always-show) .items {
     height: 35px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .tabs-wrapper.always-show .items {
+    height: 100%;
     width: 100%;
     flex-wrap: wrap;
   }
@@ -669,15 +678,15 @@ button.button-icon[ovg]:hover {
 }
 
 svg.search {
-  width: 1.25em;
+  width: 16px;
   color: #ccc;
-  left: 8px;
+  left: 11px;
   position: absolute;
   top: 11px;
   text-align: center;
   display: inline-block;
   font-size: inherit;
-  height: 1em;
+  height: 16px;
   vertical-align: -0.125em;
   z-index: 1;
 }

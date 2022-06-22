@@ -23,7 +23,8 @@ const Navbar = () => {
   };
 
   return (
-    !window.location.pathname.match("/alert-box/") && (
+    !window.location.pathname.match("/alert-box/") &&
+    !window.location.pathname.match("/uninstall/") && (
       <header className={styles.root}>
         <div className={styles.nav}>
           <div className="d-flex" style={{ alignItems: "flex-end" }}>
