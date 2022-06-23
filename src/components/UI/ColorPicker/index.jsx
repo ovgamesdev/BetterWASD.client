@@ -8,7 +8,7 @@ const ColorPicker = ({ value, onChange }) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [color, setColor] = useState({ hex: value });
 
-  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true);
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
 
   // onBlur={() => setIsOpen(false)}
   return (

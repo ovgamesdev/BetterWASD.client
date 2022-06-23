@@ -130,46 +130,70 @@ const Emote = () => {
 
   const onUpdate = async () => {
     setIsLoadingUpdate(true);
-    const { data: nData } = await api.emote.updateEmote(
-      data._id,
-      {
-        code: newData.code,
-        message: newData.message,
-        sharing: newData.sharing,
-        visibility_simple: newData.visibility_simple,
-        global: newData.global,
-      },
-      auth.editor?.user_id
-    );
-    setData(nData);
-    setNewData(nData);
-    setIsLoadingUpdate(false);
+    try {
+      const { data: nData } = await api.emote.updateEmote(
+        data._id,
+        {
+          code: newData.code,
+          message: newData.message,
+          sharing: newData.sharing,
+          visibility_simple: newData.visibility_simple,
+          global: newData.global,
+        },
+        auth.editor?.user_id
+      );
+      setData(nData);
+      setNewData(nData);
+      toast.success("Эмоция была изменена");
+    } catch {
+      toast.error("Ошибка при изменении эмоции");
+    } finally {
+      setIsLoadingUpdate(false);
+    }
   };
 
   const onDelete = async () => {
-    setIsLoadingRemove(true);
-    const isDelete = global.confirm("Вы уверены?");
-    if (!isDelete) return setIsLoadingRemove(false);
+    try {
+      setIsLoadingRemove(true);
+      const isDelete = global.confirm("Вы уверены?");
+      if (!isDelete) return setIsLoadingRemove(false);
 
-    const { data: nData } = await api.emote.deleteEmote(data._id, auth.editor?.user_id);
-    if (nData.ok) {
-      setData(null);
-      setNewData(null);
-      navigate("/dashboard/emotes");
+      const { data: nData } = await api.emote.deleteEmote(data._id, auth.editor?.user_id);
+      if (nData.ok) {
+        setData(null);
+        setNewData(null);
+        navigate("/dashboard/emotes");
+      }
+
+      toast.success("Эмоция успешно удалена");
+    } catch {
+      toast.error("Ошибка при удалении эмоции");
+    } finally {
+      setIsLoadingRemove(false);
     }
-    setIsLoadingRemove(false);
   };
 
   const likeEmote = async () => {
-    setIsLoadingLike(true);
-    if (data.likes.is_liked) {
-      const { data: nData } = await api.emote.unlikeEmote(data._id, auth.editor?.user_id);
-      if (nData) setData({ ...data, likes: { ...nData } });
-    } else {
-      const { data: nData } = await api.emote.likeEmote(data._id, auth.editor?.user_id);
-      if (nData) setData({ ...data, likes: { ...nData } });
+    try {
+      setIsLoadingLike(true);
+      if (data.likes.is_liked) {
+        const { data: nData } = await api.emote.unlikeEmote(data._id, auth.editor?.user_id);
+        if (nData) setData({ ...data, likes: { ...nData } });
+        toast.success("Эмоция удалена с вашего канала");
+      } else {
+        const { data: nData } = await api.emote.likeEmote(data._id, auth.editor?.user_id);
+        if (nData) setData({ ...data, likes: { ...nData } });
+        toast.success("Эмоция добавлена на ваш канал");
+      }
+    } catch {
+      if (data.likes.is_liked) {
+        toast.error("Ошибка при удалении эмоции из вашего канала");
+      } else {
+        toast.error("Ошибка при добавлении эмоции на ваш канал");
+      }
+    } finally {
+      setIsLoadingLike(false);
     }
-    setIsLoadingLike(false);
   };
 
   const personalEmote = async () => {
@@ -178,44 +202,45 @@ const Emote = () => {
       const { data: nData } = await api.emote.personalEmote(data._id, auth.editor?.user_id);
       if (typeof nData.users === "object") {
         setData({ ...data, personals: { ...nData } });
+        toast.success("Удалена персональная эмоция");
       } else {
-        toast(nData.message, {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
+        toast.info(nData.message);
       }
     } else {
       const { data: nData } = await api.emote.unpersonalEmote(data._id, auth.editor?.user_id);
       if (typeof nData.users === "object") {
         setData({ ...data, personals: { ...nData } });
+        toast.success("Добавлена персональная эмоция");
       } else {
-        toast(nData.message, {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
+        toast.info(nData.message);
       }
     }
     setIsLoadingPersonal(false);
   };
 
   const setAlias = async () => {
-    if (data.alias === null && aliasCode === "") {
-      return setShowAlias(false);
-    }
+    try {
+      if (data.alias === null && aliasCode === "") {
+        return setShowAlias(false);
+      }
 
-    setIsLoadingAlias(true);
-    if (aliasCode === "") {
-      const { data: nData } = await api.emote.deleteAlias(data._id, auth.editor?.user_id);
-      if (nData.ok === true) setData({ ...data, alias: null });
-    } else {
-      const { data: nData } = await api.emote.updateAlias(data._id, aliasCode, auth.editor?.user_id);
-      if (nData) setData({ ...data, alias: nData.alias });
+      setIsLoadingAlias(true);
+      if (aliasCode === "") {
+        const { data: nData } = await api.emote.deleteAlias(data._id, auth.editor?.user_id);
+        if (nData.ok === true) setData({ ...data, alias: null });
+        toast.success("Псевдоним успешно удален");
+      } else {
+        const { data: nData } = await api.emote.updateAlias(data._id, aliasCode, auth.editor?.user_id);
+        if (nData) setData({ ...data, alias: nData.alias });
+        toast.success("Псевдоним успешно изменен");
+      }
+    } catch {
+      toast.error("Ошибка при удалении псевдонима");
+    } finally {
+      setIsLoadingAlias(false);
+      setAliasCode("");
+      setShowAlias(false);
     }
-    setIsLoadingAlias(false);
-    setAliasCode("");
-    setShowAlias(false);
   };
 
   const isOwner = auth.editor
@@ -349,11 +374,11 @@ const Emote = () => {
                         onClick={personalEmote}
                         style={{ minWidth: "167px" }}
                         disabled={isLoadingPersonal}
-                        className={classnames("medium", "ovg", data.personals.is_personaled ? "warning" : "primary")}
+                        className={classnames("medium", "ovg", data.personals?.is_personaled ? "warning" : "primary")}
                       >
                         {isLoadingPersonal ? (
                           <ButtonLoading />
-                        ) : data.personals.is_personaled ? (
+                        ) : data.personals?.is_personaled ? (
                           "Удалить из персональных"
                         ) : (
                           "Добавить как персональную"
@@ -387,11 +412,11 @@ const Emote = () => {
                       onClick={personalEmote}
                       style={{ minWidth: "167px" }}
                       disabled={isLoadingPersonal}
-                      className={classnames("medium", "ovg", data.personals.is_personaled ? "warning" : "primary")}
+                      className={classnames("medium", "ovg", data.personals?.is_personaled ? "warning" : "primary")}
                     >
                       {isLoadingPersonal ? (
                         <ButtonLoading />
-                      ) : data.personals.is_personaled ? (
+                      ) : data.personals?.is_personaled ? (
                         "Удалить из персональных"
                       ) : (
                         "Добавить как персональную"

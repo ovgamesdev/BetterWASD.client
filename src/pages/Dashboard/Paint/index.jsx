@@ -11,6 +11,7 @@ import previewStyle from "./preview.module.scss";
 import "./../../user.css";
 
 import TabGroup from "../../../components/UI/TabGroup";
+import { toast } from "react-toastify";
 
 const DashboardPaint = () => {
   useTitle("BetterWASYA | Цвет имени");
@@ -44,18 +45,30 @@ const DashboardPaint = () => {
   const { setA } = useColorPicker(color, setColor);
 
   const onSave = async () => {
-    setIsLoadingUpdate(true);
-    const paint = getColor();
-    await api.paint.setPaint({ paint: paint });
-    auth.setUser({ ...auth.user, paint: paint.toString() });
-    setIsLoadingUpdate(false);
+    try {
+      setIsLoadingUpdate(true);
+      const paint = getColor();
+      await api.paint.setPaint({ paint: paint });
+      auth.setUser({ ...auth.user, paint: paint.toString() });
+      toast.success("Цвет успешно изменен");
+    } catch {
+      toast.error("Ошибка изменения цвета");
+    } finally {
+      setIsLoadingUpdate(false);
+    }
   };
 
   const onDelete = async () => {
-    setIsLoadingRemove(true);
-    await api.paint.deletePaint();
-    auth.setUser({ ...auth.user, paint: null });
-    setIsLoadingRemove(false);
+    try {
+      setIsLoadingRemove(true);
+      await api.paint.deletePaint();
+      auth.setUser({ ...auth.user, paint: null });
+      toast.success("Цвет успешно сброшен");
+    } catch {
+      toast.error("Ошибка удаления имени");
+    } finally {
+      setIsLoadingRemove(false);
+    }
   };
 
   useEffect(() => {
@@ -81,10 +94,7 @@ const DashboardPaint = () => {
   return (
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Цвет имени </div>
-      <div className="item__descr">
-        Цвет доступен пользователям с BetterWASYA.
-        {/*<br></br><p style={{fontSize: '14px', color: 'var(--wasd-color-text-fourth)'}}>Выдается на месяц, после чего цвет сбросится.</p>*/}
-      </div>
+      <div className="item__descr">Цвет доступен пользователям с BetterWASYA.</div>
       <div className="item__border"></div>
 
       <TabGroup

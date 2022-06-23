@@ -31,3 +31,8 @@
   position: absolute;
   z-index: 999;
 }
+
+.picker-wrapper {
+  user-select: none;
+  display: inline-block;
+}

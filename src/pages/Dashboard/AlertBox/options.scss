@@ -11,8 +11,6 @@
     label {
       color: #bdc2c4;
       font-weight: 500;
-      font-size: 0.875rem;
-      // line-height: 1.8;
     }
   }
 
@@ -85,4 +83,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 4px;
+}
+
+.range-slider__tooltip__label {
+  font-size: 12px !important;
 }
