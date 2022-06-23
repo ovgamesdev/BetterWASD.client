@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const EmotesGlobal = () => {
-  useTitle("BetterWASD | Глобальные эмоции");
+  useTitle("BetterWASYA | Глобальные эмоции");
 
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);
@@ -20,14 +20,10 @@ const EmotesGlobal = () => {
   const [searchParams] = useSearchParams();
   const limit = 30 * 2;
 
-  const [page, setPage] = useState(
-    searchParams.get("page") ? Number(searchParams.get("page")) : 1
-  );
+  const [page, setPage] = useState(searchParams.get("page") ? Number(searchParams.get("page")) : 1);
   const [total, setTotal] = useState(19);
 
-  const [search] = useState(
-    searchParams.get("query") ? searchParams.get("query") : ""
-  );
+  const [search] = useState(searchParams.get("query") ? searchParams.get("query") : "");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,9 +47,7 @@ const EmotesGlobal = () => {
     navigate(
       {
         pathname: location.pathname,
-        search: `${page !== 1 ? "?page=" + page : ""}${
-          search !== "" ? "&query=" + search.trim() : ""
-        }`,
+        search: `${page !== 1 ? "?page=" + page : ""}${search !== "" ? "&query=" + search.trim() : ""}`,
       },
       { replace: true }
     );
@@ -62,22 +56,12 @@ const EmotesGlobal = () => {
   return (
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Глобальные эмоции </div>
-      <div className="item__descr">
-        Эмоции, которые можно использовать во всех чатах на WASD.TV с
-        BetterWASD.
-      </div>
+      <div className="item__descr">Эмоции, которые можно использовать во всех чатах на WASD.TV с BetterWASYA.</div>
       <div className="item__border"></div>
       <div className="emotes">
         {error && error.message}
         {isLoading && !isFirsLoading && <Loading />}
-        {data.length !== 0 &&
-          data.map((emote, index) => (
-            <Emote
-              key={emote._id || index}
-              emote={emote}
-              loading={isFirsLoading}
-            />
-          ))}
+        {data.length !== 0 && data.map((emote, index) => <Emote key={emote._id || index} emote={emote} loading={isFirsLoading} />)}
         {data.length === 0 && search !== "" && <div>Здесь нет ничего</div>}
       </div>
       {total > limit && (

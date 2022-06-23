@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css";
+import "./style.scss";
 import classnames from "classnames";
 
 const TabGroup = (props) => {
@@ -29,10 +29,7 @@ const TabGroup = (props) => {
   }, [first, active.element]);
 
   return (
-    <section
-      className="tabs-wrapper horizontal left medium"
-      style={{ padding: "0", ...props.style }}
-    >
+    <section className="tabs-wrapper horizontal left medium" style={{ padding: "0", ...props.style }}>
       <div className="tabs" style={{ display: "grid" }}>
         <div className="items" style={{ width: "100%" }}>
           {props.tabs &&
@@ -43,18 +40,12 @@ const TabGroup = (props) => {
                   index === active.index && setFirst(e);
                 }}
                 onClick={(e) => onClick(e, index)}
-                className={classnames(
-                  "item",
-                  index === active.index ? "item-active" : ""
-                )}
+                className={classnames("item", index === active.index ? "item-active" : "")}
               >
                 {tab.label}
               </button>
             ))}
-          <div
-            className="inkbar animated"
-            style={{ width: position.width + "px", left: position.left + "px" }}
-          ></div>
+          <div className="inkbar animated" style={{ width: position.width + "px", left: position.left + "px" }}></div>
         </div>
       </div>
     </section>

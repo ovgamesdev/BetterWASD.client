@@ -6,13 +6,13 @@ import "react-slideshow-image/dist/styles.css";
 const Home = () => {
   const slideImages = [
     {
-      url: "https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/Screenshot%20_1.png",
+      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_1.png",
     },
     {
-      url: "https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/Screenshot%20_2.png",
+      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_2.png",
     },
     {
-      url: "https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/main/Screenshot%20_3.png",
+      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_3.png",
     },
   ];
 
@@ -21,10 +21,7 @@ const Home = () => {
       <section className="main-section">
         <div className="block">
           <div className="main-title">Набор для улучшения WASD.TV</div>
-          <div className="descr">
-            Получите собственные эмоции и множество новых функций, без которых
-            вы никогда не захотите обойтись.
-          </div>
+          <div className="descr">Получите собственные эмоции и множество новых функций, без которых вы никогда не захотите обойтись.</div>
           <div className="buttons">
             <a
               href="https://chrome.google.com/webstore/detail/cokaeiijnnpcfaoehijmdfcgbkpffgbh"
@@ -41,10 +38,7 @@ const Home = () => {
           <Slide>
             {slideImages.map((slideImage, index) => (
               <div className="each-slide" key={index}>
-                <div
-                  className="slideshow-img"
-                  style={{ backgroundImage: `url(${slideImage.url})` }}
-                ></div>
+                <div className="slideshow-img" style={{ backgroundImage: `url(${slideImage.url})` }}></div>
               </div>
             ))}
           </Slide>

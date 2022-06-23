@@ -24,11 +24,7 @@ const Users = (props) => {
 
   return (
     <div className={styles.wrapper}>
-      <Link
-        to={"/users/" + props.user.user_id}
-        className={styles.card}
-        title={props.user.user_login}
-      >
+      <Link to={"/users/" + props.user.user_id} className={styles.card} title={props.user.user_login}>
         <img src={props.user.channel_image} alt="avatar" />
         <div>
           <span>{props.user.user_login}</span>

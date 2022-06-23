@@ -31,7 +31,8 @@ function App() {
       <div
         className={
           "wrapper" +
-          (window.location.pathname.match("/alert-box/") ? " alert_mode" : "")
+          (window.location.pathname.match("/alert-box/") ? " alert_mode" : "") +
+          (window.location.pathname.match("/uninstall/") ? " uninstall_mode" : "")
         }
       >
         <Navbar />

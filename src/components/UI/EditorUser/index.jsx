@@ -16,10 +16,7 @@ const EditorUser = (props) => {
             alt="profile"
             className="loading"
           />
-          <div
-            style={{ width: "90px", height: "16px", marginLeft: "5px" }}
-            className="loading"
-          ></div>
+          <div style={{ width: "90px", height: "16px", marginLeft: "5px" }} className="loading"></div>
         </div>
         <div
           style={{
@@ -29,10 +26,7 @@ const EditorUser = (props) => {
             marginRight: "5px",
           }}
         >
-          <div
-            style={{ height: "24px", width: "24px" }}
-            className="loading"
-          ></div>
+          <div style={{ height: "24px", width: "24px" }} className="loading"></div>
         </div>
       </div>
     );

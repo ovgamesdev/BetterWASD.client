@@ -1,0 +1,38 @@
+.wrapper__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 225px;
+
+  background-color: var(--color-second-layer);
+  border: 1px solid var(--wasd-color-text-fourth);
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: var(--wasd-color-switch);
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  height: 38px;
+  outline: none;
+  padding: 0 8px;
+  position: relative;
+  resize: vertical;
+
+  text-transform: uppercase;
+
+  &-preview {
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+  }
+}
+
+.wrapper__picker {
+  position: absolute;
+  z-index: 999;
+}
+
+.picker-wrapper {
+  user-select: none;
+  display: inline-block;
+}

@@ -13,7 +13,7 @@ import DashboardAlertBox from "./AlertBox";
 import UserOnlyRoute from "../../routes/components/UserOnlyRoute";
 
 const DashboardRoutes = () => {
-  useTitle("BetterWASD | Панель управления");
+  useTitle("BetterWASYA | Панель управления");
 
   return (
     <section className="question-section" style={{ paddingBottom: "160px" }}>

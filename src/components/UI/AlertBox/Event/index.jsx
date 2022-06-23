@@ -1,7 +1,4 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 import reactStringReplace from "react-string-replace";
 
 import "react-toastify/dist/ReactToastify.minimal.css";
@@ -11,30 +8,19 @@ import "../text-animations.css";
 import "../style.css";
 import "../custom.css";
 
-const Sub = (props) => {
-  // console.log(props);
+const Event = (props) => {
+  console.log(props.info);
 
-  const {
-    // sub_hide_animation,
-    sub_image,
-    sub_layout,
-    sub_message_template,
-    // sub_show_animation,
-    sub_sound,
-    sub_sound_volume,
-    sub_text_animation,
-    sub_text_delay,
-    user_login,
-  } = props.info;
+  const { image, layout, message_template, sound, sound_volume, text_animation, text_delay, payload } = props.info;
 
   // eslint-disable-next-line no-unused-vars
-  const [playing, toggle, audio] = useAudio(sub_sound, sub_sound_volume);
+  const [playing, toggle, audio] = useAudio(sound, sound_volume);
   const [isShowText, setShowText] = useState(false);
 
   useEffect(() => {
     audio && audio.play();
 
-    setTimeout(() => setShowText(true), sub_text_delay);
+    setTimeout(() => setShowText(true), text_delay);
 
     // setTimeout(() => {
     //   let speech = new SpeechSynthesisUtterance();
@@ -43,7 +29,7 @@ const Sub = (props) => {
     //   // speech.volume
     //   // speech.pitch
     //   window.speechSynthesis.speak(speech);
-    // }, sub_text_delay);
+    // }, text_delay);
 
     return () => {
       audio && audio.pause();
@@ -51,11 +37,11 @@ const Sub = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const messageTemplate = reactStringReplace(sub_message_template, "{name}", () => (
-    <span key={user_login} data-token="name" style={{ color: "rgb(50, 95, 192)", position: "relative" }}>
+  const messageTemplate = reactStringReplace(message_template, "{name}", () => (
+    <span key={payload.user_login} data-token="name" style={{ color: "rgb(50, 95, 192)", position: "relative" }}>
       <span>
-        {user_login.split("").map((w, i) => (
-          <span key={i} className={"animated-letter " + sub_text_animation}>
+        {payload.user_login.split("").map((w, i) => (
+          <span key={i} className={"animated-letter " + text_animation}>
             {w}
           </span>
         ))}
@@ -66,12 +52,12 @@ const Sub = (props) => {
   const userMessage = "";
 
   return (
-    <div id="widget" className="widget-AlertBox" data-layout={sub_layout}>
+    <div id="widget" className="widget-AlertBox" data-layout={layout}>
       <div id="alert-box">
         <div id="particles"></div>
         <div id="wrap">
           <div id="alert-image-wrap">
-            <div id="alert-image" style={{ backgroundImage: "url(" + sub_image + ")" }}></div>
+            <div id="alert-image" style={{ backgroundImage: "url(" + image + ")" }}></div>
           </div>
 
           <div id="alert-text-wrap" className={isShowText ? "" : "hidden"}>
@@ -96,4 +82,4 @@ const Sub = (props) => {
   );
 };
 
-export default Sub;
+export default Event;

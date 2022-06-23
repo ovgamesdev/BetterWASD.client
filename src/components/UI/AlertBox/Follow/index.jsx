@@ -12,7 +12,7 @@ import "../style.css";
 import "../custom.css";
 
 const Follow = (props) => {
-  console.log(props);
+  // console.log(props);
 
   const {
     // follow_hide_animation,
@@ -32,7 +32,7 @@ const Follow = (props) => {
   const [isShowText, setShowText] = useState(false);
 
   useEffect(() => {
-    audio.play();
+    audio && audio.play();
 
     setTimeout(() => setShowText(true), follow_text_delay);
 
@@ -46,33 +46,22 @@ const Follow = (props) => {
     // }, follow_text_delay);
 
     return () => {
-      audio.pause();
+      audio && audio.pause();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const messageTemplate = reactStringReplace(
-    follow_message_template,
-    "{name}",
-    () => (
-      <span
-        key={payload.user_login}
-        data-token="name"
-        style={{ color: "rgb(50, 95, 192)", position: "relative" }}
-      >
-        <span>
-          {payload.user_login.split("").map((w, i) => (
-            <span
-              key={i}
-              className={"animated-letter " + follow_text_animation}
-            >
-              {w}
-            </span>
-          ))}
-        </span>
+  const messageTemplate = reactStringReplace(follow_message_template, "{name}", () => (
+    <span key={payload.user_login} data-token="name" style={{ color: "rgb(50, 95, 192)", position: "relative" }}>
+      <span>
+        {payload.user_login.split("").map((w, i) => (
+          <span key={i} className={"animated-letter " + follow_text_animation}>
+            {w}
+          </span>
+        ))}
       </span>
-    )
-  );
+    </span>
+  ));
 
   const userMessage = "";
 
@@ -82,10 +71,7 @@ const Follow = (props) => {
         <div id="particles"></div>
         <div id="wrap">
           <div id="alert-image-wrap">
-            <div
-              id="alert-image"
-              style={{ backgroundImage: "url(" + follow_image + ")" }}
-            ></div>
+            <div id="alert-image" style={{ backgroundImage: "url(" + follow_image + ")" }}></div>
           </div>
 
           <div id="alert-text-wrap" className={isShowText ? "" : "hidden"}>

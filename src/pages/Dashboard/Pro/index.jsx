@@ -4,11 +4,14 @@ import "react-slideshow-image/dist/styles.css";
 import ButtonLoading from "../../../components/UI/Loading";
 import useAuth from "../../../hooks/useAuth";
 import usePaddle from "../../../hooks/usePaddle/index.tsx";
+import useTitle from "../../../hooks/useTitle";
 import api from "../../../services/api";
 
 import styles from "./pro.module.scss";
 
 const DashboardPro = () => {
+  useTitle("BetterWASYA | Pro");
+
   const [isLoading, setIsLoading] = useState(true);
   // const [isShowGift, setIsShowGift] = useState(false);
   const [subData, setSubData] = useState({ is_active: false });
@@ -93,40 +96,32 @@ const DashboardPro = () => {
       }
       setIsLoading(false);
     };
-    if (typeof auth.editor?.user_id !== "undefined")
-      return navigate("/dashboard/emotes");
+    if (typeof auth.editor?.user_id !== "undefined") return navigate("/dashboard/emotes");
 
     fetchData();
   }, [auth.editor?.user_id, navigate]);
 
   return (
     <div className="item block item_right" style={{ marginTop: "0px" }}>
-      <div className="item__title"> BetterWASD Pro </div>
+      <div className="item__title"> BetterWASYA Pro </div>
       <div className="item__descr">
-        Проще говоря, бесплатные услуги стоят денег. Пожалуйста, подумайте о
-        поддержке BetterWASD, подписавшись на BetterWASD Pro. Мы также
-        постараемся наградить вас в ответ какой-нибудь классной вещью:
+        Проще говоря, бесплатные услуги стоят денег. Пожалуйста, подумайте о поддержке BetterWASYA, подписавшись на BetterWASYA Pro. Мы
+        также постараемся наградить вас в ответ какой-нибудь классной вещью:
         <div style={{ marginLeft: "15px" }}>
-          <br /> • 5 персональных эмоций (эмоции, которые вы можете использовать
-          везде на wasd.tv с помощью BetterWASD)
+          <br /> • 5 персональных эмоций (эмоции, которые вы можете использовать везде на wasd.tv с помощью BetterWASYA)
           {/* <br /> • уникальный цвет имени пользователя */}
         </div>
       </div>
       <div className="item__border"></div>
 
-      {subData && subData.cancellation_effective_date === null && (
-        <div className="item__title">Подписка уже оформлена</div>
-      )}
+      {subData && subData.cancellation_effective_date === null && <div className="item__title">Подписка уже оформлена</div>}
 
       <div className={styles.buttons + " item__descr"}>
         {subData && subData.cancellation_effective_date !== null && (
           <button
             className="button button-big blue"
             style={{ transition: "all .2s" }}
-            disabled={
-              isLoading ||
-              (subData && subData.cancellation_effective_date === null)
-            }
+            disabled={isLoading || (subData && subData.cancellation_effective_date === null)}
             onClick={payViaPaddle}
           >
             {isLoading && <ButtonLoading style={{ marginRight: "10px" }} />}
@@ -135,28 +130,18 @@ const DashboardPro = () => {
         )}
 
         {subData && subData.cancellation_effective_date && (
-          <span style={{ alignSelf: "center" }}>
-            Отмененная подписка активна до {subData.cancellation_effective_date}
-          </span>
+          <span style={{ alignSelf: "center" }}>Отмененная подписка активна до {subData.cancellation_effective_date}</span>
         )}
 
         {subData && subData.cancellation_effective_date === null && (
-          <button
-            className="button button-big blue"
-            onClick={updateSub}
-            disabled={isLoading}
-          >
+          <button className="button button-big blue" onClick={updateSub} disabled={isLoading}>
             {isLoading && <ButtonLoading style={{ marginRight: "10px" }} />}
             Обновить
           </button>
         )}
 
         {subData && subData.cancellation_effective_date === null && (
-          <button
-            className="button button-big white"
-            onClick={cancelSub}
-            disabled={isLoading}
-          >
+          <button className="button button-big white" onClick={cancelSub} disabled={isLoading}>
             Отменить
           </button>
         )}

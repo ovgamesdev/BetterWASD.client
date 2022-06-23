@@ -12,7 +12,7 @@ import "../style.css";
 import "../custom.css";
 
 const Raid = (props) => {
-  console.log(props);
+  // console.log(props);
 
   const {
     // raid_hide_animation,
@@ -32,7 +32,7 @@ const Raid = (props) => {
   const [isShowText, setShowText] = useState(false);
 
   useEffect(() => {
-    audio.play();
+    audio && audio.play();
 
     setTimeout(() => setShowText(true), raid_text_delay);
 
@@ -46,30 +46,22 @@ const Raid = (props) => {
     // }, raid_text_delay);
 
     return () => {
-      audio.pause();
+      audio && audio.pause();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const messageTemplate = reactStringReplace(
-    raid_message_template,
-    "{name}",
-    () => (
-      <span
-        key={channel_name}
-        data-token="name"
-        style={{ color: "rgb(50, 95, 192)", position: "relative" }}
-      >
-        <span>
-          {channel_name.split("").map((w, i) => (
-            <span key={i} className={"animated-letter " + raid_text_animation}>
-              {w}
-            </span>
-          ))}
-        </span>
+  const messageTemplate = reactStringReplace(raid_message_template, "{name}", () => (
+    <span key={channel_name} data-token="name" style={{ color: "rgb(50, 95, 192)", position: "relative" }}>
+      <span>
+        {channel_name.split("").map((w, i) => (
+          <span key={i} className={"animated-letter " + raid_text_animation}>
+            {w}
+          </span>
+        ))}
       </span>
-    )
-  );
+    </span>
+  ));
 
   const userMessage = "";
 
@@ -79,10 +71,7 @@ const Raid = (props) => {
         <div id="particles"></div>
         <div id="wrap">
           <div id="alert-image-wrap">
-            <div
-              id="alert-image"
-              style={{ backgroundImage: "url(" + raid_image + ")" }}
-            ></div>
+            <div id="alert-image" style={{ backgroundImage: "url(" + raid_image + ")" }}></div>
           </div>
 
           <div id="alert-text-wrap" className={isShowText ? "" : "hidden"}>

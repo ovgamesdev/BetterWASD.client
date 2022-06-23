@@ -9,13 +9,7 @@ import styles from "./emote.module.scss";
 const Emotes = (props) => {
   if (props.loading) {
     return (
-      <div
-        className={classnames(
-          styles.wrapper,
-          "skelet-loading",
-          props.showUsername && styles.user
-        )}
-      >
+      <div className={classnames(styles.wrapper, "skelet-loading", props.showUsername && styles.user)}>
         <div className={styles.card}>
           <img
             style={{ minWidth: "50px" }}
@@ -35,18 +29,9 @@ const Emotes = (props) => {
   const encoded = decode(props.emote.code);
 
   return (
-    <div
-      className={classnames(styles.wrapper, props.showUsername && styles.user)}
-    >
-      <Link
-        to={"/emotes/" + props.emote._id}
-        className={styles.card}
-        title={encoded}
-      >
-        <img
-          src={HOSTURL + "/cached/emote/" + props.emote._id + "/2x"}
-          alt={encoded}
-        />
+    <div className={classnames(styles.wrapper, props.showUsername && styles.user)}>
+      <Link to={"/emotes/" + props.emote._id} className={styles.card} title={encoded}>
+        <img src={HOSTURL + "/cached/emote/" + props.emote._id + "/2x"} alt={encoded} />
         {!props.emote.sharing && (
           <div className={styles["private-emote"]}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 237 237">
@@ -57,8 +42,9 @@ const Emotes = (props) => {
         <div>
           <span>{encoded}</span>
           {props.showUsername && <span>{props.emote.user?.user_login}</span>}
-          {!!props.emote.visibility_simple?.filter((t) => t === "ZERO_WIDTH")
-            .length && <div className={styles["zero-width"]}> &gt; &lt; </div>}
+          {!!props.emote.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length && (
+            <div className={styles["zero-width"]}> &gt; &lt; </div>
+          )}
         </div>
       </Link>
     </div>

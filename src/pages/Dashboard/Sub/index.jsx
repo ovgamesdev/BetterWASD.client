@@ -9,11 +9,10 @@ import classnames from "classnames";
 
 import "./../../user.css";
 
-const objectMap = (obj, fn) =>
-  Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
+const objectMap = (obj, fn) => Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
 
 const DashboardSub = () => {
-  useTitle("BetterWASD | Значок подписчика");
+  useTitle("BetterWASYA | Значок подписчика");
   const auth = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -45,12 +44,8 @@ const DashboardSub = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const { data: jdata } = await api.subBadge.getSubBadges(
-          auth.editor?.user_id
-        );
-        const mappedBadges = objectMap(jdata.badges, (badge) =>
-          badge === null ? "" : badge
-        );
+        const { data: jdata } = await api.subBadge.getSubBadges(auth.editor?.user_id);
+        const mappedBadges = objectMap(jdata.badges, (badge) => (badge === null ? "" : badge));
         setSubIcons(mappedBadges);
         setSavedBadges(mappedBadges);
         setIsPartner(jdata.is_partner);
@@ -67,10 +62,7 @@ const DashboardSub = () => {
   const onSave = async () => {
     try {
       setIsLoadingUpdate(true);
-      await api.subBadge.setSubBadges(
-        { badges: subIcons },
-        auth.editor?.user_id
-      );
+      await api.subBadge.setSubBadges({ badges: subIcons }, auth.editor?.user_id);
       setSavedBadges(subIcons);
     } catch {}
     setIsLoadingUpdate(false);
@@ -100,7 +92,7 @@ const DashboardSub = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Значок подписчика </div>
       <div className="item__descr">
-        Значок подписчика в чате доступен пользователям с BetterWASD.
+        Значок подписчика в чате доступен пользователям с BetterWASYA.
         {/*<br></br><p style={{fontSize: '14px', color: 'var(--wasd-color-text-fourth)'}}>Выдается на месяц, после чего иконка сбросится.</p>*/}
       </div>
       <div className="item__border"></div>
@@ -108,9 +100,7 @@ const DashboardSub = () => {
       {isLoading ? <Loading /> : null}
       {isLoading ? null : isPartner ? (
         <div>
-          <div className="item__descr">
-            Рекомендуется размер изображения от 20 до 40px.
-          </div>
+          <div className="item__descr">Рекомендуется размер изображения от 20 до 40px.</div>
 
           <div className="bonuses__icons">
             {Object.keys(subIcons).map((key, index) => (
@@ -192,11 +182,7 @@ const DashboardSub = () => {
               )}
               style={{ marginTop: "5px", width: "300px" }}
             >
-              {isLoadingRemove ? (
-                <ButtonLoading />
-              ) : (
-                "Восстановить по умолчанию"
-              )}
+              {isLoadingRemove ? <ButtonLoading /> : "Восстановить по умолчанию"}
             </button>
           </div>
         </div>

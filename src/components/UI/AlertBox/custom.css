@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+
+
 .widget-AlertBox {
   position: relative;
 }
@@ -72,6 +75,10 @@ html {
 /* fix */
 .wrapper {
   padding: 0;
+}
+
+.alert_mode {
+  overflow: hidden !important;
 }
 
 .alert_mode .Toastify,

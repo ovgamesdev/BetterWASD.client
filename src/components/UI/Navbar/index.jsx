@@ -23,25 +23,19 @@ const Navbar = () => {
   };
 
   return (
-    !window.location.pathname.match("/alert-box/") && (
+    !window.location.pathname.match("/alert-box/") &&
+    !window.location.pathname.match("/uninstall/") && (
       <header className={styles.root}>
         <div className={styles.nav}>
           <div className="d-flex" style={{ alignItems: "flex-end" }}>
             <NavLink to="/">
-              <img
-                alt="BWASD"
-                src="https://raw.githubusercontent.com/ovgamesdev/BetterWASD.data/d14e632c63580b2628abeb7f4159311c2399d37d/Wasd_Better_color_logo_dark.svg"
-              />
+              <img alt="BWASD" src="https://raw.githubusercontent.com/ovgamesdev/res/main/Wasya_Better_color_logo_dark.svg" />
             </NavLink>
             <NavLink exact="true" to="/emotes" className={styles["nav-link"]}>
               эмоции
             </NavLink>
             {auth.user ? (
-              <NavLink
-                exact="true"
-                to="/dashboard"
-                className={styles["nav-link"]}
-              >
+              <NavLink exact="true" to="/dashboard" className={styles["nav-link"]}>
                 панель управления
               </NavLink>
             ) : null}
@@ -64,52 +58,31 @@ const Navbar = () => {
                   setShowDropdown(false);
                 }}
               >
-                {auth.user.user_role && (
-                  <div className={[styles["user-role"]]}>
-                    {auth.user.user_role}
-                  </div>
-                )}
+                {auth.user.user_role && <div className={[styles["user-role"]]}>{auth.user.user_role}</div>}
                 <div
                   className={styles["avatar"]}
                   style={{
-                    backgroundImage: `url(${
-                      auth.editor?.profile_image || auth.user.profile_image
-                    })`,
+                    backgroundImage: `url(${auth.editor?.profile_image || auth.user.profile_image})`,
                   }}
                 ></div>
 
-                <div className={styles.button}>
-                  {auth.editor?.user_login || auth.user?.user_login}
-                </div>
+                <div className={styles.button}>{auth.editor?.user_login || auth.user?.user_login}</div>
                 {showDropdown && (
                   <div className={styles.menu}>
-                    <div
-                      onClick={() => navigate("/emotes")}
-                      className={styles.item + " " + styles["item-mobile"]}
-                    >
+                    <div onClick={() => navigate("/emotes")} className={styles.item + " " + styles["item-mobile"]}>
                       эмоции
                     </div>
-                    <div
-                      onClick={() => navigate("/dashboard")}
-                      to="/dashboard"
-                      className={styles.item + " " + styles["item-mobile"]}
-                    >
+                    <div onClick={() => navigate("/dashboard")} to="/dashboard" className={styles.item + " " + styles["item-mobile"]}>
                       панель управления
                     </div>
 
-                    <hr
-                      className={styles.divider + " " + styles["item-mobile"]}
-                    />
+                    <hr className={styles.divider + " " + styles["item-mobile"]} />
 
                     {auth.user.channel_editor &&
                       auth.user.channel_editor.map(
                         (editor, index) =>
                           editor?.user_id !== auth.editor?.user_id && (
-                            <div
-                              className={styles.item}
-                              key={index}
-                              onClick={() => toEditor(editor)}
-                            >
+                            <div className={styles.item} key={index} onClick={() => toEditor(editor)}>
                               <div
                                 className={styles["dropdown-avatar"]}
                                 style={{
@@ -121,10 +94,7 @@ const Navbar = () => {
                           )
                       )}
                     {auth.editor !== null && (
-                      <div
-                        onClick={() => auth.setEditor(null)}
-                        className={styles.item}
-                      >
+                      <div onClick={() => auth.setEditor(null)} className={styles.item}>
                         <div
                           className={styles["dropdown-avatar"]}
                           style={{
@@ -135,9 +105,7 @@ const Navbar = () => {
                       </div>
                     )}
 
-                    {(auth.user.channel_editor.length !== 0 || auth.editor) && (
-                      <hr className={styles.divider} />
-                    )}
+                    {(auth.user.channel_editor.length !== 0 || auth.editor) && <hr className={styles.divider} />}
 
                     <div className={styles.item} onClick={onLogOut}>
                       <svg
@@ -160,10 +128,7 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <NavLink
-                to="/login"
-                className={"d-flex " + styles["nav-link"] + " " + styles.login}
-              >
+              <NavLink to="/login" className={"d-flex " + styles["nav-link"] + " " + styles.login}>
                 <svg
                   aria-hidden="true"
                   focusable="false"
