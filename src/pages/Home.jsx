@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
+import useTitle from "../hooks/useTitle/index.tsx";
 
 const Home = () => {
+  useTitle("BetterWASYA");
+
   const slideImages = [
     {
       url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_1.png",

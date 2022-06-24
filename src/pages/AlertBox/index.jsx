@@ -8,10 +8,12 @@ import useWebSocket from "./websocket";
 import Event from "../../components/UI/AlertBox/Event";
 
 import "./animate.css";
+import { useState } from "react";
 
 const AlertBox = () => {
   useTitle("BetterWASYA | AlertBox");
   const { token } = useParams();
+  const [settings, setSettings] = useState(null);
 
   const newEvent = async ({ event, payload }) => {
     switch (event) {
@@ -26,6 +28,13 @@ const AlertBox = () => {
               sound_volume: payload.follow_sound_volume,
               text_animation: payload.follow_text_animation,
               text_delay: payload.follow_text_delay,
+              // font
+              font: payload.follow_font,
+              font_size: payload.follow_font_size,
+              font_weight: payload.follow_font_weight,
+              font_color: payload.follow_font_color,
+              font_color2: payload.follow_font_color2,
+              // payload
               payload: {
                 user_login: payload.payload.user_login,
               },
@@ -51,6 +60,13 @@ const AlertBox = () => {
               sound_volume: payload.sub_sound_volume,
               text_animation: payload.sub_text_animation,
               text_delay: payload.sub_text_delay,
+              // font
+              font: payload.sub_font,
+              font_size: payload.sub_font_size,
+              font_weight: payload.sub_font_weight,
+              font_color: payload.sub_font_color,
+              font_color2: payload.sub_font_color2,
+              // payload
               payload: {
                 user_login: payload.user_login,
               },
@@ -76,6 +92,13 @@ const AlertBox = () => {
               sound_volume: payload.raid_sound_volume,
               text_animation: payload.raid_text_animation,
               text_delay: payload.raid_text_delay,
+              // font
+              font: payload.raid_font,
+              font_size: payload.raid_font_size,
+              font_weight: payload.raid_font_weight,
+              font_color: payload.raid_font_color,
+              font_color2: payload.raid_font_color2,
+              // payload
               payload: {
                 user_login: payload.channel_name,
               },
@@ -98,20 +121,39 @@ const AlertBox = () => {
     console.log(payload);
   };
 
-  useWebSocket(token, newEvent);
+  useWebSocket(token, newEvent, setSettings);
 
   return (
-    <ToastContainer
-      style={{}}
-      // hideProgressBar={true}
-      closeOnClick={false}
-      pauseOnHover={false}
-      pauseOnFocusLoss={false}
-      closeButton={false}
-      rtl={false}
-      draggable={false}
-      limit={1}
-    />
+    <>
+      {settings && (
+        <>
+          <link
+            href={`https://fonts.googleapis.com/css?family=${settings.follow_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
+            rel="stylesheet"
+          />
+          <link
+            href={`https://fonts.googleapis.com/css?family=${settings.sub_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
+            rel="stylesheet"
+          />
+          <link
+            href={`https://fonts.googleapis.com/css?family=${settings.raid_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
+            rel="stylesheet"
+          />
+        </>
+      )}
+
+      <ToastContainer
+        style={{}}
+        // hideProgressBar={true}
+        closeOnClick={false}
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
+        closeButton={false}
+        rtl={false}
+        draggable={false}
+        limit={1}
+      />
+    </>
   );
 };
 

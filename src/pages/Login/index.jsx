@@ -7,8 +7,10 @@ import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
 
 import styles from "../modal.module.scss";
+import useTitle from "../../hooks/useTitle/index.tsx";
 
 const Login = () => {
+  useTitle("BetterWASYA | Авторизация");
   const auth = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

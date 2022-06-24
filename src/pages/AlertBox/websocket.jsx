@@ -5,7 +5,7 @@ import api from "../../services/api";
 
 import { useSearchParams } from "react-router-dom";
 
-const WebSocket = async (token, callback = () => {}) => {
+const WebSocket = async (token, callback = () => {}, setSettings = () => {}) => {
   const socketRef = useRef(null);
 
   const [searchParams] = useSearchParams();
@@ -24,23 +24,20 @@ const WebSocket = async (token, callback = () => {}) => {
     const init = async () => {
       try {
         const { user_id, settings } = await fetchData(token);
+        setSettings(settings);
 
         const jwt = await api.wasd.getJWTToken();
         const profileInfo = await api.wasd.getProfileInfo(user_id);
-        const streamId = await api.wasd.getStreamId(profileInfo.user_profile.channel_id);
 
         if (intervalId) {
           clearInterval(intervalId);
         }
         startFetchRaid(profileInfo.user_profile.channel_id, settings, {
-          streamId,
           profileInfo,
           jwt,
         });
 
-        console.log(
-          `Trying to connect:\n${profileInfo.user_profile.user_login} (ID: ${profileInfo.user_profile.channel_id}) | StreamID: ${streamId}`
-        );
+        console.log(`Попытка подключения: ${profileInfo.user_profile.user_login} (ID: ${profileInfo.user_profile.channel_id})`);
 
         socketRef.current = io("wss://chat.wasd.tv/", {
           transports: ["websocket"],
@@ -51,13 +48,13 @@ const WebSocket = async (token, callback = () => {}) => {
         });
 
         socketRef.current.on("connect_error", (err) => {
-          console.log(`I'll try to reconnect in 10 seconds.`);
-          setTimeout(() => {
-            init();
-          }, 1000 * 10);
+          console.log(`Ошибка подключения.`);
         });
 
-        socketRef.current.on("connect", () => {
+        socketRef.current.on("connect", async () => {
+          const streamId = await api.wasd.getStreamId(profileInfo.user_profile.channel_id);
+          if (!streamId) return;
+          console.log(`StreamID: ${streamId}`);
           socketRef.current.emit("join", {
             streamId,
             channelId: profileInfo.user_profile.channel_id,
@@ -66,12 +63,16 @@ const WebSocket = async (token, callback = () => {}) => {
           });
         });
 
+        socketRef.current.on("disconnect", () => {
+          console.log("Отключено");
+        });
+
         socketRef.current.on("event", (data) => {
           setTimeout(() => {
             if (data.event_type === "NEW_FOLLOWER" && (isAll || follows) && !lastFollowers[data.payload.user_login]) {
               lastFollowers[data.payload.user_login] = 1;
 
-              console.log(lastFollowers);
+              console.log("Последние добавления в избранное", lastFollowers);
 
               callback({
                 event: data.event_type,
@@ -84,10 +85,6 @@ const WebSocket = async (token, callback = () => {}) => {
           }, settings.alert_delay);
         });
 
-        socketRef.current.on("disconnect", () => {
-          console.log("disconnect");
-        });
-
         socketRef.current.on("subscribe", (data) => {
           setTimeout(() => {
             if (isAll || subscriptions) {
@@ -97,26 +94,13 @@ const WebSocket = async (token, callback = () => {}) => {
               });
             }
           }, settings.alert_delay);
-
-          // console.log("subscribe", data);
-          // channel_id: 111
-          // other_roles: []
-          // product_code: "subscription_v2"
-          // product_name: "subscription_v2"
-          // user_id: 000
-          // user_login: "userlogin"
-          // validity_months: 1
         });
 
         socketRef.current.on("joined", (msg) => {
-          console.log("joined", msg);
-        });
-
-        socketRef.current.on("system_message", (msg) => {
-          console.log(msg);
+          console.log("Присоединился, роль:", msg.user_channel_role);
         });
       } catch (e) {
-        console.log(`I'll try to reconnect in 10 seconds.`);
+        console.log(`Я попробую переподключиться через 10 секунд.`);
         setTimeout(() => init(), 1000 * 10);
       }
     };
@@ -125,27 +109,30 @@ const WebSocket = async (token, callback = () => {}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const startFetchRaid = (channel_id, settings, info) => {
-    const { streamId, profileInfo, jwt } = info;
+  const startFetchRaid = async (channel_id, settings, info) => {
+    const { profileInfo, jwt } = info;
     let lastRaid = null;
-    let lastStreamId = streamId;
+    let lastStreamId = await api.wasd.getStreamId(profileInfo.user_profile.channel_id);
 
     const fetchRaid = async () => {
       const channelInfo = await api.wasd.getChannelInfoById(channel_id);
 
       try {
+        if (!channelInfo.media_container || !channelInfo.media_container.media_container_streams) return console.log("Поток не запущен");
         const newStreamId = channelInfo.media_container.media_container_streams[0].stream_id;
 
         if (newStreamId !== lastStreamId) {
           socketRef.current.emit("leave", { streamId: lastStreamId });
 
-          socketRef.current.emit("join", {
-            streamId: newStreamId,
-            channelId: profileInfo.user_profile.channel_id,
-            jwt: jwt,
-            excludeStickers: true,
-          });
-          lastStreamId = newStreamId;
+          setTimeout(() => {
+            socketRef.current.emit("join", {
+              streamId: newStreamId,
+              channelId: profileInfo.user_profile.channel_id,
+              jwt: jwt,
+              excludeStickers: true,
+            });
+            lastStreamId = newStreamId;
+          }, 150);
 
           return;
         }
@@ -155,24 +142,24 @@ const WebSocket = async (token, callback = () => {}) => {
 
           if (isRaid && !(lastRaid && lastRaid.begin_at === isRaid.begin_at && lastRaid.raid_mc_id === isRaid.raid_mc_id)) {
             lastRaid = isRaid;
-            callback({
-              event: "RAID",
-              payload: {
-                ...isRaid,
-                ...settings,
-              },
-            });
+            setTimeout(() => {
+              callback({
+                event: "RAID",
+                payload: {
+                  ...isRaid,
+                  ...settings,
+                },
+              });
+            }, settings.alert_delay);
           }
         }
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     };
 
-    setTimeout(() => {
-      fetchRaid();
-      intervalId = setInterval(() => fetchRaid(), 30000); // 30000
-    }, settings.alert_delay);
+    fetchRaid();
+    intervalId = setInterval(() => fetchRaid(), 30000);
   };
 };
 
