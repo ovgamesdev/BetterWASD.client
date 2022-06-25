@@ -16,7 +16,7 @@ const NavbarDashboard = () => {
       <NavLink to="/dashboard/sub-badges">Значок подписчика</NavLink>
       {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
-      {auth.editor === null && <NavLink to="/dashboard/alertbox">Оповещения (beta)</NavLink>}
+      {auth.editor === null && <NavLink to="/dashboard/alertbox">Оповещения</NavLink>}
       {auth.editor === null && <br></br>}
       {auth.editor === null && <br></br>}
       {auth.editor === null && <NavLink to="/dashboard/editors">Редакторы</NavLink>}

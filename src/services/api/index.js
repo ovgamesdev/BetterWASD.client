@@ -4,6 +4,7 @@ import paint from "./endpoints/paint.ts";
 import subBadge from "./endpoints/sub-badge.ts";
 import wasd from "./endpoints/wasd.ts";
 import uninstall from "./endpoints/uninstall.ts";
+import alertBox from "./endpoints/alert-box.ts";
 
 const api = {
   auth,
@@ -12,6 +13,7 @@ const api = {
   subBadge,
   wasd,
   uninstall,
+  alertBox,
 };
 
 export default api;

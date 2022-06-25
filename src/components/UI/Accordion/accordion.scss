@@ -1,0 +1,103 @@
+.accordion-wrap {
+  // background-color: var(--wasd-color-prime);
+  background-color: #142340;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(var(--wasd-color-black--rgb), 0.16);
+  box-sizing: border-box;
+  color: var(--wasd-color-text-prime);
+  position: relative;
+  width: 100%;
+}
+.accordion-wrap:hover {
+  color: var(--wasd-color-corp-blue);
+}
+.accordion-header-wrap {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  justify-content: space-between;
+  padding: 16px 20px;
+  user-select: none;
+}
+.accordion-header {
+  font-size: 20px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: normal;
+  line-height: 26px;
+}
+@media screen and (min-width: 640px) {
+  .accordion-header {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+.accordion-header-arrow--down {
+  transform: scale(1);
+  transition: transform 0.3s;
+}
+.accordion-header-arrow--top {
+  transform: scaleY(-1);
+  transition: transform 0.3s;
+}
+.accordion-marker {
+  background: var(--wasd-color-corp-blue);
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  height: 24px;
+  left: 0;
+  position: absolute;
+  width: 4px;
+}
+.accordion-content-wrap {
+  max-height: 0;
+  overflow: hidden;
+}
+.accordion-content-wrap--is-opened {
+  -webkit-animation: toggle 3s forwards;
+  animation: toggle 3s forwards;
+  overflow: inherit;
+}
+.accordion-content {
+  color: rgba(var(--wasd-color-switch--rgb), 0.72);
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+@media screen and (min-width: 640px) {
+  .accordion-content {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+@-webkit-keyframes toggle {
+  0% {
+    max-height: 0;
+    overflow: hidden;
+  }
+  to {
+    max-height: 10000px;
+    overflow: visible;
+  }
+}
+@keyframes toggle {
+  0% {
+    max-height: 0;
+    overflow: hidden;
+  }
+  to {
+    max-height: 10000px;
+    overflow: visible;
+  }
+}
+.accordion-content.scrollable {
+  max-height: inherit;
+  overflow-y: auto;
+}

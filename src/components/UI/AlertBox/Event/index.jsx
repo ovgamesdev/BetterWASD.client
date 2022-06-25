@@ -9,9 +9,23 @@ import "../style.css";
 import "../custom.css";
 
 const Event = (props) => {
-  console.log(props.info);
+  // console.log(props.info);
 
-  const { image, layout, message_template, sound, sound_volume, text_animation, text_delay, payload } = props.info;
+  const {
+    image,
+    layout,
+    message_template,
+    sound,
+    sound_volume,
+    text_animation,
+    text_delay,
+    font,
+    font_size,
+    font_weight,
+    font_color,
+    font_color2,
+    payload,
+  } = props.info;
 
   // eslint-disable-next-line no-unused-vars
   const [playing, toggle, audio] = useAudio(sound, sound_volume);
@@ -38,7 +52,7 @@ const Event = (props) => {
   }, []);
 
   const messageTemplate = reactStringReplace(message_template, "{name}", () => (
-    <span key={payload.user_login} data-token="name" style={{ color: "rgb(50, 95, 192)", position: "relative" }}>
+    <span key={payload.user_login} data-token="name" style={{ color: font_color2, position: "relative" }}>
       <span>
         {payload.user_login.split("").map((w, i) => (
           <span key={i} className={"animated-letter " + text_animation}>
@@ -60,15 +74,15 @@ const Event = (props) => {
             <div id="alert-image" style={{ backgroundImage: "url(" + image + ")" }}></div>
           </div>
 
-          <div id="alert-text-wrap" className={isShowText ? "" : "hidden"}>
+          <div id="alert-text-wrap" className={`${isShowText ? "animated fadeIn" : "hidden"}`}>
             <div id="alert-text">
               <div
                 id="alert-message"
                 style={{
-                  fontSize: "64px",
-                  color: "rgb(255,255,255)",
-                  fontFamily: "Open Sans",
-                  fontWeight: "800",
+                  fontSize: font_size,
+                  color: font_color,
+                  fontFamily: font.replace(/\+/g, " "),
+                  fontWeight: font_weight,
                 }}
               >
                 {messageTemplate}

@@ -5,6 +5,7 @@ import api from "../../../services/api";
 import useAuth from "../../../hooks/useAuth";
 
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import TabGroup from "../../../components/UI/TabGroupV2";
 import Loading from "../../../components/UI/Loading/Button";
 import Option from "../../../components/UI/DropDown/Option";
@@ -19,6 +20,10 @@ import { useNavigate } from "react-router-dom";
 import "./options.scss";
 import ReactTooltip from "react-tooltip";
 import ColorPicker from "../../../components/UI/ColorPicker";
+import Accordion from "../../../components/UI/Accordion";
+
+import fonts from "./fonts.json";
+// import fontEffects from "./fontEffects.json";
 
 const colourOptions = [
   { label: "Подписка", value: "subscriptions" },
@@ -32,6 +37,9 @@ const tabOptions = [
   { label: "Подписка", value: "subscriptions" },
   { label: "Рейд", value: "raids" },
 ];
+const fontOptions = fonts.map((v) => {
+  return { label: v, value: v };
+});
 
 const animationAlertShow = [
   {
@@ -420,6 +428,10 @@ const customSelectStyles = {
     ...provided,
     color: "var(--wasd-color-switch)",
   }),
+  input: (provided) => ({
+    ...provided,
+    color: "var(--wasd-color-switch)",
+  }),
 };
 
 const customFilterStyles = {
@@ -471,9 +483,19 @@ const findAlertHideOption = (value) => {
   return res;
 };
 
-const findTextOption = (value) => animationText.find((o) => o.value === value);
+// const fontEffectsOption = () => {
+//   return fontEffects.map((o) => {
+//     return { label: o.title, value: o.api_name };
+//   });
+// };
 
+const findTextOption = (value) => animationText.find((o) => o.value === value);
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
+const fontToSearch = (value) => {
+  const finded = fontOptions.find((o) => o.value === value);
+  return finded || { label: value, value: value };
+};
+// const findFontEffectOption = (value) => fontEffects.find((o) => o.api_name === value);
 
 const DashboardAlertBox = () => {
   useTitle("BetterWASYA | Оповещения");
@@ -482,6 +504,7 @@ const DashboardAlertBox = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+  const [isLoadingTest, setIsLoadingTest] = useState(false);
   const [activeTab, setActiveTab] = useState("");
   const [filters, setFilters] = useState(optionsToSearch(colourOptions));
 
@@ -519,6 +542,42 @@ const DashboardAlertBox = () => {
     } finally {
       setIsLoadingUpdate(false);
     }
+  };
+
+  const createEvent = {
+    Follow: async () => {
+      try {
+        setIsLoadingTest("Follow");
+        await api.alertBox.testFollow();
+        toast("Оповещение отправлено!");
+      } catch {
+        toast.error("Ошибка отправки уведомления");
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
+    Sub: async () => {
+      try {
+        setIsLoadingTest("Sub");
+        await api.alertBox.testSub();
+        toast("Оповещение отправлено!");
+      } catch {
+        toast.error("Ошибка отправки уведомления");
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
+    Raid: async () => {
+      try {
+        setIsLoadingTest("Raid");
+        await api.alertBox.testRaid();
+        toast("Оповещение отправлено!");
+      } catch {
+        toast.error("Ошибка отправки уведомления");
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
   };
 
   return (
@@ -576,6 +635,25 @@ const DashboardAlertBox = () => {
               Используйте приведенный выше URL-адрес в OBS Studio или просто запустите его с помощью захвата окна.
             </p>
           </div>
+
+          <p style={{ marginTop: "20px" }}>При открытом и работающем виджете, используйте кнопки ниже для показа тестовых оповещений.</p>
+          <div className="flat-btn ovg" style={{ display: "flex" }}>
+            <button className="basic medium ovg" disabled={isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
+              {isLoadingTest === "Follow" && <ButtonLoading />} Тест Фоллоу
+            </button>
+            <button
+              className="basic medium ovg"
+              disabled={isLoadingTest === "Sub"}
+              onClick={() => createEvent.Sub()}
+              style={{ margin: "0 5px" }}
+            >
+              {isLoadingTest === "Sub" && <ButtonLoading />} Тест Подписка
+            </button>
+            <button className="basic medium ovg" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()}>
+              {isLoadingTest === "Raid" && <ButtonLoading />} Тест Рейд
+            </button>
+          </div>
+
           <TabGroup
             style={{ marginTop: "25px", marginBottom: "10px" }}
             active={0}
@@ -622,6 +700,51 @@ const DashboardAlertBox = () => {
                   />
                 </div>
               </div>
+              <div className="row" style={{ display: "flex" }}>
+                <div className="left">
+                  <label>Парирование оповещений</label>
+                </div>
+                <div className="right" style={{ display: "flex" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input
+                      type="checkbox"
+                      checked={settings.interrupt_mode}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          interrupt_mode: changeEvent.target.checked,
+                        })
+                      }
+                      id="interrupt_mode"
+                    />
+                    <label htmlFor="interrupt_mode" style={{ marginLeft: "8px", fontSize: "12px", opacity: ".8", cursor: "pointer" }}>
+                      Новое оповещение будет прерывать оповещение, отображаемое на экране
+                    </label>
+                  </div>
+                </div>
+              </div>
+              {settings.interrupt_mode && (
+                <div className="row">
+                  <div className="left">
+                    <label>Задержка парирования</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={500}
+                      max={20000}
+                      step={500}
+                      value={settings.interrupt_mode_delay}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          interrupt_mode_delay: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v / 1000 + "сек"}
+                    />
+                  </div>
+                </div>
+              )}
             </>
           )}
           {activeTab === "follows" && (
@@ -900,6 +1023,101 @@ const DashboardAlertBox = () => {
                   />
                 </div>
               </div>
+
+              <Accordion title_open="Открыть настройки шрифта" title_close="Закрыть настройки шрифта">
+                <div className="row">
+                  <div className="left">
+                    <label>Шрифт</label>
+                  </div>
+                  <div className="right">
+                    <CreatableSelect
+                      styles={customSelectStyles}
+                      defaultValue={fontToSearch(settings.follow_font)}
+                      isClearable={false}
+                      isSearchable={true}
+                      onChange={(value) =>
+                        setSettings({
+                          ...settings,
+                          follow_font: value.value,
+                        })
+                      }
+                      options={fontOptions}
+                      hideSelectedOptions={false}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Размер шрифта</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={12}
+                      max={80}
+                      step={2}
+                      value={Number(settings.follow_font_size?.replace("px", ""))}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          follow_font_size: changeEvent.target.value + "px",
+                        })
+                      }
+                      tooltipLabel={(v) => v + "px"}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Плотность шрифта</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={300}
+                      max={900}
+                      step={100}
+                      value={Number(settings.follow_font_weight)}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          follow_font_weight: changeEvent.target.value.toString(),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Цвет текста</label>
+                  </div>
+                  <div className="right">
+                    <ColorPicker
+                      value={settings.follow_font_color}
+                      onChange={(color) =>
+                        setSettings({
+                          ...settings,
+                          follow_font_color: color,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Цвет выделения текста</label>
+                  </div>
+                  <div className="right">
+                    <ColorPicker
+                      value={settings.follow_font_color2}
+                      onChange={(color) =>
+                        setSettings({
+                          ...settings,
+                          follow_font_color2: color,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </Accordion>
             </>
           )}
           {activeTab === "subscriptions" && (
@@ -1178,6 +1396,101 @@ const DashboardAlertBox = () => {
                   />
                 </div>
               </div>
+
+              <Accordion title_open="Открыть настройки шрифта" title_close="Закрыть настройки шрифта">
+                <div className="row">
+                  <div className="left">
+                    <label>Шрифт</label>
+                  </div>
+                  <div className="right">
+                    <CreatableSelect
+                      styles={customSelectStyles}
+                      defaultValue={fontToSearch(settings.sub_font)}
+                      isClearable={false}
+                      isSearchable={true}
+                      onChange={(value) =>
+                        setSettings({
+                          ...settings,
+                          sub_font: value.value,
+                        })
+                      }
+                      options={fontOptions}
+                      hideSelectedOptions={false}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Размер шрифта</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={12}
+                      max={80}
+                      step={2}
+                      value={Number(settings.sub_font_size?.replace("px", ""))}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          sub_font_size: changeEvent.target.value + "px",
+                        })
+                      }
+                      tooltipLabel={(v) => v + "px"}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Плотность шрифта</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={300}
+                      max={900}
+                      step={100}
+                      value={Number(settings.sub_font_weight)}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          sub_font_weight: changeEvent.target.value.toString(),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Цвет текста</label>
+                  </div>
+                  <div className="right">
+                    <ColorPicker
+                      value={settings.sub_font_color}
+                      onChange={(color) =>
+                        setSettings({
+                          ...settings,
+                          sub_font_color: color,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Цвет выделения текста</label>
+                  </div>
+                  <div className="right">
+                    <ColorPicker
+                      value={settings.sub_font_color2}
+                      onChange={(color) =>
+                        setSettings({
+                          ...settings,
+                          sub_font_color2: color,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </Accordion>
             </>
           )}
           {activeTab === "raids" && (
@@ -1456,6 +1769,101 @@ const DashboardAlertBox = () => {
                   />
                 </div>
               </div>
+
+              <Accordion title_open="Открыть настройки шрифта" title_close="Закрыть настройки шрифта">
+                <div className="row">
+                  <div className="left">
+                    <label>Шрифт</label>
+                  </div>
+                  <div className="right">
+                    <CreatableSelect
+                      styles={customSelectStyles}
+                      defaultValue={fontToSearch(settings.raid_font)}
+                      isClearable={false}
+                      isSearchable={true}
+                      onChange={(value) =>
+                        setSettings({
+                          ...settings,
+                          raid_font: value.value,
+                        })
+                      }
+                      options={fontOptions}
+                      hideSelectedOptions={false}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Размер шрифта</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={12}
+                      max={80}
+                      step={2}
+                      value={Number(settings.raid_font_size?.replace("px", ""))}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          raid_font_size: changeEvent.target.value + "px",
+                        })
+                      }
+                      tooltipLabel={(v) => v + "px"}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Плотность шрифта</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={300}
+                      max={900}
+                      step={100}
+                      value={Number(settings.raid_font_weight)}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          raid_font_weight: changeEvent.target.value.toString(),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Цвет текста</label>
+                  </div>
+                  <div className="right">
+                    <ColorPicker
+                      value={settings.raid_font_color}
+                      onChange={(color) =>
+                        setSettings({
+                          ...settings,
+                          raid_font_color: color,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="left">
+                    <label>Цвет выделения текста</label>
+                  </div>
+                  <div className="right">
+                    <ColorPicker
+                      value={settings.raid_font_color2}
+                      onChange={(color) =>
+                        setSettings({
+                          ...settings,
+                          raid_font_color2: color,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </Accordion>
             </>
           )}
 
