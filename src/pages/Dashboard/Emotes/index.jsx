@@ -184,6 +184,7 @@ const DashboardEmotes = () => {
                           placeholder="https://7tv.app/emotes/000000000000000000000000"
                           type="text"
                           className={classnames(isLoading && "disabled")}
+                          autoFocus={true}
                           onChange={(e) => inputChange(e)}
                         ></input>
                       </div>
