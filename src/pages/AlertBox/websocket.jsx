@@ -5,16 +5,16 @@ import api from "../../services/api";
 
 import { useSearchParams } from "react-router-dom";
 
-const WebSocket = async (token, callback = () => {}, setSettings = () => {}) => {
+const WebSocket = async (callback = () => {}, user_id, settings) => {
   const socketRef = useRef(null);
+  const data = useRef(null);
+  data.current = { user_id: user_id, settings: settings };
 
   const [searchParams] = useSearchParams();
-
   const follows = !!searchParams.get("follows");
   const subscriptions = !!searchParams.get("subscriptions");
   const resubs = !!searchParams.get("resubs");
   const raids = !!searchParams.get("raids");
-
   const isAll = !subscriptions && !resubs && !follows && !raids;
 
   let lastFollowers = {};
@@ -23,31 +23,19 @@ const WebSocket = async (token, callback = () => {}, setSettings = () => {}) => 
   useEffect(() => {
     const init = async () => {
       try {
-        const { user_id, settings } = await fetchData(token);
-        setSettings(settings);
+        if (!data.current.user_id) throw Object.assign(new Error("Не удалось получит user_id"), { code: "USER_ID_NOT_FOUND" });
 
         const jwt = await api.wasd.getJWTToken();
-        const profileInfo = await api.wasd.getProfileInfo(user_id);
+        const profileInfo = await api.wasd.getProfileInfo(data.current.user_id);
 
-        if (intervalId) {
-          clearInterval(intervalId);
-        }
-        startFetchRaid(profileInfo.user_profile.channel_id, settings, {
-          profileInfo,
-          jwt,
-        });
+        if (intervalId) clearInterval(intervalId);
+        startFetchRaid(profileInfo.user_profile.channel_id, data.current.settings, { profileInfo, jwt });
 
         console.log(`Попытка подключения: ${profileInfo.user_profile.user_login} (ID: ${profileInfo.user_profile.channel_id})`);
 
-        socketRef.current = io("wss://chat.wasd.tv/", {
-          transports: ["websocket"],
-          query: {
-            path: "/socket.io",
-            EIO: 3,
-          },
-        });
+        socketRef.current = io("wss://chat.wasd.tv/", { transports: ["websocket"], query: { path: "/socket.io", EIO: 3 } });
 
-        socketRef.current.on("connect_error", (err) => {
+        socketRef.current.on("connect_error", () => {
           console.log(`Ошибка подключения.`);
         });
 
@@ -67,41 +55,46 @@ const WebSocket = async (token, callback = () => {}, setSettings = () => {}) => 
           console.log("Отключено");
         });
 
-        socketRef.current.on("event", (data) => {
+        socketRef.current.on("event", (event) => {
           setTimeout(() => {
-            if (data.event_type === "NEW_FOLLOWER" && (isAll || follows) && !lastFollowers[data.payload.user_login]) {
-              lastFollowers[data.payload.user_login] = 1;
+            if (event.event_type === "NEW_FOLLOWER" && (isAll || follows)) {
+              if (lastFollowers[event.payload.user_login]) return;
 
+              lastFollowers[event.payload.user_login] = 1;
               console.log("Последние добавления в избранное", lastFollowers);
 
               callback({
-                event: data.event_type,
+                event: event.event_type,
                 payload: {
-                  ...data,
-                  ...settings,
+                  ...event,
+                  ...data.current.settings,
                 },
               });
             }
-          }, settings.alert_delay);
+          }, data.current.settings.alert_delay);
         });
 
-        socketRef.current.on("subscribe", (data) => {
+        socketRef.current.on("subscribe", (event) => {
           setTimeout(() => {
             if (isAll || subscriptions) {
               callback({
                 event: "SUBSCRIBE",
-                payload: { ...data, ...settings },
+                payload: { ...event, ...data.current.settings },
               });
             }
-          }, settings.alert_delay);
+          }, data.current.settings.alert_delay);
         });
 
         socketRef.current.on("joined", (msg) => {
           console.log("Присоединился, роль:", msg.user_channel_role);
         });
       } catch (e) {
-        console.log(`Я попробую переподключиться через 10 секунд.`);
-        setTimeout(() => init(), 1000 * 10);
+        if (e.code === "USER_ID_NOT_FOUND") {
+          return setTimeout(() => init(), 50);
+        } else {
+          console.log(`Я попробую переподключиться через 10 секунд.`);
+          setTimeout(() => init(), 1000 * 10);
+        }
       }
     };
 
@@ -118,7 +111,7 @@ const WebSocket = async (token, callback = () => {}, setSettings = () => {}) => 
       const channelInfo = await api.wasd.getChannelInfoById(channel_id);
 
       try {
-        if (!channelInfo.media_container || !channelInfo.media_container.media_container_streams) return console.log("Поток не запущен");
+        if (!channelInfo.media_container || !channelInfo.media_container.media_container_streams) return console.log("Поток не запущен.");
         const newStreamId = channelInfo.media_container.media_container_streams[0].stream_id;
 
         if (newStreamId !== lastStreamId) {
@@ -162,16 +155,5 @@ const WebSocket = async (token, callback = () => {}, setSettings = () => {}) => 
     intervalId = setInterval(() => fetchRaid(), 30000);
   };
 };
-
-const fetchData = async (token) =>
-  new Promise(async (resolve) => {
-    try {
-      const { data: jdata } = await api.auth.getAlertSettingsByToken(token);
-      document.documentElement.style.setProperty("--alert-bg", jdata.settings.background_color);
-      resolve(jdata);
-    } catch (e) {
-      resolve(new Error("Сервер не отвечает"));
-    }
-  });
 
 export default WebSocket;

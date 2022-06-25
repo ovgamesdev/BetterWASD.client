@@ -9,7 +9,7 @@ import "../style.css";
 import "../custom.css";
 
 const Event = (props) => {
-  console.log(props.info);
+  // console.log(props.info);
 
   const {
     image,
@@ -74,7 +74,7 @@ const Event = (props) => {
             <div id="alert-image" style={{ backgroundImage: "url(" + image + ")" }}></div>
           </div>
 
-          <div id="alert-text-wrap" className={isShowText ? "" : "hidden"}>
+          <div id="alert-text-wrap" className={`${isShowText ? "animated fadeIn" : "hidden"}`}>
             <div id="alert-text">
               <div
                 id="alert-message"

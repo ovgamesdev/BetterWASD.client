@@ -22,6 +22,7 @@ import ColorPicker from "../../../components/UI/ColorPicker";
 import Accordion from "../../../components/UI/Accordion";
 
 import fonts from "./fonts.json";
+import fontEffects from "./fontEffects.json";
 
 const colourOptions = [
   { label: "Подписка", value: "subscriptions" },
@@ -481,9 +482,18 @@ const findAlertHideOption = (value) => {
   return res;
 };
 
+const fontEffectsOption = () => {
+  return fontEffects.map((o) => {
+    return { label: o.title, value: o.api_name };
+  });
+};
+
+console.log(fontEffectsOption());
+
 const findTextOption = (value) => animationText.find((o) => o.value === value);
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
 const fontToSearch = (value) => fontOptions.find((o) => o.value === value);
+// const findFontEffectOption = (value) => fontEffects.find((o) => o.api_name === value);
 
 const DashboardAlertBox = () => {
   useTitle("BetterWASYA | Оповещения");
@@ -492,6 +502,7 @@ const DashboardAlertBox = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+  const [isLoadingTest, setIsLoadingTest] = useState(false);
   const [activeTab, setActiveTab] = useState("");
   const [filters, setFilters] = useState(optionsToSearch(colourOptions));
 
@@ -529,6 +540,42 @@ const DashboardAlertBox = () => {
     } finally {
       setIsLoadingUpdate(false);
     }
+  };
+
+  const createEvent = {
+    Follow: async () => {
+      try {
+        setIsLoadingTest("Follow");
+        await api.alertBox.testFollow();
+        toast("Оповещение отправлено!");
+      } catch {
+        toast.error("Ошибка отправки уведомления");
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
+    Sub: async () => {
+      try {
+        setIsLoadingTest("Sub");
+        await api.alertBox.testSub();
+        toast("Оповещение отправлено!");
+      } catch {
+        toast.error("Ошибка отправки уведомления");
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
+    Raid: async () => {
+      try {
+        setIsLoadingTest("Raid");
+        await api.alertBox.testRaid();
+        toast("Оповещение отправлено!");
+      } catch {
+        toast.error("Ошибка отправки уведомления");
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
   };
 
   return (
@@ -586,6 +633,25 @@ const DashboardAlertBox = () => {
               Используйте приведенный выше URL-адрес в OBS Studio или просто запустите его с помощью захвата окна.
             </p>
           </div>
+
+          <p style={{ marginTop: "20px" }}>При открытом и работающем виджете, используйте кнопки ниже для показа тестовых оповещений.</p>
+          <div className="flat-btn ovg" style={{ display: "flex" }}>
+            <button className="basic medium ovg" disabled={isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
+              {isLoadingTest === "Follow" && <ButtonLoading />} Тест Фоллоу
+            </button>
+            <button
+              className="basic medium ovg"
+              disabled={isLoadingTest === "Sub"}
+              onClick={() => createEvent.Sub()}
+              style={{ margin: "0 5px" }}
+            >
+              {isLoadingTest === "Sub" && <ButtonLoading />} Тест Подписка
+            </button>
+            <button className="basic medium ovg" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()}>
+              {isLoadingTest === "Raid" && <ButtonLoading />} Тест Рейд
+            </button>
+          </div>
+
           <TabGroup
             style={{ marginTop: "25px", marginBottom: "10px" }}
             active={0}
@@ -632,6 +698,51 @@ const DashboardAlertBox = () => {
                   />
                 </div>
               </div>
+              <div className="row" style={{ display: "flex" }}>
+                <div className="left">
+                  <label>Парирование оповещений</label>
+                </div>
+                <div className="right" style={{ display: "flex" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input
+                      type="checkbox"
+                      checked={settings.interrupt_mode}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          interrupt_mode: changeEvent.target.checked,
+                        })
+                      }
+                      id="interrupt_mode"
+                    />
+                    <label htmlFor="interrupt_mode" style={{ marginLeft: "8px", fontSize: "12px", opacity: ".8", cursor: "pointer" }}>
+                      Новое оповещение будет прерывать оповещение, отображаемое на экране
+                    </label>
+                  </div>
+                </div>
+              </div>
+              {settings.interrupt_mode && (
+                <div className="row">
+                  <div className="left">
+                    <label>Задержка парирования</label>
+                  </div>
+                  <div className="right">
+                    <RangeSlider
+                      min={500}
+                      max={20000}
+                      step={500}
+                      value={settings.interrupt_mode_delay}
+                      onChange={(changeEvent) =>
+                        setSettings({
+                          ...settings,
+                          interrupt_mode_delay: Number(changeEvent.target.value),
+                        })
+                      }
+                      tooltipLabel={(v) => v / 1000 + "сек"}
+                    />
+                  </div>
+                </div>
+              )}
             </>
           )}
           {activeTab === "follows" && (
