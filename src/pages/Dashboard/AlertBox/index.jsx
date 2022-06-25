@@ -22,7 +22,7 @@ import ColorPicker from "../../../components/UI/ColorPicker";
 import Accordion from "../../../components/UI/Accordion";
 
 import fonts from "./fonts.json";
-import fontEffects from "./fontEffects.json";
+// import fontEffects from "./fontEffects.json";
 
 const colourOptions = [
   { label: "Подписка", value: "subscriptions" },
@@ -482,13 +482,11 @@ const findAlertHideOption = (value) => {
   return res;
 };
 
-const fontEffectsOption = () => {
-  return fontEffects.map((o) => {
-    return { label: o.title, value: o.api_name };
-  });
-};
-
-console.log(fontEffectsOption());
+// const fontEffectsOption = () => {
+//   return fontEffects.map((o) => {
+//     return { label: o.title, value: o.api_name };
+//   });
+// };
 
 const findTextOption = (value) => animationText.find((o) => o.value === value);
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
