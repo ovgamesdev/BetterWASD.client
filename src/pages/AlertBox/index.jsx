@@ -187,15 +187,15 @@ const AlertBox = () => {
       {settings && (
         <>
           <link
-            href={`https://fonts.googleapis.com/css?family=${settings.follow_font.replace(/ /g, "+")}:300,400,600,700,800,900&effect=ice`}
+            href={`https://fonts.googleapis.com/css?family=${settings.follow_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
             rel="stylesheet"
           />
           <link
-            href={`https://fonts.googleapis.com/css?family=${settings.sub_font.replace(/ /g, "+")}:300,400,600,700,800,900&effect=ice`}
+            href={`https://fonts.googleapis.com/css?family=${settings.sub_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
             rel="stylesheet"
           />
           <link
-            href={`https://fonts.googleapis.com/css?family=${settings.raid_font.replace(/ /g, "+")}:300,400,600,700,800,900&effect=ice`}
+            href={`https://fonts.googleapis.com/css?family=${settings.raid_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
             rel="stylesheet"
           />
         </>

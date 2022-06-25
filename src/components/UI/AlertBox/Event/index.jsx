@@ -81,7 +81,7 @@ const Event = (props) => {
                 style={{
                   fontSize: font_size,
                   color: font_color,
-                  fontFamily: font,
+                  fontFamily: font.replace(/\+/g, " "),
                   fontWeight: font_weight,
                 }}
               >

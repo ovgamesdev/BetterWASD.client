@@ -5,6 +5,7 @@ import api from "../../../services/api";
 import useAuth from "../../../hooks/useAuth";
 
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import TabGroup from "../../../components/UI/TabGroupV2";
 import Loading from "../../../components/UI/Loading/Button";
 import Option from "../../../components/UI/DropDown/Option";
@@ -490,7 +491,10 @@ const findAlertHideOption = (value) => {
 
 const findTextOption = (value) => animationText.find((o) => o.value === value);
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
-const fontToSearch = (value) => fontOptions.find((o) => o.value === value);
+const fontToSearch = (value) => {
+  const finded = fontOptions.find((o) => o.value === value);
+  return finded || { label: value, value: value };
+};
 // const findFontEffectOption = (value) => fontEffects.find((o) => o.api_name === value);
 
 const DashboardAlertBox = () => {
@@ -1026,7 +1030,7 @@ const DashboardAlertBox = () => {
                     <label>Шрифт</label>
                   </div>
                   <div className="right">
-                    <Select
+                    <CreatableSelect
                       styles={customSelectStyles}
                       defaultValue={fontToSearch(settings.follow_font)}
                       isClearable={false}
@@ -1399,7 +1403,7 @@ const DashboardAlertBox = () => {
                     <label>Шрифт</label>
                   </div>
                   <div className="right">
-                    <Select
+                    <CreatableSelect
                       styles={customSelectStyles}
                       defaultValue={fontToSearch(settings.sub_font)}
                       isClearable={false}
@@ -1772,7 +1776,7 @@ const DashboardAlertBox = () => {
                     <label>Шрифт</label>
                   </div>
                   <div className="right">
-                    <Select
+                    <CreatableSelect
                       styles={customSelectStyles}
                       defaultValue={fontToSearch(settings.raid_font)}
                       isClearable={false}
