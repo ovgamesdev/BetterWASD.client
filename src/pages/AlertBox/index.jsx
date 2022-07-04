@@ -1,21 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer, cssTransition } from "react-toastify";
 
-import useTitle from "../../hooks/useTitle/index.tsx";
-import useWebSocket from "./websocket";
-
 import Event from "../../components/UI/AlertBox/Event";
 
-import "./animate.css";
-import { useState } from "react";
+import useWebSocket from "./websocket";
 import useAlertWebSocket from "./alert_ws.jsx";
-import api from "../../services/api";
-import { useEffect } from "react";
-import { useRef } from "react";
+import api from "../../services/api/index.js";
+import useMeta from "../../hooks/useMeta/index.tsx";
+
+import "./animate.css";
 
 const AlertBox = () => {
-  useTitle("BetterWASYA | AlertBox");
+  useMeta({ title: "BetterWASYA | AlertBox" });
   const { token } = useParams();
   const [settings, setSettings] = useState(null);
   const [user, setUser] = useState(null);
@@ -185,7 +182,7 @@ const AlertBox = () => {
   return (
     <>
       {settings && (
-        <>
+        <div style={{ display: "none" }}>
           <link
             href={`https://fonts.googleapis.com/css?family=${settings.follow_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
             rel="stylesheet"
@@ -198,7 +195,11 @@ const AlertBox = () => {
             href={`https://fonts.googleapis.com/css?family=${settings.raid_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
             rel="stylesheet"
           />
-        </>
+
+          <img src={settings.follow_image} alt="follow-preload"></img>
+          <img src={settings.sub_image} alt="follow-preload"></img>
+          <img src={settings.raid_image} alt="follow-preload"></img>
+        </div>
       )}
 
       <ToastContainer

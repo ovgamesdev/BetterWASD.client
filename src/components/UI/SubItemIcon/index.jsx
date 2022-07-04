@@ -1,6 +1,5 @@
 import React from "react";
 // import './style.css'
-import classnames from "classnames";
 import subStyle from "./sub.module.scss";
 
 const TabGroup = (props) => {
@@ -23,7 +22,7 @@ const TabGroup = (props) => {
   };
 
   return (
-    <div className={classnames(subStyle.item, isLoadedImages[item] ? "" : "warning")}>
+    <div className={`${subStyle.item} ${isLoadedImages[item] ? "" : "warning"}`}>
       <img
         width={20}
         height={20}
@@ -36,7 +35,7 @@ const TabGroup = (props) => {
 
       <div ovg="" className="wasd-input-wrapper">
         <div ovg="" className="wasd-input">
-          <label ovg="" className={classnames(isLoadedImages[item] ? "" : "show")}>
+          <label ovg="" className={isLoadedImages[item] ? "" : "show"}>
             Недействительная ссылка на картинку
           </label>
           <input

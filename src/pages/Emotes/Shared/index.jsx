@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+
 import Loading from "../../../components/UI/Loading/Line";
 import Emote from "../../../components/UI/Emote";
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import api from "../../../services/api";
 
-import ReactPaginate from "react-paginate";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import useMeta from "../../../hooks/useMeta/index.tsx";
+import api from "../../../services/api/index.js";
 
 const EmotesShared = () => {
-  useTitle("BetterWASYA | Общие эмоции");
+  useMeta({ title: "BetterWASYA | Общие эмоции" });
 
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);

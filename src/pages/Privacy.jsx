@@ -1,8 +1,9 @@
 import React from "react";
-import useTitle from "../hooks/useTitle/index.tsx";
+
+import useMeta from "../hooks/useMeta/index.tsx";
 
 const Privacy = () => {
-  useTitle("BetterWASYA | Privacy Policy");
+  useMeta({ title: "BetterWASYA | Privacy Policy" });
 
   return (
     <section>

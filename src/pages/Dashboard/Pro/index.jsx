@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "react-slideshow-image/dist/styles.css";
+
 import ButtonLoading from "../../../components/UI/Loading";
+
 import useAuth from "../../../hooks/useAuth";
+import useMeta from "../../../hooks/useMeta/index.tsx";
 import usePaddle from "../../../hooks/usePaddle/index.tsx";
-import useTitle from "../../../hooks/useTitle";
-import api from "../../../services/api";
+import api from "../../../services/api/index.js";
 
 import styles from "./pro.module.scss";
+import "react-slideshow-image/dist/styles.css";
 
 const DashboardPro = () => {
-  useTitle("BetterWASYA | Pro");
+  useMeta({ title: "BetterWASYA | Pro" });
 
   const [isLoading, setIsLoading] = useState(true);
   // const [isShowGift, setIsShowGift] = useState(false);

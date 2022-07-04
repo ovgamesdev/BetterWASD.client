@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import ButtonLoading from "../../components/UI/Loading";
-import "react-slideshow-image/dist/styles.css";
-import api from "../../services/api";
-import useTitle from "../../hooks/useTitle/index.tsx";
+
+import api from "../../services/api/index.js";
+import useMeta from "../../hooks/useMeta/index.tsx";
 
 import "./faq-tabs.scss";
 import "./index.scss";
 import "./question.scss";
-import { useEffect } from "react";
+import "react-slideshow-image/dist/styles.css";
 
 const Uninstall = () => {
-  useTitle("BetterWASYA | Обратная связь");
+  useMeta({ title: "BetterWASYA | Обратная связь" });
 
   const { user_id } = useParams();
 

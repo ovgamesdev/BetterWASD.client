@@ -6,8 +6,6 @@
     "jsx": "preserve",
     "strictFunctionTypes": true
   },
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*"
-  ]
+  "resolveJsonModule": true,
+  "exclude": ["node_modules", "**/node_modules/*"]
 }

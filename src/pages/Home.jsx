@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Slide } from "react-slideshow-image";
+
+import useMeta from "../hooks/useMeta/index.tsx";
+
 import "react-slideshow-image/dist/styles.css";
-import useTitle from "../hooks/useTitle/index.tsx";
 
 const Home = () => {
-  useTitle("BetterWASYA");
+  useMeta({ title: "BetterWASYA" });
 
   const slideImages = [
     {

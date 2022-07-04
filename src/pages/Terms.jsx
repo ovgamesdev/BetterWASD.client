@@ -1,8 +1,9 @@
 import React from "react";
-import useTitle from "../hooks/useTitle/index.tsx";
+
+import useMeta from "../hooks/useMeta/index.tsx";
 
 const Terms = () => {
-  useTitle("BetterWASYA | Terms of Service");
+  useMeta({ title: "BetterWASYA | Terms of Service" });
 
   return (
     <section>

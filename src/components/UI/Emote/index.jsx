@@ -2,14 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { decode } from "../../../lib/code-mnem";
 import { HOSTURL } from "../../../index";
-import classnames from "classnames";
 
 import styles from "./emote.module.scss";
 
 const Emotes = (props) => {
   if (props.loading) {
     return (
-      <div className={classnames(styles.wrapper, "skelet-loading", props.showUsername && styles.user)}>
+      <div className={`${styles.wrapper} skelet-loading ${props.showUsername ? styles.user : ""}`}>
         <div className={styles.card}>
           <img
             style={{ minWidth: "50px" }}
@@ -29,7 +28,7 @@ const Emotes = (props) => {
   const encoded = decode(props.emote.code);
 
   return (
-    <div className={classnames(styles.wrapper, props.showUsername && styles.user)}>
+    <div className={`${styles.wrapper} ${props.showUsername ? styles.user : ""}`}>
       <Link to={"/emotes/" + props.emote._id} className={styles.card} title={encoded}>
         <img src={HOSTURL + "/cached/emote/" + props.emote._id + "/2x"} alt={encoded} />
         {!props.emote.sharing && (

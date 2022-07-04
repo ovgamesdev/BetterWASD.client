@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import classnames from "classnames";
 
 const TabGroup = (props) => {
   const [active, setActive] = useState({ index: props.active, element: null });
@@ -39,7 +38,7 @@ const TabGroup = (props) => {
                   index === active.index && setFirst(e);
                 }}
                 onClick={(e) => onClick(e, index)}
-                className={classnames("item", index === active.index ? "item-active" : "")}
+                className={`item ${index === active.index ? "item-active" : ""}`}
               >
                 {tab.title}
               </button>

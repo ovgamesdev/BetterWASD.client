@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import EditorUser from "../../../components/UI/EditorUser";
-import api from "../../../services/api";
-import useAuth from "../../../hooks/useAuth";
-import classnames from "classnames";
-import "./../../user.css";
 import { useNavigate } from "react-router-dom";
+
+import EditorUser from "../../../components/UI/EditorUser";
 import Loading from "../../../components/UI/Loading";
 
+import api from "../../../services/api/index.js";
+import useAuth from "../../../hooks/useAuth";
+import useMeta from "../../../hooks/useMeta/index.tsx";
+
+import "./../../user.css";
+
 const DashboardEditor = () => {
-  useTitle("BetterWASYA | Редакторы");
+  useMeta({ title: "BetterWASYA | Редакторы" });
   const auth = useAuth();
   const navigate = useNavigate();
 
@@ -110,7 +112,7 @@ const DashboardEditor = () => {
                 setIsFocus(true);
                 setError(null);
               }}
-              className={classnames("primary", "medium", "ovg")}
+              className={`primary medium ovg`}
             >
               Добавить пользователя
             </button>

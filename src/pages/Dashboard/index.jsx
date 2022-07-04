@@ -1,7 +1,4 @@
 import React from "react";
-import useTitle from "../../hooks/useTitle/index.tsx";
-import NavbarDashboard from "../../components/UI/Navbar/Dashboard";
-import "./../user.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import DashboardEmotes from "./Emotes";
@@ -11,9 +8,14 @@ import DashboardEditor from "./Editor";
 // import DashboardPro from "./Pro";
 import DashboardAlertBox from "./AlertBox";
 import UserOnlyRoute from "../../routes/components/UserOnlyRoute";
+import NavbarDashboard from "../../components/UI/Navbar/Dashboard";
+
+import useMeta from "../../hooks/useMeta/index.tsx";
+
+import "./../user.css";
 
 const DashboardRoutes = () => {
-  useTitle("BetterWASYA | Панель управления");
+  useMeta({ title: "BetterWASYA | Панель управления" });
 
   return (
     <section className="question-section" style={{ paddingBottom: "160px" }}>
@@ -52,7 +54,7 @@ const DashboardRoutes = () => {
           <Route
             path="alertbox"
             element={
-              <UserOnlyRoute to="/dashboard/alertbox">
+              <UserOnlyRoute to="/dashboard/emotes">
                 <DashboardAlertBox />
               </UserOnlyRoute>
             }

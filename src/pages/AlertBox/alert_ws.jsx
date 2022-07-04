@@ -1,8 +1,4 @@
 import { useEffect, useRef } from "react";
-
-// import io from "socket.io-client";
-// import api from "../../services/api";
-
 import { useSearchParams } from "react-router-dom";
 
 const AlertWebSocket = async (callback = () => {}, token, settings) => {
@@ -23,8 +19,9 @@ const AlertWebSocket = async (callback = () => {}, token, settings) => {
   useEffect(() => {
     const init = async () => {
       try {
-        socketRef.current = new WebSocket(`wss://betterwasd.herokuapp.com/alertbox/${token}`);
-        // socketRef.current = new WebSocket(`ws://localhost:5000/alertbox/${token}`);
+        socketRef.current = new WebSocket(
+          `${localStorage.debug === "true" ? "ws://localhost:5000" : "wss://betterwasd.herokuapp.com"}/alertbox/${token}`
+        );
         socketRef.current.onopen = () => {
           intervalcheck.current = setInterval(() => {
             if (socketRef.current) {

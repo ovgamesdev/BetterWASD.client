@@ -1,0 +1,34 @@
+[
+  {
+    "label": "Нет",
+    "value": ""
+  },
+  {
+    "label": "Подпрыгивание",
+    "value": "bounce"
+  },
+  {
+    "label": "Пульс",
+    "value": "pulse"
+  },
+  {
+    "label": "Резиновая лента",
+    "value": "rubberBand"
+  },
+  {
+    "label": "Тада",
+    "value": "tada"
+  },
+  {
+    "label": "Волна",
+    "value": "wave"
+  },
+  {
+    "label": "Покачивание",
+    "value": "wiggle"
+  },
+  {
+    "label": "Колебание",
+    "value": "wobble"
+  }
+]

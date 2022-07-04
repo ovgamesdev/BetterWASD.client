@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
+import { toast } from "react-toastify";
 
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import api from "../../../services/api";
-import useAuth from "../../../hooks/useAuth";
-
-import Select from "react-select";
-import CreatableSelect from "react-select/creatable";
 import TabGroup from "../../../components/UI/TabGroupV2";
 import Loading from "../../../components/UI/Loading/Button";
-import Option from "../../../components/UI/DropDown/Option";
-import Control from "../../../components/UI/DropDown/Control";
-
-import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
-import RangeSlider from "react-bootstrap-range-slider";
 import ButtonLoading from "../../../components/UI/Loading";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-
-import "./options.scss";
-import ReactTooltip from "react-tooltip";
 import ColorPicker from "../../../components/UI/ColorPicker";
 import Accordion from "../../../components/UI/Accordion";
+import FilesGallery from "../../../components/UI/FilesGallery";
+import Select from "../../../components/UI/Select";
+import CreatableSelect from "../../../components/UI/Select/Creatable";
+import Slider from "../../../components/UI/Slider";
 
+import useMeta from "../../../hooks/useMeta/index.tsx";
+import useAuth from "../../../hooks/useAuth";
+import api from "../../../services/api/index.js";
+
+import "./options.scss";
 import fonts from "./fonts.json";
-// import fontEffects from "./fontEffects.json";
+import animationAlertShow from "./animation-alert-show.json";
+import animationAlertHide from "./animation-alert-hide.json";
+import animationText from "./animation-text.json";
 
 const colourOptions = [
   { label: "Подписка", value: "subscriptions" },
@@ -41,472 +39,19 @@ const fontOptions = fonts.map((v) => {
   return { label: v, value: v };
 });
 
-const animationAlertShow = [
-  {
-    label: "Fade In",
-    options: [
-      {
-        label: "Fade In",
-        value: "fadeIn",
-      },
-      {
-        label: "Fade In Down",
-        value: "fadeInDown",
-      },
-      {
-        label: "Fade In Down Big",
-        value: "fadeInDownBig",
-      },
-      {
-        label: "Fade In Left",
-        value: "fadeInLeft",
-      },
-      {
-        label: "Fade In Left Big",
-        value: "fadeInLeftBig",
-      },
-      {
-        label: "Fade In Right",
-        value: "fadeInRight",
-      },
-      {
-        label: "Fade In Right Big",
-        value: "fadeInRightBig",
-      },
-      {
-        label: "Fade In Up",
-        value: "fadeInUp",
-      },
-      {
-        label: "Fade In Up Big",
-        value: "fadeInUpBig",
-      },
-    ],
-  },
-  {
-    label: "Zoom In",
-    options: [
-      {
-        label: "Zoom In",
-        value: "zoomIn",
-      },
-      {
-        label: "Zoom In Down",
-        value: "zoomInDown",
-      },
-      {
-        label: "Zoom In Left",
-        value: "zoomInLeft",
-      },
-      {
-        label: "Zoom In Right",
-        value: "zoomInRight",
-      },
-      {
-        label: "Zoom In Up",
-        value: "zoomInUp",
-      },
-    ],
-  },
-  {
-    label: "Bounce In",
-    options: [
-      {
-        label: "Bounce In",
-        value: "bounceIn",
-      },
-      {
-        label: "Bounce In Down",
-        value: "bounceInDown",
-      },
-      {
-        label: "Bounce In Left",
-        value: "bounceInLeft",
-      },
-      {
-        label: "Bounce In Right",
-        value: "bounceInRight",
-      },
-      {
-        label: "Bounce In Up",
-        value: "bounceInUp",
-      },
-    ],
-  },
-  {
-    label: "Slide In",
-    options: [
-      {
-        label: "Slide In Down",
-        value: "slideInDown",
-      },
-      {
-        label: "Slide In Left",
-        value: "slideInLeft",
-      },
-      {
-        label: "Slide In Right",
-        value: "slideInRight",
-      },
-      {
-        label: "Slide In Up",
-        value: "slideInUp",
-      },
-    ],
-  },
-  {
-    label: "Flip In",
-    options: [
-      {
-        label: "Flip In X",
-        value: "flipInX",
-      },
-      {
-        label: "Flip In Y",
-        value: "flipInY",
-      },
-    ],
-  },
-  {
-    label: "Rotate In",
-    options: [
-      {
-        label: "Rotate In",
-        value: "rotateIn",
-      },
-      {
-        label: "Rotate In Down Left",
-        value: "rotateInDownLeft",
-      },
-      {
-        label: "Rotate In Down Right",
-        value: "rotateInDownRight",
-      },
-      {
-        label: "Rotate In Up Left",
-        value: "rotateInUpLeft",
-      },
-      {
-        label: "Rotate In Up Right",
-        value: "rotateInUpRight",
-      },
-    ],
-  },
-  {
-    label: "Specials",
-    options: [
-      {
-        label: "Light Speed In",
-        value: "lightSpeedIn",
-      },
-      {
-        label: "Roll In",
-        value: "rollIn",
-      },
-    ],
-  },
-];
-const animationAlertHide = [
-  {
-    label: "Fade Out",
-    options: [
-      {
-        label: "Fade Out",
-        value: "fadeOut",
-      },
-      {
-        label: "Fade Out Down",
-        value: "fadeOutDown",
-      },
-      {
-        label: "Fade Out Down Big",
-        value: "fadeOutDownBig",
-      },
-      {
-        label: "Fade Out Left",
-        value: "fadeOutLeft",
-      },
-      {
-        label: "Fade Out Left Big",
-        value: "fadeOutLeftBig",
-      },
-      {
-        label: "Fade Out Right",
-        value: "fadeOutRight",
-      },
-      {
-        label: "Fade Out Right Big",
-        value: "fadeOutRightBig",
-      },
-      {
-        label: "Fade Out Up",
-        value: "fadeOutUp",
-      },
-      {
-        label: "Fade Out Up Big",
-        value: "fadeOutUpBig",
-      },
-    ],
-  },
-  {
-    label: "Zoom Out",
-    options: [
-      {
-        label: "Zoom Out",
-        value: "zoomOut",
-      },
-      {
-        label: "Zoom Out Down",
-        value: "zoomOutDown",
-      },
-      {
-        label: "Zoom Out Left",
-        value: "zoomOutLeft",
-      },
-      {
-        label: "Zoom Out Right",
-        value: "zoomOutRight",
-      },
-      {
-        label: "Zoom Out Up",
-        value: "zoomOutUp",
-      },
-    ],
-  },
-  {
-    label: "Bounce Out",
-    options: [
-      {
-        label: "Bounce Out",
-        value: "bounceOut",
-      },
-      {
-        label: "Bounce Out Down",
-        value: "bounceOutDown",
-      },
-      {
-        label: "Bounce Out Left",
-        value: "bounceOutLeft",
-      },
-      {
-        label: "Bounce Out Right",
-        value: "bounceOutRight",
-      },
-      {
-        label: "Bounce Out Up",
-        value: "bounceOutUp",
-      },
-    ],
-  },
-  {
-    label: "Slide Out",
-    options: [
-      {
-        label: "Slide Out Down",
-        value: "slideOutDown",
-      },
-      {
-        label: "Slide Out Left",
-        value: "slideOutLeft",
-      },
-      {
-        label: "Slide Out Right",
-        value: "slideOutRight",
-      },
-      {
-        label: "Slide Out Up",
-        value: "slideOutUp",
-      },
-    ],
-  },
-  {
-    label: "Flip Out",
-    options: [
-      {
-        label: "Flip Out X",
-        value: "flipOutX",
-      },
-      {
-        label: "Flip Out Y",
-        value: "flipOutY",
-      },
-    ],
-  },
-  {
-    label: "Rotate Out",
-    options: [
-      {
-        label: "Rotate Out",
-        value: "rotateOut",
-      },
-      {
-        label: "Rotate Out Down Left",
-        value: "rotateOutDownLeft",
-      },
-      {
-        label: "Rotate Out Down Right",
-        value: "rotateOutDownRight",
-      },
-      {
-        label: "Rotate Out Up Left",
-        value: "rotateOutUpLeft",
-      },
-      {
-        label: "Rotate Out Up Right",
-        value: "rotateOutUpRight",
-      },
-    ],
-  },
-  {
-    label: "Specials",
-    options: [
-      {
-        label: "Light Speed Out",
-        value: "lightSpeedOut",
-      },
-      {
-        label: "Roll Out",
-        value: "rollOut",
-      },
-    ],
-  },
-];
-
-const animationText = [
-  {
-    label: "Нет",
-    value: "",
-  },
-  {
-    label: "Подпрыгивание",
-    value: "bounce",
-  },
-  {
-    label: "Пульс",
-    value: "pulse",
-  },
-  {
-    label: "Резиновая лента",
-    value: "rubberBand",
-  },
-  {
-    label: "Тада",
-    value: "tada",
-  },
-  {
-    label: "Волна",
-    value: "wave",
-  },
-  {
-    label: "Покачивание",
-    value: "wiggle",
-  },
-  {
-    label: "Колебание",
-    value: "wobble",
-  },
-];
-
-const customSelectStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    color: state.isSelected ? "var(--wasd-color-switch)" : "var(--wasd-color-text-fourth)",
-    backgroundColor: state.isSelected ? "rgba(var(--color-system-blue), 1)" : "var(--color-second-layer)",
-  }),
-  control: (provided) => ({
-    ...provided,
-    backgroundColor: "var(--color-second-layer)",
-    borderColor: "var(--wasd-color-text-fourth)",
-    fontSize: "14px",
-  }),
-  menu: (provided) => ({
-    ...provided,
-    zIndex: "1080",
-    backgroundColor: "var(--color-second-layer)",
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: "var(--wasd-color-switch)",
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: "var(--wasd-color-switch)",
-  }),
-};
-
-const customFilterStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    color: state.isSelected ? "var(--wasd-color-switch)" : "var(--wasd-color-text-fourth)",
-    backgroundColor: "var(--color-second-layer)",
-    display: "flex",
-  }),
-  control: (provided) => ({
-    ...provided,
-    backgroundColor: "var(--color-second-layer)",
-    borderColor: "var(--wasd-color-text-fourth)",
-    fontSize: "14px",
-  }),
-  menu: (provided) => ({
-    ...provided,
-    zIndex: "1080",
-    backgroundColor: "var(--color-second-layer)",
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: "var(--wasd-color-switch)",
-  }),
-};
-
-const findAlertShowOption = (value) => {
-  let res = null;
-  for (let group of animationAlertShow) {
-    for (let option of group.options) {
-      if (option.value === value) {
-        res = option;
-        break;
-      }
-    }
-  }
-  return res;
-};
-const findAlertHideOption = (value) => {
-  let res = null;
-  for (let group of animationAlertHide) {
-    for (let option of group.options) {
-      if (option.value === value) {
-        res = option;
-        break;
-      }
-    }
-  }
-  return res;
-};
-
-// const fontEffectsOption = () => {
-//   return fontEffects.map((o) => {
-//     return { label: o.title, value: o.api_name };
-//   });
-// };
-
-const findTextOption = (value) => animationText.find((o) => o.value === value);
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
-const fontToSearch = (value) => {
-  const finded = fontOptions.find((o) => o.value === value);
-  return finded || { label: value, value: value };
-};
-// const findFontEffectOption = (value) => fontEffects.find((o) => o.api_name === value);
 
 const DashboardAlertBox = () => {
-  useTitle("BetterWASYA | Оповещения");
+  useMeta({ title: "BetterWASYA | Оповещения" });
   const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [isLoadingTest, setIsLoadingTest] = useState(false);
   const [activeTab, setActiveTab] = useState("");
-  const [filters, setFilters] = useState(optionsToSearch(colourOptions));
+  const [filters, setFilters] = useState(colourOptions);
 
   const [settings, setSettings] = useState(null);
   const [widgetUrl, setWidgetUrl] = useState(null);
@@ -602,32 +147,27 @@ const DashboardAlertBox = () => {
                       className="wasd-input"
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        navigator.clipboard.writeText(`${widgetUrl}${isFilterEdited ? filters : ""}`);
+                        navigator.clipboard.writeText(`${widgetUrl}${isFilterEdited ? optionsToSearch(filters) : ""}`);
                         toast("Ссылка на виджет скопирована!");
                       }}
                     >
-                      <input ovg="" style={{ margin: 0 }} className="blur" value={widgetUrl + filters} readOnly />
+                      <input ovg="" style={{ margin: 0 }} className="blur" value={widgetUrl} readOnly />
                       <div className="copy-input">Cкопировать URL-адрес виджета</div>
                     </div>
                   </div>
-                  <Select
-                    styles={customFilterStyles}
-                    options={colourOptions}
-                    isMulti
-                    closeMenuOnSelect={false}
-                    isClearable={false}
-                    hideSelectedOptions={false}
-                    defaultValue={colourOptions}
-                    components={{
-                      Option,
-                      Control,
-                    }}
-                    onChange={(value) => {
-                      setFilters(optionsToSearch(value));
-                      setFilterEdited(true);
-                    }}
-                    allowSelectAll={true}
-                  />
+                  <div style={{ width: "300px", marginLeft: "5px" }}>
+                    <Select
+                      isMulti={true}
+                      defaultValue={filters}
+                      options={colourOptions}
+                      onChange={(value) => {
+                        console.log(value);
+                        setFilters(value);
+                        setFilterEdited(true);
+                      }}
+                      title={"Фильтр событий"}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -656,8 +196,12 @@ const DashboardAlertBox = () => {
 
           <TabGroup
             style={{ marginTop: "25px", marginBottom: "10px" }}
-            active={0}
-            onChange={(e) => setActiveTab(e.value)}
+            active={location.hash.split("#").join("")}
+            defaultValue="general"
+            onChange={(e) => {
+              setActiveTab(e.value);
+              navigate("#" + e.value);
+            }}
             tabs={tabOptions}
           />
           <div className="item__border"></div>
@@ -685,7 +229,7 @@ const DashboardAlertBox = () => {
                   <label>Задержка оповещений</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={0}
                     max={30000}
                     step={1000}
@@ -729,7 +273,7 @@ const DashboardAlertBox = () => {
                     <label>Задержка парирования</label>
                   </div>
                   <div className="right">
-                    <RangeSlider
+                    <Slider
                       min={500}
                       max={20000}
                       step={500}
@@ -755,13 +299,7 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <Select
-                    styles={customSelectStyles}
-                    defaultValue={{
-                      label: settings.follow_layout,
-                      value: settings.follow_layout,
-                    }}
-                    isClearable={false}
-                    isSearchable={false}
+                    defaultValue={{ value: settings.follow_layout }}
                     onChange={(value) =>
                       setSettings({
                         ...settings,
@@ -782,7 +320,6 @@ const DashboardAlertBox = () => {
                         value: "side",
                       },
                     ]}
-                    hideSelectedOptions={false}
                   />
                 </div>
               </div>
@@ -793,10 +330,7 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <div className="split">
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findAlertShowOption(settings.follow_show_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.follow_show_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -804,13 +338,9 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationAlertShow}
-                      hideSelectedOptions={false}
                     />
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findAlertHideOption(settings.follow_hide_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.follow_hide_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -818,7 +348,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationAlertHide}
-                      hideSelectedOptions={false}
                     />
                   </div>
                 </div>
@@ -860,10 +389,7 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <div className="split">
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findTextOption(settings.follow_text_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.follow_text_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -871,7 +397,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationText}
-                      hideSelectedOptions={false}
                     />
                     <div
                       style={{
@@ -893,30 +418,17 @@ const DashboardAlertBox = () => {
                   <label>Изображение</label>
                 </div>
                 <div className="right">
-                  <div className="preview">
-                    <div
-                      className="img"
-                      style={{
-                        backgroundImage: `url(${settings.follow_image})`,
-                      }}
-                    ></div>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          value={settings.follow_image}
-                          placeholder="https://example.com/image.gif"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              follow_image: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <FilesGallery
+                    value={settings.follow_image}
+                    title="Галерея изображений"
+                    fileType="images"
+                    onChange={(value) =>
+                      setSettings({
+                        ...settings,
+                        follow_image: value,
+                      })
+                    }
+                  />
                 </div>
               </div>
               <div className="row">
@@ -968,7 +480,7 @@ const DashboardAlertBox = () => {
                   <label>Громкость звука</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={0}
                     max={100}
                     step={1}
@@ -988,7 +500,7 @@ const DashboardAlertBox = () => {
                   <label>Длительность оповещения</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={2000}
                     max={300000}
                     step={1000}
@@ -1008,7 +520,7 @@ const DashboardAlertBox = () => {
                   <label>Задержка текста оповещения</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={0}
                     max={60000}
                     step={1000}
@@ -1031,10 +543,7 @@ const DashboardAlertBox = () => {
                   </div>
                   <div className="right">
                     <CreatableSelect
-                      styles={customSelectStyles}
-                      defaultValue={fontToSearch(settings.follow_font)}
-                      isClearable={false}
-                      isSearchable={true}
+                      defaultValue={{ value: settings.follow_font }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1042,7 +551,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={fontOptions}
-                      hideSelectedOptions={false}
                     />
                   </div>
                 </div>
@@ -1051,7 +559,7 @@ const DashboardAlertBox = () => {
                     <label>Размер шрифта</label>
                   </div>
                   <div className="right">
-                    <RangeSlider
+                    <Slider
                       min={12}
                       max={80}
                       step={2}
@@ -1071,7 +579,7 @@ const DashboardAlertBox = () => {
                     <label>Плотность шрифта</label>
                   </div>
                   <div className="right">
-                    <RangeSlider
+                    <Slider
                       min={300}
                       max={900}
                       step={100}
@@ -1128,13 +636,7 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <Select
-                    styles={customSelectStyles}
-                    defaultValue={{
-                      label: settings.sub_layout,
-                      value: settings.sub_layout,
-                    }}
-                    isClearable={false}
-                    isSearchable={false}
+                    defaultValue={{ value: settings.sub_layout }}
                     onChange={(value) =>
                       setSettings({
                         ...settings,
@@ -1155,7 +657,6 @@ const DashboardAlertBox = () => {
                         value: "side",
                       },
                     ]}
-                    hideSelectedOptions={false}
                   />
                 </div>
               </div>
@@ -1166,10 +667,7 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <div className="split">
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findAlertShowOption(settings.sub_show_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.sub_show_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1177,13 +675,9 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationAlertShow}
-                      hideSelectedOptions={false}
                     />
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findAlertHideOption(settings.sub_hide_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.sub_hide_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1191,7 +685,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationAlertHide}
-                      hideSelectedOptions={false}
                     />
                   </div>
                 </div>
@@ -1233,10 +726,7 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <div className="split">
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findTextOption(settings.sub_text_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.sub_text_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1244,7 +734,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationText}
-                      hideSelectedOptions={false}
                     />
                     <div
                       style={{
@@ -1266,30 +755,17 @@ const DashboardAlertBox = () => {
                   <label>Изображение</label>
                 </div>
                 <div className="right">
-                  <div className="preview">
-                    <div
-                      className="img"
-                      style={{
-                        backgroundImage: `url(${settings.sub_image})`,
-                      }}
-                    ></div>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          value={settings.sub_image}
-                          placeholder="https://example.com/image.gif"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              sub_image: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <FilesGallery
+                    value={settings.sub_image}
+                    title="Галерея изображений"
+                    fileType="images"
+                    onChange={(value) =>
+                      setSettings({
+                        ...settings,
+                        sub_image: value,
+                      })
+                    }
+                  />
                 </div>
               </div>
               <div className="row">
@@ -1341,7 +817,7 @@ const DashboardAlertBox = () => {
                   <label>Громкость звука</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={0}
                     max={100}
                     step={1}
@@ -1361,7 +837,7 @@ const DashboardAlertBox = () => {
                   <label>Длительность оповещения</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={2000}
                     max={300000}
                     step={1000}
@@ -1381,7 +857,7 @@ const DashboardAlertBox = () => {
                   <label>Задержка текста оповещения</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={0}
                     max={60000}
                     step={1000}
@@ -1404,10 +880,7 @@ const DashboardAlertBox = () => {
                   </div>
                   <div className="right">
                     <CreatableSelect
-                      styles={customSelectStyles}
-                      defaultValue={fontToSearch(settings.sub_font)}
-                      isClearable={false}
-                      isSearchable={true}
+                      defaultValue={{ value: settings.sub_font }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1415,7 +888,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={fontOptions}
-                      hideSelectedOptions={false}
                     />
                   </div>
                 </div>
@@ -1424,7 +896,7 @@ const DashboardAlertBox = () => {
                     <label>Размер шрифта</label>
                   </div>
                   <div className="right">
-                    <RangeSlider
+                    <Slider
                       min={12}
                       max={80}
                       step={2}
@@ -1444,7 +916,7 @@ const DashboardAlertBox = () => {
                     <label>Плотность шрифта</label>
                   </div>
                   <div className="right">
-                    <RangeSlider
+                    <Slider
                       min={300}
                       max={900}
                       step={100}
@@ -1501,13 +973,7 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <Select
-                    styles={customSelectStyles}
-                    defaultValue={{
-                      label: settings.raid_layout,
-                      value: settings.raid_layout,
-                    }}
-                    isClearable={false}
-                    isSearchable={false}
+                    defaultValue={{ value: settings.raid_layout }}
                     onChange={(value) =>
                       setSettings({
                         ...settings,
@@ -1528,7 +994,6 @@ const DashboardAlertBox = () => {
                         value: "side",
                       },
                     ]}
-                    hideSelectedOptions={false}
                   />
                 </div>
               </div>
@@ -1539,10 +1004,7 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <div className="split">
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findAlertShowOption(settings.raid_show_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.raid_show_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1550,13 +1012,9 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationAlertShow}
-                      hideSelectedOptions={false}
                     />
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findAlertHideOption(settings.raid_hide_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.raid_hide_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1564,7 +1022,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationAlertHide}
-                      hideSelectedOptions={false}
                     />
                   </div>
                 </div>
@@ -1606,10 +1063,7 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <div className="split">
                     <Select
-                      styles={customSelectStyles}
-                      defaultValue={findTextOption(settings.raid_text_animation)}
-                      isClearable={false}
-                      isSearchable={false}
+                      defaultValue={{ value: settings.raid_text_animation }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1617,7 +1071,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={animationText}
-                      hideSelectedOptions={false}
                     />
                     <div
                       style={{
@@ -1639,30 +1092,17 @@ const DashboardAlertBox = () => {
                   <label>Изображение</label>
                 </div>
                 <div className="right">
-                  <div className="preview">
-                    <div
-                      className="img"
-                      style={{
-                        backgroundImage: `url(${settings.raid_image})`,
-                      }}
-                    ></div>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          value={settings.raid_image}
-                          placeholder="https://example.com/image.gif"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              raid_image: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <FilesGallery
+                    value={settings.raid_image}
+                    title="Галерея изображений"
+                    fileType="images"
+                    onChange={(value) =>
+                      setSettings({
+                        ...settings,
+                        raid_image: value,
+                      })
+                    }
+                  />
                 </div>
               </div>
               <div className="row">
@@ -1714,7 +1154,7 @@ const DashboardAlertBox = () => {
                   <label>Громкость звука</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={0}
                     max={100}
                     step={1}
@@ -1734,7 +1174,7 @@ const DashboardAlertBox = () => {
                   <label>Длительность оповещения</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={2000}
                     max={300000}
                     step={1000}
@@ -1754,7 +1194,7 @@ const DashboardAlertBox = () => {
                   <label>Задержка текста оповещения</label>
                 </div>
                 <div className="right">
-                  <RangeSlider
+                  <Slider
                     min={0}
                     max={60000}
                     step={1000}
@@ -1777,10 +1217,7 @@ const DashboardAlertBox = () => {
                   </div>
                   <div className="right">
                     <CreatableSelect
-                      styles={customSelectStyles}
-                      defaultValue={fontToSearch(settings.raid_font)}
-                      isClearable={false}
-                      isSearchable={true}
+                      defaultValue={{ value: settings.raid_font }}
                       onChange={(value) =>
                         setSettings({
                           ...settings,
@@ -1788,7 +1225,6 @@ const DashboardAlertBox = () => {
                         })
                       }
                       options={fontOptions}
-                      hideSelectedOptions={false}
                     />
                   </div>
                 </div>
@@ -1797,7 +1233,7 @@ const DashboardAlertBox = () => {
                     <label>Размер шрифта</label>
                   </div>
                   <div className="right">
-                    <RangeSlider
+                    <Slider
                       min={12}
                       max={80}
                       step={2}
@@ -1817,7 +1253,7 @@ const DashboardAlertBox = () => {
                     <label>Плотность шрифта</label>
                   </div>
                   <div className="right">
-                    <RangeSlider
+                    <Slider
                       min={300}
                       max={900}
                       step={100}

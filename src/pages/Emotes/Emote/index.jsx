@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import { decode } from "../../../lib/code-mnem";
-import { Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Moment from "react-moment";
+import { toast } from "react-toastify";
 
 import User from "../../../components/UI/User";
 import ButtonLoading from "../../../components/UI/Loading";
 
 import NotFound from "../../NotFound";
 import { HOSTURL } from "../../../index";
-import api from "../../../services/api";
+import api from "../../../services/api/index.js";
 import useAuth from "../../../hooks/useAuth";
+import useMeta from "../../../hooks/useMeta/index.tsx";
+import { decode } from "../../../lib/code-mnem";
 
-import classnames from "classnames";
 import styles from "./emote.module.scss";
 import modal_styles from "./../../modal.module.scss";
-
-import { toast } from "react-toastify";
 
 const Emote = () => {
   const { id } = useParams();
@@ -99,7 +96,14 @@ const Emote = () => {
   }, [id, auth.editor?.user_id]);
 
   const encoded = decode(data?.code);
-  useTitle(`BetterWASYA | Emote ${data?.code ? "| " + encoded : ""}`, [data]);
+  useMeta(
+    {
+      title: `BetterWASYA | Emote ${data?.code ? "| " + encoded : ""}`,
+      description: `Emote ${data?.code ? "| " + encoded : ""}`,
+      image: HOSTURL + "/cached/emote/" + data._id + "/3x",
+    },
+    [data]
+  );
 
   if (error) return <NotFound />;
 
@@ -344,11 +348,7 @@ const Emote = () => {
             {data.global === false && !isOwner && auth.user && (data.sharing || auth.user?.user_role !== "ADMIN") ? (
               <div className={styles["root-footer"] + " flat-btn ovg"}>
                 {auth.user?.user_role === "ADMIN" && (
-                  <button
-                    onClick={() => setIsChangeMode(true)}
-                    style={{ minWidth: "167px" }}
-                    className={classnames("medium", "ovg", "primary")}
-                  >
+                  <button onClick={() => setIsChangeMode(true)} style={{ minWidth: "167px" }} className={`medium ovg primary`}>
                     Изменить эмоцию
                   </button>
                 )}
@@ -358,15 +358,11 @@ const Emote = () => {
                       onClick={likeEmote}
                       style={{ minWidth: "167px" }}
                       disabled={isLoadingLike}
-                      className={classnames("medium", "ovg", data.likes.is_liked ? "warning" : "primary")}
+                      className={`medium ovg ${data.likes.is_liked ? "warning" : "primary"}`}
                     >
                       {isLoadingLike ? <ButtonLoading /> : data.likes.is_liked ? "Удалить из канала" : "Добавить на канал"}
                     </button>
-                    <button
-                      onClick={() => setShowAlias(true)}
-                      style={{ minWidth: "167px" }}
-                      className={classnames("medium", "ovg", "primary")}
-                    >
+                    <button onClick={() => setShowAlias(true)} style={{ minWidth: "167px" }} className={`medium ovg primary`}>
                       Изменить псевдоним
                     </button>
                     {auth.user.is_subscriber_active && !auth.editor && (
@@ -374,7 +370,7 @@ const Emote = () => {
                         onClick={personalEmote}
                         style={{ minWidth: "167px" }}
                         disabled={isLoadingPersonal}
-                        className={classnames("medium", "ovg", data.personals?.is_personaled ? "warning" : "primary")}
+                        className={`medium ovg ${data.personals?.is_personaled ? "warning" : "primary"}`}
                       >
                         {isLoadingPersonal ? (
                           <ButtonLoading />
@@ -391,19 +387,11 @@ const Emote = () => {
             ) : (
               isOwner && (
                 <div className={styles["root-footer"] + " flat-btn ovg"} style={{ display: "flex" }}>
-                  <button
-                    onClick={() => setIsChangeMode(true)}
-                    style={{ minWidth: "167px" }}
-                    className={classnames("medium", "ovg", "primary")}
-                  >
+                  <button onClick={() => setIsChangeMode(true)} style={{ minWidth: "167px" }} className={`medium ovg primary`}>
                     Изменить эмоцию
                   </button>
                   {!data.global && (
-                    <button
-                      onClick={() => setShowAlias(true)}
-                      style={{ minWidth: "167px" }}
-                      className={classnames("medium", "ovg", "primary")}
-                    >
+                    <button onClick={() => setShowAlias(true)} style={{ minWidth: "167px" }} className={`medium ovg primary`}>
                       Изменить псевдоним
                     </button>
                   )}
@@ -412,7 +400,7 @@ const Emote = () => {
                       onClick={personalEmote}
                       style={{ minWidth: "167px" }}
                       disabled={isLoadingPersonal}
-                      className={classnames("medium", "ovg", data.personals?.is_personaled ? "warning" : "primary")}
+                      className={`medium ovg ${data.personals?.is_personaled ? "warning" : "primary"}`}
                     >
                       {isLoadingPersonal ? (
                         <ButtonLoading />
@@ -465,7 +453,7 @@ const Emote = () => {
 
               <wasd-input>
                 <div ovg="" className="wasd-input-wrapper">
-                  <div ovg="" className={classnames("wasd-input", codeError && "warning")}>
+                  <div ovg="" className={`wasd-input ${codeError} warning`}>
                     <input
                       data-type="code"
                       value={newData.code || ""}
@@ -617,7 +605,7 @@ const Emote = () => {
         >
           <div className={modal_styles["modal-block"] + " " + modal_styles["modal-block_medium"]} style={{ width: "440px" }}>
             <div className={modal_styles["modal-block__title"]}>
-              <span>
+              <span style={{ wordBreak: "break-word" }}>
                 Псевдоним эмоции «{data.code}» для канала {auth.editor?.user_login || auth.user?.user_login}
               </span>
             </div>
@@ -636,7 +624,7 @@ const Emote = () => {
                           placeholder={data.code}
                           type="text"
                           value={aliasCode}
-                          className={classnames(isLoading && "disabled")}
+                          className={isLoading ? "disabled" : ""}
                           onChange={(e) => aliasHandler(e)}
                         ></input>
                       </div>
@@ -662,17 +650,13 @@ const Emote = () => {
 
             <div className={modal_styles["modal-block__footer"]}>
               <div className="flat-btn ovg" style={{ display: "flex" }}>
-                <button
-                  className={classnames("medium", "ovg", "basic", "hide")}
-                  style={{ marginRight: "5px" }}
-                  onClick={() => setShowAlias(false)}
-                >
+                <button className={`medium ovg basic hide`} style={{ marginRight: "5px" }} onClick={() => setShowAlias(false)}>
                   отмена
                 </button>
                 <button
                   disabled={aliasError || isLoadingAlias}
                   style={{ width: "141.2px" }}
-                  className={classnames("primary", "medium", "ovg")}
+                  className={`medium ovg primary`}
                   onClick={() => setAlias()}
                 >
                   {isLoadingAlias ? <ButtonLoading /> : "переименовать"}

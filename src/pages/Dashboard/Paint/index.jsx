@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import ButtonLoading from "../../../components/UI/Loading";
-import api from "../../../services/api";
-import useAuth from "../../../hooks/useAuth";
-import classnames from "classnames";
-import ColorPicker, { useColorPicker } from "react-best-gradient-color-picker";
 import { useNavigate } from "react-router-dom";
+import ColorPicker, { useColorPicker } from "react-best-gradient-color-picker";
+import { toast } from "react-toastify";
+
+import TabGroup from "../../../components/UI/TabGroup";
+import ButtonLoading from "../../../components/UI/Loading";
+
+import api from "../../../services/api/index.js";
+import useAuth from "../../../hooks/useAuth";
+import useMeta from "../../../hooks/useMeta/index.tsx";
 
 import previewStyle from "./preview.module.scss";
 import "./../../user.css";
 
-import TabGroup from "../../../components/UI/TabGroup";
-import { toast } from "react-toastify";
-
 const DashboardPaint = () => {
-  useTitle("BetterWASYA | Цвет имени");
+  useMeta({ title: "BetterWASYA | Цвет имени" });
   const navigate = useNavigate();
 
   const userColors = [
@@ -197,7 +197,7 @@ const DashboardPaint = () => {
         <button
           onClick={onSave}
           disabled={isLoadingUpdate}
-          className={classnames("primary", "medium", "ovg", isEdit ? "disabled" : "")}
+          className={`primary medium ovg ${isEdit ? "disabled" : ""}`}
           style={{ width: "300px" }}
         >
           {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
@@ -205,7 +205,7 @@ const DashboardPaint = () => {
         <button
           onClick={onDelete}
           disabled={isLoadingRemove}
-          className={classnames("warning", "medium", "ovg", typeof auth.user?.paint !== "string" ? "disabled" : "")}
+          className={`warning medium ovg ${typeof auth.user?.paint !== "string" ? "disabled" : ""}`}
           style={{ marginTop: "5px", width: "300px" }}
         >
           {isLoadingRemove ? <ButtonLoading /> : "Восстановить по умолчанию"}

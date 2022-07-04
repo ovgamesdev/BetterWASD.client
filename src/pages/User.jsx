@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useTitle from "../hooks/useTitle/index.tsx";
+
 import Emote from "../components/UI/Emote";
-import api from "../services/api";
+
+import useMeta from "../hooks/useMeta/index.tsx";
+import api from "../services/api/index.js";
 
 const Emotes = () => {
   const { id } = useParams();
@@ -15,7 +17,7 @@ const Emotes = () => {
     personalEmotes: [],
   });
 
-  useTitle(`BetterWASYA | Профиль ${data?.user_login ? "| " + data?.user_login : ""}`, [data]);
+  useMeta({ title: `BetterWASYA | Профиль ${data?.user_login ? "| " + data?.user_login : ""}` }, [data]);
 
   useEffect(() => {
     const fetchData = async () => {

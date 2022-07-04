@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Emote from "../../../components/UI/Emote";
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import ButtonLoading from "../../../components/UI/Loading";
-import api from "../../../services/api";
-import classnames from "classnames";
 import { useNavigate, Link } from "react-router-dom";
+
+import Emote from "../../../components/UI/Emote";
+import ButtonLoading from "../../../components/UI/Loading";
+
+import api from "../../../services/api/index.js";
 import useAuth from "../../../hooks/useAuth";
+import useMeta from "../../../hooks/useMeta/index.tsx";
 
 import styles from "./../../modal.module.scss";
 
 const DashboardEmotes = () => {
-  useTitle("BetterWASYA | Эмоции");
+  useMeta({ title: "BetterWASYA | Эмоции" });
   const navigate = useNavigate();
   const auth = useAuth();
 
@@ -98,7 +99,7 @@ const DashboardEmotes = () => {
                 setError(null);
                 setCreateEmote(null);
               }}
-              className={classnames("primary", "medium", "ovg")}
+              className={`primary medium ovg`}
             >
               Создать эмоцию
             </button>
@@ -183,7 +184,7 @@ const DashboardEmotes = () => {
                           ovg=""
                           placeholder="https://7tv.app/emotes/000000000000000000000000"
                           type="text"
-                          className={classnames(isLoading && "disabled")}
+                          className={isLoading ? "disabled" : ""}
                           autoFocus={true}
                           onChange={(e) => inputChange(e)}
                         ></input>
@@ -242,19 +243,16 @@ const DashboardEmotes = () => {
 
             <div className={styles["modal-block__footer"]}>
               <div className="flat-btn ovg" style={{ display: "flex" }}>
-                <button className={classnames("medium", "ovg", "basic", "hide", isLoading && "disabled")} style={{ marginRight: "5px" }}>
+                <button className={`medium ovg basic hide ${isLoading ? "disabled" : ""}`} style={{ marginRight: "5px" }}>
                   отмена
                 </button>
                 {createEmote?.message && createEmote._id ? (
                   <button
                     disabled={isLoadingCreateEmote}
                     style={{ width: "141.2px" }}
-                    className={classnames(
-                      "primary",
-                      "medium",
-                      "ovg",
-                      (isLoading || url === "" || createEmote?.message) && !createEmote?._id && "disabled"
-                    )}
+                    className={`primary medium ovg ${
+                      (isLoading || url === "" || createEmote?.message) && !createEmote?._id ? "disabled" : ""
+                    }`}
                     onClick={() => onReCreate()}
                   >
                     {isLoadingCreateEmote ? <ButtonLoading /> : "создать новую"}
@@ -263,12 +261,9 @@ const DashboardEmotes = () => {
                   <button
                     disabled={isLoadingCreateEmote}
                     style={{ width: "100px" }}
-                    className={classnames(
-                      "primary",
-                      "medium",
-                      "ovg",
-                      (isLoading || url === "" || createEmote?.message) && createEmote?._id && "disabled"
-                    )}
+                    className={`primary medium ovg ${
+                      (isLoading || url === "" || createEmote?.message) && createEmote?._id ? "disabled" : ""
+                    }`}
                     onClick={() => onSubmit()}
                   >
                     {isLoadingCreateEmote ? <ButtonLoading /> : "добавить"}

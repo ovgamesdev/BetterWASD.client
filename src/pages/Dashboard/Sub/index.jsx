@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
+
 import Loading from "../../../components/UI/Loading/Button";
-import useTitle from "../../../hooks/useTitle/index.tsx";
 import ButtonLoading from "../../../components/UI/Loading";
 import SubItemIcon from "../../../components/UI/SubItemIcon";
-import api from "../../../services/api";
+
+import api from "../../../services/api/index.js";
 import useAuth from "../../../hooks/useAuth";
-import classnames from "classnames";
+import useMeta from "../../../hooks/useMeta/index.tsx";
 
 import "./../../user.css";
 
 const objectMap = (obj, fn) => Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
 
 const DashboardSub = () => {
-  useTitle("BetterWASYA | Значок подписчика");
+  useMeta({ title: "BetterWASYA | Значок подписчика" });
   const auth = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -131,31 +132,28 @@ const DashboardSub = () => {
             <button
               onClick={onSave}
               disabled={isLoadingUpdate}
-              className={classnames(
-                "primary",
-                "medium",
-                "ovg",
+              className={`primary medium ovg ${
                 auth.user &&
-                  savedBadges &&
-                  !(
-                    subIcons["1mon"] === savedBadges["1mon"] &&
-                    subIcons["3mon"] === savedBadges["3mon"] &&
-                    subIcons["6mon"] === savedBadges["6mon"] &&
-                    subIcons["9mon"] === savedBadges["9mon"] &&
-                    subIcons["12mon"] === savedBadges["12mon"] &&
-                    subIcons["18mon"] === savedBadges["18mon"] &&
-                    subIcons["24mon"] === savedBadges["24mon"]
-                  ) &&
-                  isLoadedImages["1mon"] &&
-                  isLoadedImages["3mon"] &&
-                  isLoadedImages["6mon"] &&
-                  isLoadedImages["9mon"] &&
-                  isLoadedImages["12mon"] &&
-                  isLoadedImages["18mon"] &&
-                  isLoadedImages["24mon"]
+                savedBadges &&
+                !(
+                  subIcons["1mon"] === savedBadges["1mon"] &&
+                  subIcons["3mon"] === savedBadges["3mon"] &&
+                  subIcons["6mon"] === savedBadges["6mon"] &&
+                  subIcons["9mon"] === savedBadges["9mon"] &&
+                  subIcons["12mon"] === savedBadges["12mon"] &&
+                  subIcons["18mon"] === savedBadges["18mon"] &&
+                  subIcons["24mon"] === savedBadges["24mon"]
+                ) &&
+                isLoadedImages["1mon"] &&
+                isLoadedImages["3mon"] &&
+                isLoadedImages["6mon"] &&
+                isLoadedImages["9mon"] &&
+                isLoadedImages["12mon"] &&
+                isLoadedImages["18mon"] &&
+                isLoadedImages["24mon"]
                   ? ""
                   : "disabled"
-              )}
+              }`}
               style={{ width: "300px" }}
             >
               {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
@@ -164,22 +162,19 @@ const DashboardSub = () => {
             <button
               onClick={onDelete}
               disabled={isLoadingRemove}
-              className={classnames(
-                "warning",
-                "medium",
-                "ovg",
+              className={`warning medium ovg ${
                 auth.user &&
-                  savedBadges &&
-                  savedBadges["1mon"] === "" &&
-                  savedBadges["3mon"] === "" &&
-                  savedBadges["6mon"] === "" &&
-                  savedBadges["9mon"] === "" &&
-                  savedBadges["12mon"] === "" &&
-                  savedBadges["18mon"] === "" &&
-                  savedBadges["24mon"] === ""
+                savedBadges &&
+                savedBadges["1mon"] === "" &&
+                savedBadges["3mon"] === "" &&
+                savedBadges["6mon"] === "" &&
+                savedBadges["9mon"] === "" &&
+                savedBadges["12mon"] === "" &&
+                savedBadges["18mon"] === "" &&
+                savedBadges["24mon"] === ""
                   ? "disabled"
                   : ""
-              )}
+              }`}
               style={{ marginTop: "5px", width: "300px" }}
             >
               {isLoadingRemove ? <ButtonLoading /> : "Восстановить по умолчанию"}

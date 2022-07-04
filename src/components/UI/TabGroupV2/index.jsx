@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+
 import "./style.scss";
-import classnames from "classnames";
 
 const TabGroup = (props) => {
-  const [active, setActive] = useState({ index: props.active, element: null });
+  const findedIndex = props.tabs.findIndex((tab) => tab.value === props.active);
+  const defaultIndex = props.tabs.findIndex((tab) => tab.value === props.defaultValue);
+
+  const [active, setActive] = useState({ index: findedIndex !== -1 ? findedIndex : defaultIndex, element: null });
   const [position, setPosition] = useState({ left: 0, width: 0 });
 
   const [first, setFirst] = useState(null);
@@ -40,7 +43,7 @@ const TabGroup = (props) => {
                   index === active.index && setFirst(e);
                 }}
                 onClick={(e) => onClick(e, index)}
-                className={classnames("item", index === active.index ? "item-active" : "")}
+                className={`item ${index === active.index ? "item-active" : ""}`}
               >
                 {tab.label}
               </button>
