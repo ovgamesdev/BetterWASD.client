@@ -27,19 +27,16 @@ const TabGroup = (props) => {
         width={20}
         height={20}
         src={subIcons[item] || defBadges[item]}
-        onLoad={(e) => setIsLoadedImages({ ...isLoadedImages, [item]: true })}
-        onError={(e) => setIsLoadedImages({ ...isLoadedImages, [item]: false })}
+        onLoad={() => setIsLoadedImages({ ...isLoadedImages, [item]: true })}
+        onError={() => setIsLoadedImages({ ...isLoadedImages, [item]: false })}
         alt="avatar"
       />
       <span style={{ minWidth: "50px" }}>{title[item]}</span>
 
-      <div ovg="" className="wasd-input-wrapper">
-        <div ovg="" className="wasd-input">
-          <label ovg="" className={isLoadedImages[item] ? "" : "show"}>
-            Недействительная ссылка на картинку
-          </label>
+      <div className="wasd-input-wrapper">
+        <div className="wasd-input">
+          <label className={isLoadedImages[item] ? "" : "show"}>Недействительная ссылка на картинку</label>
           <input
-            ovg=""
             value={subIcons[item] || ""}
             onChange={(e) => setSubIcons({ ...subIcons, [item]: e.target.value })}
             placeholder="Ссылка на иконку подписчика"

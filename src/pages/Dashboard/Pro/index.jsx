@@ -253,9 +253,9 @@ const DashboardPro = () => {
           ></div>
         </div>
       </div> */}
-      {/* {isShowGift && <ovg-modal-backdrop></ovg-modal-backdrop>}
+      {/* {isShowGift && <modal-backdrop></modal-backdrop>}
       {isShowGift && (
-        <ovg-modal-window
+        <modal-window
           data-show="show"
           className={styles["show"]}
           onClick={(e) => {
@@ -292,13 +292,11 @@ const DashboardPro = () => {
       {/* <div className="col-64">
                   <wasd-input>
                     <div
-                      ovg=""
                       className="wasd-input-wrapper"
                       style={{ flexDirection: "column", alignItems: "stretch" }}
                     >
-                      <div ovg="" className={`wasd-input`}>
+                      <div className={`wasd-input`}>
                         <input
-                          ovg=""
                           type="text"
                           placeholder="Имя пользователя"
                           value={gift}
@@ -328,9 +326,9 @@ const DashboardPro = () => {
             </div>
 
             <div className={styles["modal-block__footer"]}>
-              <div className="flat-btn ovg" style={{ display: "flex" }}>
+              <div className="flat-btn" style={{ display: "flex" }}>
                 <button
-                  className="medium ovg basic hide"
+                  className="medium basic hide"
                   style={{ marginRight: "5px" }}
                 >
                   отмена
@@ -338,7 +336,7 @@ const DashboardPro = () => {
                 <button
                   disabled={isLoading}
                   style={{ width: "141.2px" }}
-                  className="primary medium ovg"
+                  className="primary medium"
                   onClick={() => giftGo()}
                 >
                   {isLoading ? <ButtonLoading /> : "подарить"}
@@ -346,7 +344,7 @@ const DashboardPro = () => {
               </div>
             </div>
           </div>
-        </ovg-modal-window> 
+        </modal-window> 
        )} */}
     </div>
   );

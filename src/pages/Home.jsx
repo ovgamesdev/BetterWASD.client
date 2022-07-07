@@ -10,15 +10,9 @@ const Home = () => {
   useMeta({ title: "BetterWASYA" });
 
   const slideImages = [
-    {
-      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_1.png",
-    },
-    {
-      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_2.png",
-    },
-    {
-      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_3.png",
-    },
+    { url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_1.png" },
+    { url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_2.png" },
+    { url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_3.png" },
   ];
 
   return (
@@ -35,7 +29,7 @@ const Home = () => {
             >
               Скачать для Google Chrome
             </a>
-            {/*<button className="button-big white">twast</button>*/}
+            {/*<button className="button-big white"></button>*/}
           </div>
         </div>
 

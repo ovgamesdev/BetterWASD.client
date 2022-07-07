@@ -1,12 +1,13 @@
 import { BrowserRouter } from "react-router-dom";
-import "./App.css";
-import "./pages/button.css";
+import { ToastContainer } from "react-toastify";
+
 import Navbar from "./components/UI/Navbar";
 
 import Routes from "./routes/Routes";
 
-import { ToastContainer } from "react-toastify";
 import "./toastify.scss";
+import "./App.css";
+import "./pages/button.css";
 
 function App() {
   return (

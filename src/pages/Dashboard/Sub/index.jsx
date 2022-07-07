@@ -120,19 +120,11 @@ const DashboardSub = () => {
 
           <br></br>
 
-          <div
-            className="flat-btn ovg"
-            style={{
-              display: "flex",
-              paddingTop: "5px",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+          <div className="flat-btn" style={{ display: "flex", paddingTop: "5px", flexDirection: "column", alignItems: "center" }}>
             <button
               onClick={onSave}
               disabled={isLoadingUpdate}
-              className={`primary medium ovg ${
+              className={`primary medium ${
                 auth.user &&
                 savedBadges &&
                 !(
@@ -162,7 +154,7 @@ const DashboardSub = () => {
             <button
               onClick={onDelete}
               disabled={isLoadingRemove}
-              className={`warning medium ovg ${
+              className={`warning medium ${
                 auth.user &&
                 savedBadges &&
                 savedBadges["1mon"] === "" &&

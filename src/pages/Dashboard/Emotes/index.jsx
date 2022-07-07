@@ -92,14 +92,14 @@ const DashboardEmotes = () => {
       <div className="item block item_right" style={{ marginTop: "0px" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div className="item__title"> Эмоции </div>
-          <div className="flat-btn ovg" style={{ display: "flex" }}>
+          <div className="flat-btn" style={{ display: "flex" }}>
             <button
               onClick={() => {
                 setShow(true);
                 setError(null);
                 setCreateEmote(null);
               }}
-              className={`primary medium ovg`}
+              className={`primary medium`}
             >
               Создать эмоцию
             </button>
@@ -148,9 +148,9 @@ const DashboardEmotes = () => {
         </div>
       </div>
 
-      {show && <ovg-modal-backdrop></ovg-modal-backdrop>}
+      {show && <modal-backdrop></modal-backdrop>}
       {show && (
-        <ovg-modal-window
+        <modal-window
           data-show="show"
           className={styles["show"]}
           onClick={(e) => {
@@ -178,10 +178,9 @@ const DashboardEmotes = () => {
                 </div>
                 <div className="col-64">
                   <wasd-input>
-                    <div ovg="" className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                      <div ovg="" className="wasd-input">
+                    <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+                      <div className="wasd-input">
                         <input
-                          ovg=""
                           placeholder="https://7tv.app/emotes/000000000000000000000000"
                           type="text"
                           className={isLoading ? "disabled" : ""}
@@ -191,14 +190,7 @@ const DashboardEmotes = () => {
                       </div>
 
                       {createEmote?.message && createEmote._id && (
-                        <div
-                          style={{
-                            display: "flex",
-                            marginTop: "5px",
-                            fontSize: "12px",
-                            marginRight: "5px",
-                          }}
-                        >
+                        <div style={{ display: "flex", marginTop: "5px", fontSize: "12px", marginRight: "5px" }}>
                           <span> {createEmote?.message} </span>
 
                           <Link style={{ marginLeft: "5px" }} to={`/emotes/${createEmote._id}`}>
@@ -208,19 +200,8 @@ const DashboardEmotes = () => {
                       )}
 
                       {createEmote?.message && createEmote._id && (
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            marginTop: "5px",
-                            fontSize: "12px",
-                          }}
-                        >
+                        <div style={{ display: "flex", alignItems: "center", marginTop: "5px", fontSize: "12px" }}>
                           <span className=""> Создать новую эмоцю? </span>
-
-                          {/* <img width={32} height={32} alt="1" src={HOSTURL + "/cached/emote/"+createEmote?._id+"/1x"}/> */}
-
-                          {/* <img width={32} height={32} alt="2" src={createEmote?.newImg}/> */}
                         </div>
                       )}
 
@@ -232,27 +213,19 @@ const DashboardEmotes = () => {
                     </div>
                   </wasd-input>
                 </div>
-                {/* <div className="col-36" style={{display:'none'}}>
-									<br></br>
-	                <label style={{fontSize: '13px'}}> *Сгененируцте новый токен а после чего вставьте в поле выше* </label>
-									<br></br>
-									<br></br>
-	              </div> */}
               </div>
             </div>
 
             <div className={styles["modal-block__footer"]}>
-              <div className="flat-btn ovg" style={{ display: "flex" }}>
-                <button className={`medium ovg basic hide ${isLoading ? "disabled" : ""}`} style={{ marginRight: "5px" }}>
+              <div className="flat-btn" style={{ display: "flex" }}>
+                <button className={`medium basic hide ${isLoading ? "disabled" : ""}`} style={{ marginRight: "5px" }}>
                   отмена
                 </button>
                 {createEmote?.message && createEmote._id ? (
                   <button
                     disabled={isLoadingCreateEmote}
                     style={{ width: "141.2px" }}
-                    className={`primary medium ovg ${
-                      (isLoading || url === "" || createEmote?.message) && !createEmote?._id ? "disabled" : ""
-                    }`}
+                    className={`primary medium ${(isLoading || url === "" || createEmote?.message) && !createEmote?._id ? "disabled" : ""}`}
                     onClick={() => onReCreate()}
                   >
                     {isLoadingCreateEmote ? <ButtonLoading /> : "создать новую"}
@@ -261,9 +234,7 @@ const DashboardEmotes = () => {
                   <button
                     disabled={isLoadingCreateEmote}
                     style={{ width: "100px" }}
-                    className={`primary medium ovg ${
-                      (isLoading || url === "" || createEmote?.message) && createEmote?._id ? "disabled" : ""
-                    }`}
+                    className={`primary medium ${(isLoading || url === "" || createEmote?.message) && createEmote?._id ? "disabled" : ""}`}
                     onClick={() => onSubmit()}
                   >
                     {isLoadingCreateEmote ? <ButtonLoading /> : "добавить"}
@@ -272,7 +243,7 @@ const DashboardEmotes = () => {
               </div>
             </div>
           </div>
-        </ovg-modal-window>
+        </modal-window>
       )}
     </>
   );

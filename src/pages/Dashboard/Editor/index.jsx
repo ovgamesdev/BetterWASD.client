@@ -90,29 +90,21 @@ const DashboardEditor = () => {
 
         {error && <label className="error">{error.message}</label>}
         {isFocus ? (
-          <div ovg="" className="wasd-input-wrapper">
-            <div ovg="" className="wasd-input">
-              {isLoadingAdd && (
-                <Loading
-                  style={{
-                    position: "absolute",
-                    zIndex: "5",
-                    width: "205px",
-                    height: "32px",
-                  }}
-                />
-              )}
-              <input autoFocus style={{ width: "205px", margin: "0" }} ovg="" onKeyDown={handler} placeholder="Имя пользователя" />
+          <div className="wasd-input-wrapper">
+            <div className="wasd-input">
+              {isLoadingAdd && <Loading style={{ position: "absolute", zIndex: "5", width: "205px", height: "32px" }} />}
+              <input autoFocus style={{ width: "205px", height: "34px", margin: "0" }} onKeyDown={handler} placeholder="Имя пользователя" />
             </div>
           </div>
         ) : (
-          <div className="flat-btn ovg" style={{ display: "flex" }}>
+          <div className="flat-btn" style={{ display: "flex" }}>
             <button
               onClick={() => {
                 setIsFocus(true);
                 setError(null);
               }}
-              className={`primary medium ovg`}
+              className={`primary medium`}
+              style={{ width: "205px", height: "34px" }}
             >
               Добавить пользователя
             </button>
@@ -124,9 +116,9 @@ const DashboardEditor = () => {
       <br></br>
 
       {auth.user.channel_editor.length !== 0 && (
-        <div>
-          <div className="item__title">Пользователи, которыми вы управляете как редактор</div>
-          <div className="item__descr">Вы можете управлять эмодзи для любого из перечисленных ниже пользователей.</div>
+        <>
+          <div className="item__title"> Пользователи, которыми вы управляете как редактор </div>
+          <div className="item__descr"> Вы можете управлять эмодзи для любого из перечисленных ниже пользователей. </div>
           <div className="item__border"></div>
 
           <div>
@@ -136,7 +128,7 @@ const DashboardEditor = () => {
               ))}
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

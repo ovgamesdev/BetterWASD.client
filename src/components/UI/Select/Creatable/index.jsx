@@ -40,7 +40,7 @@ const CreatableSelect = ({ onChange = () => {}, options = [], defaultValue = {} 
 
   return (
     <div className="select--container" ref={ref}>
-      <div className="select--control" onClick={() => setIsComponentVisible(!isComponentVisible)}>
+      <div className={`select--control ${isComponentVisible ? "active" : ""}`} onClick={() => setIsComponentVisible(!isComponentVisible)}>
         <div className="select--value__container">
           {search === "" && <div className="select--value">{value()}</div>}
           <div className="select--input">

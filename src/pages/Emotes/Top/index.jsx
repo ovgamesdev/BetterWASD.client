@@ -62,13 +62,12 @@ const EmotesTop = () => {
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         {search === "" && <div className="item__title"> Топ эмоции </div>}
         {search !== "" && <div className="item__title"> Топ эмоции: {search} </div>}
-        <div className="flat-btn ovg" style={{ display: "flex" }}>
+        <div className="flat-btn" style={{ display: "flex" }}>
           <wasd-input>
-            <div ovg="" className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-              <div ovg="" className="wasd-input search-container">
+            <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+              <div className="wasd-input search-container">
                 <input
                   style={{ margin: "0" }}
-                  ovg=""
                   placeholder="Поиск.."
                   type="text"
                   value={search}

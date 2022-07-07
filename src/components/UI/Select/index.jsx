@@ -33,7 +33,7 @@ const Select = ({ onChange, options, defaultValue, isMulti, title }) => {
 
   return (
     <div className="select--container" ref={ref}>
-      <div className="select--control" onClick={() => setIsComponentVisible(!isComponentVisible)}>
+      <div className={`select--control ${isComponentVisible ? "active" : ""}`} onClick={() => setIsComponentVisible(!isComponentVisible)}>
         <div className="select--value__container">
           <div className="select--value">{isMulti ? title : value()}</div>
         </div>

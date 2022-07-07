@@ -68,9 +68,9 @@ const Login = () => {
         </div>
       </section>
 
-      {showAuth && <ovg-modal-backdrop></ovg-modal-backdrop>}
+      {showAuth && <modal-backdrop></modal-backdrop>}
       {showAuth && (
-        <ovg-modal-window
+        <modal-window
           data-show="show"
           className={styles["show"]}
           onClick={(e) => {
@@ -98,10 +98,9 @@ const Login = () => {
                 </div>
                 <div className="col-64">
                   <wasd-input>
-                    <div ovg="" className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                      <div ovg="" className="wasd-input">
+                    <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+                      <div className="wasd-input">
                         <input
-                          ovg=""
                           autoFocus
                           placeholder="Ваш токен"
                           type="text"
@@ -127,12 +126,12 @@ const Login = () => {
             </div>
 
             <div className={styles["modal-block__footer"]}>
-              <div className="flat-btn ovg" style={{ display: "flex" }}>
-                <button className={`medium ovg basic hide ${isLoading ? "disabled" : ""}`} style={{ marginRight: "5px" }}>
+              <div className="flat-btn" style={{ display: "flex" }}>
+                <button className={`medium basic hide ${isLoading ? "disabled" : ""}`} style={{ marginRight: "5px" }}>
                   отмена
                 </button>
                 <button
-                  className={`primary medium ovg updateUser ${isLoading ? "disabled" : ""}`}
+                  className={`primary medium updateUser ${isLoading ? "disabled" : ""}`}
                   disabled={isLoadingLogin}
                   style={{ width: "109px" }}
                   onClick={onSubmit}
@@ -142,7 +141,7 @@ const Login = () => {
               </div>
             </div>
           </div>
-        </ovg-modal-window>
+        </modal-window>
       )}
     </>
   );

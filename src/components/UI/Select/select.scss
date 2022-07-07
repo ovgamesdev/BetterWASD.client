@@ -19,6 +19,15 @@
     transition: all 100ms;
     font-size: 14px;
 
+    &:hover {
+      border: 1px solid var(--wasd-color-text-prime);
+    }
+
+    &.active {
+      border: 1px solid var(--wasd-color-corp-blue);
+      box-shadow: 0 0 0 2px rgba(var(--wasd-color-corp-blue--rgb), 0.48);
+    }
+
     .select--value__container {
       align-items: center;
       display: grid;

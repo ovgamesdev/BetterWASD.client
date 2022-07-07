@@ -175,14 +175,7 @@ const DashboardPaint = () => {
         )}
       </div>
 
-      <div
-        className="flat-btn ovg buttons"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div className="flat-btn buttons" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {getColor()?.toString().length > 155 && auth.user?.user_role !== "ADMIN" && (
           <span
             className=""
@@ -197,7 +190,7 @@ const DashboardPaint = () => {
         <button
           onClick={onSave}
           disabled={isLoadingUpdate}
-          className={`primary medium ovg ${isEdit ? "disabled" : ""}`}
+          className={`primary medium ${isEdit ? "disabled" : ""}`}
           style={{ width: "300px" }}
         >
           {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
@@ -205,7 +198,7 @@ const DashboardPaint = () => {
         <button
           onClick={onDelete}
           disabled={isLoadingRemove}
-          className={`warning medium ovg ${typeof auth.user?.paint !== "string" ? "disabled" : ""}`}
+          className={`warning medium ${typeof auth.user?.paint !== "string" ? "disabled" : ""}`}
           style={{ marginTop: "5px", width: "300px" }}
         >
           {isLoadingRemove ? <ButtonLoading /> : "Восстановить по умолчанию"}

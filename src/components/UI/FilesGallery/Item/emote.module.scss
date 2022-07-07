@@ -72,6 +72,7 @@
     transition: background-color 0.25s;
     background-color: var(--wasd-color-corp-blue) !important;
     z-index: 1;
+    cursor: pointer;
 
     .delete-emote {
       display: flex;
@@ -161,6 +162,13 @@
     width: 16px;
     height: 16px;
   }
+  .active-item {
+    fill: #38c233;
+    top: 45px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+  }
   .delete-emote {
     cursor: pointer;
     fill: #fff;
@@ -170,8 +178,23 @@
     width: 18px;
     height: 18px;
 
+    & > * {
+      pointer-events: none;
+    }
+
     &:hover {
       background-color: red;
     }
   }
+}
+
+.played-item {
+  fill: #5814e9;
+  // top: 45px;
+  // right: 2px;
+  // width: 20px;
+  // height: 20px;
+
+  position: absolute;
+  margin: 18px;
 }

@@ -45,13 +45,7 @@ const Uninstall = () => {
   const submit = async () => {
     try {
       setIsLoading(true);
-      await api.uninstall.submit({
-        data: text,
-        mailto: mailto,
-        reason: activeTab,
-        userAgent: navigator.userAgent,
-        user_id: user_id,
-      });
+      await api.uninstall.submit({ data: text, mailto: mailto, reason: activeTab, userAgent: navigator.userAgent, user_id: user_id });
 
       setIsSubmited(true);
     } catch (e) {
@@ -62,19 +56,10 @@ const Uninstall = () => {
   };
 
   const options = [
-    {
-      title: "Расширение не работает корректно",
-      placeholder: "Как мы можем это исправить",
-    },
-    {
-      title: "Нет функций, которые мне нужны",
-      placeholder: "Что мы можем добавить",
-    },
+    { title: "Расширение не работает корректно", placeholder: "Как мы можем это исправить" },
+    { title: "Нет функций, которые мне нужны", placeholder: "Что мы можем добавить" },
     { title: "Мне больше оно не нужно", placeholder: "" },
-    {
-      title: "Другое",
-      placeholder: "Описание проблемы или предложения",
-    },
+    { title: "Другое", placeholder: "Описание проблемы или предложения" },
   ];
 
   useEffect(() => {
@@ -141,8 +126,8 @@ const Uninstall = () => {
                   </>
                 )}
                 <div className="send-question">
-                  <div className="flat-btn ovg">
-                    <button className="primary medium ovg" disabled={!activeTab || (text.length < 5 && placeholderData)} onClick={submit}>
+                  <div className="flat-btn">
+                    <button className="primary medium" disabled={!activeTab || (text.length < 5 && placeholderData)} onClick={submit}>
                       <span> Отправить </span>
                     </button>
                   </div>

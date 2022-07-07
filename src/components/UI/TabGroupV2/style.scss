@@ -116,9 +116,9 @@
   position: absolute;
   width: 4px;
 }
-.inkbar.animated {
-  transition: left 0.2s, width 0.2s;
-}
+// .inkbar.animated {
+//   transition: left 0.2s, width 0.2s;
+// }
 .inkbar--vertical {
   background: rgba(var(--color-system-blue), 1);
   bottom: 0;
@@ -455,11 +455,7 @@
   width: 102%;
 }
 .mobile-btns--left {
-  background: linear-gradient(
-    90deg,
-    var(--wasd-color-bg-prime) 32%,
-    rgba(var(--color-background), 0)
-  );
+  background: linear-gradient(90deg, var(--wasd-color-bg-prime) 32%, rgba(var(--color-background), 0));
   height: 34px;
   transition: visibility 0s, opacity 0.2s linear;
   width: 34px;
@@ -478,18 +474,10 @@
   visibility: hidden;
 }
 .mobile-btns--left.newBG {
-  background: linear-gradient(
-    90deg,
-    var(--wasd-color-prime) 32%,
-    rgba(var(--color-background), 0)
-  ) !important;
+  background: linear-gradient(90deg, var(--wasd-color-prime) 32%, rgba(var(--color-background), 0)) !important;
 }
 .mobile-btns--right {
-  background: linear-gradient(
-    270deg,
-    var(--wasd-color-bg-prime) 32%,
-    rgba(var(--color-background), 0)
-  );
+  background: linear-gradient(270deg, var(--wasd-color-bg-prime) 32%, rgba(var(--color-background), 0));
   height: 34px;
   transition: visibility 0.2s, opacity 0.2s linear;
   width: 34px;
@@ -509,11 +497,7 @@
   visibility: hidden;
 }
 .mobile-btns--right.newBG {
-  background: linear-gradient(
-    270deg,
-    var(--wasd-color-prime) 32%,
-    rgba(var(--color-background), 0)
-  ) !important;
+  background: linear-gradient(270deg, var(--wasd-color-prime) 32%, rgba(var(--color-background), 0)) !important;
 }
 .tabs-wrapper.horizontal.small {
   > .tabs {

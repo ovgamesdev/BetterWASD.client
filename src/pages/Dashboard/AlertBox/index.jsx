@@ -56,7 +56,6 @@ const DashboardAlertBox = () => {
   const [settings, setSettings] = useState(null);
   const [widgetUrl, setWidgetUrl] = useState(null);
 
-  const [isPlayed, setIsPlayed] = useState(false);
   const [isFilterEdited, setFilterEdited] = useState(false);
 
   useEffect(() => {
@@ -126,7 +125,7 @@ const DashboardAlertBox = () => {
   };
 
   return (
-    <div className="item block item_right" style={{ marginTop: "0px", width: "69.6%" }}>
+    <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Оповещения </div>
       <div className="item__descr">Порадуйте ваших зрителей с помощью красивых оповещений на стриме.</div>
       <div className="item__border"></div>
@@ -141,9 +140,8 @@ const DashboardAlertBox = () => {
               </div>
               <div className="right">
                 <div style={{ display: "flex" }}>
-                  <div className="wasd-input-wrapper" ovg="">
+                  <div className="wasd-input-wrapper">
                     <div
-                      ovg=""
                       className="wasd-input"
                       style={{ cursor: "pointer" }}
                       onClick={() => {
@@ -151,7 +149,7 @@ const DashboardAlertBox = () => {
                         toast("Ссылка на виджет скопирована!");
                       }}
                     >
-                      <input ovg="" style={{ margin: 0 }} className="blur" value={widgetUrl} readOnly />
+                      <input style={{ margin: 0 }} className="blur" value={widgetUrl} readOnly />
                       <div className="copy-input">Cкопировать URL-адрес виджета</div>
                     </div>
                   </div>
@@ -161,7 +159,6 @@ const DashboardAlertBox = () => {
                       defaultValue={filters}
                       options={colourOptions}
                       onChange={(value) => {
-                        console.log(value);
                         setFilters(value);
                         setFilterEdited(true);
                       }}
@@ -177,19 +174,19 @@ const DashboardAlertBox = () => {
           </div>
 
           <p style={{ marginTop: "20px" }}>При открытом и работающем виджете, используйте кнопки ниже для показа тестовых оповещений.</p>
-          <div className="flat-btn ovg" style={{ display: "flex" }}>
-            <button className="basic medium ovg" disabled={isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
+          <div className="flat-btn" style={{ display: "flex" }}>
+            <button className="basic medium" disabled={isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
               {isLoadingTest === "Follow" && <ButtonLoading />} Тест Фоллоу
             </button>
             <button
-              className="basic medium ovg"
+              className="basic medium"
               disabled={isLoadingTest === "Sub"}
               onClick={() => createEvent.Sub()}
               style={{ margin: "0 5px" }}
             >
               {isLoadingTest === "Sub" && <ButtonLoading />} Тест Подписка
             </button>
-            <button className="basic medium ovg" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()}>
+            <button className="basic medium" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()}>
               {isLoadingTest === "Raid" && <ButtonLoading />} Тест Рейд
             </button>
           </div>
@@ -215,12 +212,7 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <ColorPicker
                     value={settings.background_color}
-                    onChange={(color) =>
-                      setSettings({
-                        ...settings,
-                        background_color: color,
-                      })
-                    }
+                    onChange={(color) => setSettings({ ...settings, background_color: color })}
                   />
                 </div>
               </div>
@@ -234,12 +226,7 @@ const DashboardAlertBox = () => {
                     max={30000}
                     step={1000}
                     value={settings.alert_delay}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        alert_delay: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, alert_delay: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v / 1000 + "сек"}
                   />
                 </div>
@@ -253,12 +240,7 @@ const DashboardAlertBox = () => {
                     <input
                       type="checkbox"
                       checked={settings.interrupt_mode}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          interrupt_mode: changeEvent.target.checked,
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, interrupt_mode: changeEvent.target.checked })}
                       id="interrupt_mode"
                     />
                     <label htmlFor="interrupt_mode" style={{ marginLeft: "8px", fontSize: "12px", opacity: ".8", cursor: "pointer" }}>
@@ -278,12 +260,7 @@ const DashboardAlertBox = () => {
                       max={20000}
                       step={500}
                       value={settings.interrupt_mode_delay}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          interrupt_mode_delay: Number(changeEvent.target.value),
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, interrupt_mode_delay: Number(changeEvent.target.value) })}
                       tooltipLabel={(v) => v / 1000 + "сек"}
                     />
                   </div>
@@ -300,25 +277,11 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <Select
                     defaultValue={{ value: settings.follow_layout }}
-                    onChange={(value) =>
-                      setSettings({
-                        ...settings,
-                        follow_layout: value.value,
-                      })
-                    }
+                    onChange={(value) => setSettings({ ...settings, follow_layout: value.value })}
                     options={[
-                      {
-                        label: "вверху",
-                        value: "above",
-                      },
-                      {
-                        label: "баннер",
-                        value: "banner",
-                      },
-                      {
-                        label: "боковая",
-                        value: "side",
-                      },
+                      { label: "вверху", value: "above" },
+                      { label: "баннер", value: "banner" },
+                      { label: "боковая", value: "side" },
                     ]}
                   />
                 </div>
@@ -331,22 +294,12 @@ const DashboardAlertBox = () => {
                   <div className="split">
                     <Select
                       defaultValue={{ value: settings.follow_show_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          follow_show_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, follow_show_animation: value.value })}
                       options={animationAlertShow}
                     />
                     <Select
                       defaultValue={{ value: settings.follow_hide_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          follow_hide_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, follow_hide_animation: value.value })}
                       options={animationAlertHide}
                     />
                   </div>
@@ -358,19 +311,13 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <div style={{ display: "flex" }}>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
+                    <div className="wasd-input-wrapper">
+                      <div className="wasd-input">
                         <input
-                          ovg=""
                           style={{ margin: 0 }}
                           value={settings.follow_message_template}
                           placeholder="используйте {name} чтобы заменить его на имя фолловера"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              follow_message_template: e.target.value,
-                            })
-                          }
+                          onChange={(e) => setSettings({ ...settings, follow_message_template: e.target.value })}
                         />
                       </div>
                     </div>
@@ -390,12 +337,7 @@ const DashboardAlertBox = () => {
                   <div className="split">
                     <Select
                       defaultValue={{ value: settings.follow_text_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          follow_text_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, follow_text_animation: value.value })}
                       options={animationText}
                     />
                     <div
@@ -403,6 +345,7 @@ const DashboardAlertBox = () => {
                         font: '600 16px "Open Sans"',
                         textTransform: "uppercase",
                       }}
+                      className="preview"
                     >
                       {"Sample Text".split("").map((w, i) => (
                         <span key={i} className={"animated-letter " + settings.follow_text_animation}>
@@ -421,13 +364,10 @@ const DashboardAlertBox = () => {
                   <FilesGallery
                     value={settings.follow_image}
                     title="Галерея изображений"
+                    title_link="Ссылка на изображение"
                     fileType="images"
-                    onChange={(value) =>
-                      setSettings({
-                        ...settings,
-                        follow_image: value,
-                      })
-                    }
+                    fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
+                    onChange={(value) => setSettings({ ...settings, follow_image: value })}
                   />
                 </div>
               </div>
@@ -436,43 +376,15 @@ const DashboardAlertBox = () => {
                   <label>Звук</label>
                 </div>
                 <div className="right">
-                  <div className="preview">
-                    <button
-                      disabled={isPlayed}
-                      onClick={() => {
-                        if (isPlayed) return;
-                        const audio = new Audio(settings.follow_sound);
-                        audio.volume = settings.follow_sound_volume / 100;
-                        setIsPlayed(true);
-                        audio.play();
-                        audio.onended = () => {
-                          setIsPlayed(false);
-                        };
-                        audio.onerror = (e) => {
-                          setIsPlayed(false);
-                          toast.error("Мы не можем воспроизвести этот звук");
-                        };
-                      }}
-                    >
-                      play
-                    </button>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          value={settings.follow_sound}
-                          placeholder="https://example.com/sound.mp3"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              follow_sound: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <FilesGallery
+                    value={settings.follow_sound}
+                    title="Галерея звуков"
+                    title_link="Ссылка на аудио"
+                    fileType="sounds"
+                    fileAccept=".mp3,.wav,.ogg"
+                    onChange={(value) => setSettings({ ...settings, follow_sound: value })}
+                    sound_volume={settings.follow_sound_volume}
+                  />
                 </div>
               </div>
               <div className="row">
@@ -485,12 +397,7 @@ const DashboardAlertBox = () => {
                     max={100}
                     step={1}
                     value={settings.follow_sound_volume}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        follow_sound_volume: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, follow_sound_volume: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v + "%"}
                   />
                 </div>
@@ -505,12 +412,7 @@ const DashboardAlertBox = () => {
                     max={300000}
                     step={1000}
                     value={settings.follow_alert_duration}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        follow_alert_duration: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, follow_alert_duration: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v / 1000 + "сек"}
                   />
                 </div>
@@ -525,12 +427,7 @@ const DashboardAlertBox = () => {
                     max={60000}
                     step={1000}
                     value={settings.follow_text_delay}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        follow_text_delay: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, follow_text_delay: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v / 1000 + "сек"}
                   />
                 </div>
@@ -544,12 +441,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <CreatableSelect
                       defaultValue={{ value: settings.follow_font }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          follow_font: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, follow_font: value.value })}
                       options={fontOptions}
                     />
                   </div>
@@ -564,12 +456,7 @@ const DashboardAlertBox = () => {
                       max={80}
                       step={2}
                       value={Number(settings.follow_font_size?.replace("px", ""))}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          follow_font_size: changeEvent.target.value + "px",
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, follow_font_size: changeEvent.target.value + "px" })}
                       tooltipLabel={(v) => v + "px"}
                     />
                   </div>
@@ -584,12 +471,7 @@ const DashboardAlertBox = () => {
                       max={900}
                       step={100}
                       value={Number(settings.follow_font_weight)}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          follow_font_weight: changeEvent.target.value.toString(),
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, follow_font_weight: changeEvent.target.value.toString() })}
                     />
                   </div>
                 </div>
@@ -600,12 +482,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <ColorPicker
                       value={settings.follow_font_color}
-                      onChange={(color) =>
-                        setSettings({
-                          ...settings,
-                          follow_font_color: color,
-                        })
-                      }
+                      onChange={(color) => setSettings({ ...settings, follow_font_color: color })}
                     />
                   </div>
                 </div>
@@ -616,12 +493,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <ColorPicker
                       value={settings.follow_font_color2}
-                      onChange={(color) =>
-                        setSettings({
-                          ...settings,
-                          follow_font_color2: color,
-                        })
-                      }
+                      onChange={(color) => setSettings({ ...settings, follow_font_color2: color })}
                     />
                   </div>
                 </div>
@@ -637,25 +509,11 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <Select
                     defaultValue={{ value: settings.sub_layout }}
-                    onChange={(value) =>
-                      setSettings({
-                        ...settings,
-                        sub_layout: value.value,
-                      })
-                    }
+                    onChange={(value) => setSettings({ ...settings, sub_layout: value.value })}
                     options={[
-                      {
-                        label: "вверху",
-                        value: "above",
-                      },
-                      {
-                        label: "баннер",
-                        value: "banner",
-                      },
-                      {
-                        label: "боковая",
-                        value: "side",
-                      },
+                      { label: "вверху", value: "above" },
+                      { label: "баннер", value: "banner" },
+                      { label: "боковая", value: "side" },
                     ]}
                   />
                 </div>
@@ -668,22 +526,12 @@ const DashboardAlertBox = () => {
                   <div className="split">
                     <Select
                       defaultValue={{ value: settings.sub_show_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          sub_show_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, sub_show_animation: value.value })}
                       options={animationAlertShow}
                     />
                     <Select
                       defaultValue={{ value: settings.sub_hide_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          sub_hide_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, sub_hide_animation: value.value })}
                       options={animationAlertHide}
                     />
                   </div>
@@ -695,19 +543,13 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <div style={{ display: "flex" }}>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
+                    <div className="wasd-input-wrapper">
+                      <div className="wasd-input">
                         <input
-                          ovg=""
                           style={{ margin: 0 }}
                           value={settings.sub_message_template}
                           placeholder="используйте {name} чтобы заменить его на имя подписчика"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              sub_message_template: e.target.value,
-                            })
-                          }
+                          onChange={(e) => setSettings({ ...settings, sub_message_template: e.target.value })}
                         />
                       </div>
                     </div>
@@ -727,12 +569,7 @@ const DashboardAlertBox = () => {
                   <div className="split">
                     <Select
                       defaultValue={{ value: settings.sub_text_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          sub_text_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, sub_text_animation: value.value })}
                       options={animationText}
                     />
                     <div
@@ -740,6 +577,7 @@ const DashboardAlertBox = () => {
                         font: '600 16px "Open Sans"',
                         textTransform: "uppercase",
                       }}
+                      className="preview"
                     >
                       {"Sample Text".split("").map((w, i) => (
                         <span key={i} className={"animated-letter " + settings.sub_text_animation}>
@@ -758,13 +596,10 @@ const DashboardAlertBox = () => {
                   <FilesGallery
                     value={settings.sub_image}
                     title="Галерея изображений"
+                    title_link="Ссылка на изображение"
                     fileType="images"
-                    onChange={(value) =>
-                      setSettings({
-                        ...settings,
-                        sub_image: value,
-                      })
-                    }
+                    fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
+                    onChange={(value) => setSettings({ ...settings, sub_image: value })}
                   />
                 </div>
               </div>
@@ -773,43 +608,15 @@ const DashboardAlertBox = () => {
                   <label>Звук</label>
                 </div>
                 <div className="right">
-                  <div className="preview">
-                    <button
-                      disabled={isPlayed}
-                      onClick={() => {
-                        if (isPlayed) return;
-                        const audio = new Audio(settings.sub_sound);
-                        audio.volume = settings.sub_sound_volume / 100;
-                        setIsPlayed(true);
-                        audio.play();
-                        audio.onended = () => {
-                          setIsPlayed(false);
-                        };
-                        audio.onerror = (e) => {
-                          setIsPlayed(false);
-                          toast.error("Мы не можем воспроизвести этот звук");
-                        };
-                      }}
-                    >
-                      play
-                    </button>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          value={settings.sub_sound}
-                          placeholder="https://example.com/sound.mp3"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              sub_sound: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <FilesGallery
+                    value={settings.sub_sound}
+                    title="Галерея звуков"
+                    title_link="Ссылка на аудио"
+                    fileType="sounds"
+                    fileAccept=".mp3,.wav,.ogg"
+                    onChange={(value) => setSettings({ ...settings, sub_sound: value })}
+                    sound_volume={settings.sub_sound_volume}
+                  />
                 </div>
               </div>
               <div className="row">
@@ -822,12 +629,7 @@ const DashboardAlertBox = () => {
                     max={100}
                     step={1}
                     value={settings.sub_sound_volume}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        sub_sound_volume: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, sub_sound_volume: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v + "%"}
                   />
                 </div>
@@ -842,12 +644,7 @@ const DashboardAlertBox = () => {
                     max={300000}
                     step={1000}
                     value={settings.sub_alert_duration}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        sub_alert_duration: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, sub_alert_duration: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v / 1000 + "сек"}
                   />
                 </div>
@@ -862,12 +659,7 @@ const DashboardAlertBox = () => {
                     max={60000}
                     step={1000}
                     value={settings.sub_text_delay}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        sub_text_delay: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, sub_text_delay: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v / 1000 + "сек"}
                   />
                 </div>
@@ -881,12 +673,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <CreatableSelect
                       defaultValue={{ value: settings.sub_font }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          sub_font: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, sub_font: value.value })}
                       options={fontOptions}
                     />
                   </div>
@@ -901,12 +688,7 @@ const DashboardAlertBox = () => {
                       max={80}
                       step={2}
                       value={Number(settings.sub_font_size?.replace("px", ""))}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          sub_font_size: changeEvent.target.value + "px",
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, sub_font_size: changeEvent.target.value + "px" })}
                       tooltipLabel={(v) => v + "px"}
                     />
                   </div>
@@ -921,12 +703,7 @@ const DashboardAlertBox = () => {
                       max={900}
                       step={100}
                       value={Number(settings.sub_font_weight)}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          sub_font_weight: changeEvent.target.value.toString(),
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, sub_font_weight: changeEvent.target.value.toString() })}
                     />
                   </div>
                 </div>
@@ -937,12 +714,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <ColorPicker
                       value={settings.sub_font_color}
-                      onChange={(color) =>
-                        setSettings({
-                          ...settings,
-                          sub_font_color: color,
-                        })
-                      }
+                      onChange={(color) => setSettings({ ...settings, sub_font_color: color })}
                     />
                   </div>
                 </div>
@@ -953,12 +725,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <ColorPicker
                       value={settings.sub_font_color2}
-                      onChange={(color) =>
-                        setSettings({
-                          ...settings,
-                          sub_font_color2: color,
-                        })
-                      }
+                      onChange={(color) => setSettings({ ...settings, sub_font_color2: color })}
                     />
                   </div>
                 </div>
@@ -974,25 +741,11 @@ const DashboardAlertBox = () => {
                 <div className="right">
                   <Select
                     defaultValue={{ value: settings.raid_layout }}
-                    onChange={(value) =>
-                      setSettings({
-                        ...settings,
-                        raid_layout: value.value,
-                      })
-                    }
+                    onChange={(value) => setSettings({ ...settings, raid_layout: value.value })}
                     options={[
-                      {
-                        label: "вверху",
-                        value: "above",
-                      },
-                      {
-                        label: "баннер",
-                        value: "banner",
-                      },
-                      {
-                        label: "боковая",
-                        value: "side",
-                      },
+                      { label: "вверху", value: "above" },
+                      { label: "баннер", value: "banner" },
+                      { label: "боковая", value: "side" },
                     ]}
                   />
                 </div>
@@ -1005,22 +758,12 @@ const DashboardAlertBox = () => {
                   <div className="split">
                     <Select
                       defaultValue={{ value: settings.raid_show_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          raid_show_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, raid_show_animation: value.value })}
                       options={animationAlertShow}
                     />
                     <Select
                       defaultValue={{ value: settings.raid_hide_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          raid_hide_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, raid_hide_animation: value.value })}
                       options={animationAlertHide}
                     />
                   </div>
@@ -1032,19 +775,13 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <div style={{ display: "flex" }}>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
+                    <div className="wasd-input-wrapper">
+                      <div className="wasd-input">
                         <input
-                          ovg=""
                           style={{ margin: 0 }}
                           value={settings.raid_message_template}
                           placeholder="используйте {name} чтобы заменить его на имя рейдера"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              raid_message_template: e.target.value,
-                            })
-                          }
+                          onChange={(e) => setSettings({ ...settings, raid_message_template: e.target.value })}
                         />
                       </div>
                     </div>
@@ -1064,12 +801,7 @@ const DashboardAlertBox = () => {
                   <div className="split">
                     <Select
                       defaultValue={{ value: settings.raid_text_animation }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          raid_text_animation: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, raid_text_animation: value.value })}
                       options={animationText}
                     />
                     <div
@@ -1077,6 +809,7 @@ const DashboardAlertBox = () => {
                         font: '600 16px "Open Sans"',
                         textTransform: "uppercase",
                       }}
+                      className="preview"
                     >
                       {"Sample Text".split("").map((w, i) => (
                         <span key={i} className={"animated-letter " + settings.raid_text_animation}>
@@ -1095,13 +828,10 @@ const DashboardAlertBox = () => {
                   <FilesGallery
                     value={settings.raid_image}
                     title="Галерея изображений"
+                    title_link="Ссылка на изображение"
                     fileType="images"
-                    onChange={(value) =>
-                      setSettings({
-                        ...settings,
-                        raid_image: value,
-                      })
-                    }
+                    fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
+                    onChange={(value) => setSettings({ ...settings, raid_image: value })}
                   />
                 </div>
               </div>
@@ -1110,43 +840,15 @@ const DashboardAlertBox = () => {
                   <label>Звук</label>
                 </div>
                 <div className="right">
-                  <div className="preview">
-                    <button
-                      disabled={isPlayed}
-                      onClick={() => {
-                        if (isPlayed) return;
-                        const audio = new Audio(settings.raid_sound);
-                        audio.volume = settings.raid_sound_volume / 100;
-                        setIsPlayed(true);
-                        audio.play();
-                        audio.onended = () => {
-                          setIsPlayed(false);
-                        };
-                        audio.onerror = (e) => {
-                          setIsPlayed(false);
-                          toast.error("Мы не можем воспроизвести этот звук");
-                        };
-                      }}
-                    >
-                      play
-                    </button>
-                    <div className="wasd-input-wrapper" ovg="">
-                      <div ovg="" className="wasd-input">
-                        <input
-                          ovg=""
-                          style={{ margin: 0 }}
-                          value={settings.raid_sound}
-                          placeholder="https://example.com/sound.mp3"
-                          onChange={(e) =>
-                            setSettings({
-                              ...settings,
-                              raid_sound: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <FilesGallery
+                    value={settings.raid_sound}
+                    title="Галерея звуков"
+                    title_link="Ссылка на аудио"
+                    fileType="sounds"
+                    fileAccept=".mp3,.wav,.ogg"
+                    onChange={(value) => setSettings({ ...settings, raid_sound: value })}
+                    sound_volume={settings.raid_sound_volume}
+                  />
                 </div>
               </div>
               <div className="row">
@@ -1159,12 +861,7 @@ const DashboardAlertBox = () => {
                     max={100}
                     step={1}
                     value={settings.raid_sound_volume}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        raid_sound_volume: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, raid_sound_volume: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v + "%"}
                   />
                 </div>
@@ -1179,12 +876,7 @@ const DashboardAlertBox = () => {
                     max={300000}
                     step={1000}
                     value={settings.raid_alert_duration}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        raid_alert_duration: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, raid_alert_duration: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v / 1000 + "сек"}
                   />
                 </div>
@@ -1199,12 +891,7 @@ const DashboardAlertBox = () => {
                     max={60000}
                     step={1000}
                     value={settings.raid_text_delay}
-                    onChange={(changeEvent) =>
-                      setSettings({
-                        ...settings,
-                        raid_text_delay: Number(changeEvent.target.value),
-                      })
-                    }
+                    onChange={(changeEvent) => setSettings({ ...settings, raid_text_delay: Number(changeEvent.target.value) })}
                     tooltipLabel={(v) => v / 1000 + "сек"}
                   />
                 </div>
@@ -1218,12 +905,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <CreatableSelect
                       defaultValue={{ value: settings.raid_font }}
-                      onChange={(value) =>
-                        setSettings({
-                          ...settings,
-                          raid_font: value.value,
-                        })
-                      }
+                      onChange={(value) => setSettings({ ...settings, raid_font: value.value })}
                       options={fontOptions}
                     />
                   </div>
@@ -1238,12 +920,7 @@ const DashboardAlertBox = () => {
                       max={80}
                       step={2}
                       value={Number(settings.raid_font_size?.replace("px", ""))}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          raid_font_size: changeEvent.target.value + "px",
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, raid_font_size: changeEvent.target.value + "px" })}
                       tooltipLabel={(v) => v + "px"}
                     />
                   </div>
@@ -1258,12 +935,7 @@ const DashboardAlertBox = () => {
                       max={900}
                       step={100}
                       value={Number(settings.raid_font_weight)}
-                      onChange={(changeEvent) =>
-                        setSettings({
-                          ...settings,
-                          raid_font_weight: changeEvent.target.value.toString(),
-                        })
-                      }
+                      onChange={(changeEvent) => setSettings({ ...settings, raid_font_weight: changeEvent.target.value.toString() })}
                     />
                   </div>
                 </div>
@@ -1274,12 +946,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <ColorPicker
                       value={settings.raid_font_color}
-                      onChange={(color) =>
-                        setSettings({
-                          ...settings,
-                          raid_font_color: color,
-                        })
-                      }
+                      onChange={(color) => setSettings({ ...settings, raid_font_color: color })}
                     />
                   </div>
                 </div>
@@ -1290,12 +957,7 @@ const DashboardAlertBox = () => {
                   <div className="right">
                     <ColorPicker
                       value={settings.raid_font_color2}
-                      onChange={(color) =>
-                        setSettings({
-                          ...settings,
-                          raid_font_color2: color,
-                        })
-                      }
+                      onChange={(color) => setSettings({ ...settings, raid_font_color2: color })}
                     />
                   </div>
                 </div>
@@ -1304,15 +966,8 @@ const DashboardAlertBox = () => {
           )}
 
           <div className="item__border"></div>
-          <div
-            className="flat-btn ovg"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <button onClick={onSave} disabled={isLoadingUpdate} className={`primary medium ovg`} style={{ width: "300px" }}>
+          <div className="flat-btn" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <button onClick={onSave} disabled={isLoadingUpdate} className={`primary medium`} style={{ width: "300px" }}>
               {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
             </button>
           </div>

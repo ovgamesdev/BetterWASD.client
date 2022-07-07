@@ -1,4 +1,4 @@
-ovg-modal-window {
+modal-window {
   align-items: center;
   display: flex;
   height: 100%;
@@ -89,7 +89,7 @@ ovg-modal-window {
   margin: auto;
 }
 
-ovg-modal-backdrop {
+modal-backdrop {
   background-color: rgba(var(--color-system-black), 0.48);
   display: block;
   height: 100vh;

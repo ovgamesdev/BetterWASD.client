@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   width: 225px;
-
+  transition: all 100ms;
   background-color: var(--color-second-layer);
   border: 1px solid var(--wasd-color-text-fourth);
   border-radius: 4px;
@@ -16,8 +16,16 @@
   padding: 0 8px;
   position: relative;
   resize: vertical;
-
   text-transform: uppercase;
+
+  &:hover {
+    border: 1px solid var(--wasd-color-text-prime);
+  }
+
+  &.active {
+    border: 1px solid var(--wasd-color-corp-blue);
+    box-shadow: 0 0 0 2px rgba(var(--wasd-color-corp-blue--rgb), 0.48);
+  }
 
   &-preview {
     margin-left: 10px;

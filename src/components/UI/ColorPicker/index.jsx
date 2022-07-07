@@ -5,15 +5,13 @@ import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
 import "./picker.scss";
 
 const ColorPicker = ({ value, onChange }) => {
-  // const [isOpen, setIsOpen] = useState(false);
   const [color, setColor] = useState({ hex: value });
 
   const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
 
-  // onBlur={() => setIsOpen(false)}
   return (
     <div className="picker-wrapper" ref={ref}>
-      <button className="wrapper__button" onClick={() => setIsComponentVisible(true)}>
+      <button className={`wrapper__button ${isComponentVisible ? "active" : ""}`} onClick={() => setIsComponentVisible(true)}>
         {color.hex}
         <div className="wrapper__button-preview" style={{ background: color.hex }}></div>
       </button>
