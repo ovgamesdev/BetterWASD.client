@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 import Loading from "../../../components/UI/Loading/Button";
 import ButtonLoading from "../../../components/UI/Loading";
@@ -65,7 +66,10 @@ const DashboardSub = () => {
       setIsLoadingUpdate(true);
       await api.subBadge.setSubBadges({ badges: subIcons }, auth.editor?.user_id);
       setSavedBadges(subIcons);
-    } catch {}
+      toast.success("Значки подписчика сохранены!");
+    } catch {
+      toast.error("Ошибка сохранения значков");
+    }
     setIsLoadingUpdate(false);
   };
 
@@ -75,7 +79,10 @@ const DashboardSub = () => {
       await api.subBadge.deleteSubBadges(auth.editor?.user_id);
       setSavedBadges(nullBages);
       setSubIcons(nullBages);
-    } catch {}
+      toast.success("Значки подписчиков удалены!");
+    } catch {
+      toast.error("Ошибка удаления значков подписчика");
+    }
     setIsLoadingRemove(false);
   };
 

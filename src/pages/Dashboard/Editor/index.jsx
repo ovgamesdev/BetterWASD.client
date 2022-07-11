@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import EditorUser from "../../../components/UI/EditorUser";
 import Loading from "../../../components/UI/Loading";
@@ -18,19 +19,17 @@ const DashboardEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingRemove, setIsLoadingRemove] = useState(false);
   const [isLoadingAdd, setIsLoadingAdd] = useState(false);
-  const [data, setData] = useState(Array(2).fill({}));
-  const [error, setError] = useState(null);
+  const [editors, setEditors] = useState(Array(2).fill({}));
   const [isFocus, setIsFocus] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const { data: jdata } = await api.auth.getEditors();
-        setData(jdata);
+        const { data } = await api.auth.getEditors();
+        setEditors(data);
       } catch (e) {
-        console.log(e);
-        setData([]);
+        setEditors([]);
       } finally {
         setIsLoading(false);
       }
@@ -41,16 +40,14 @@ const DashboardEditor = () => {
   }, [auth.editor?.user_id, navigate]);
 
   const handler = async (e) => {
-    setError(null);
     if (e.key === "Enter") {
       setIsLoadingAdd(true);
       try {
-        const { data: jdata } = await api.auth.addEditor({
-          user_login: e.target.value.trim(),
-        });
-        setData([...data, jdata]);
+        const { data } = await api.auth.addEditor({ user_login: e.target.value.trim() });
+        setEditors([...editors, data]);
+        toast.success("Пользователь добавлен в качестве редактора");
       } catch (e) {
-        setError(e.response.data);
+        toast.error("Ошибка добавления редактора");
       }
 
       e.target.value = "";
@@ -63,10 +60,11 @@ const DashboardEditor = () => {
     setIsLoadingRemove(user_id);
     try {
       await api.auth.deleteEditor(user_id);
-      const filtred = data.filter((data) => data.editor.user_id !== user_id);
-      setData(filtred);
+      const filtred = editors.filter((v) => v.editor.user_id !== user_id);
+      setEditors(filtred);
+      toast.success("Пользователь удален!");
     } catch (e) {
-      setError(e.response.data);
+      toast.error("Ошибка удаления редактора");
     }
     setIsLoadingRemove(false);
   };
@@ -81,14 +79,13 @@ const DashboardEditor = () => {
 
       <div>
         <div className="bonuses__icons">
-          {data.map((editor, index) => (
+          {editors.map((editor, index) => (
             <EditorUser key={index} user={editor} loading={isLoading} deleteEditor={deleteEditor} isLoadingRemove={isLoadingRemove} />
           ))}
         </div>
 
         <br></br>
 
-        {error && <label className="error">{error.message}</label>}
         {isFocus ? (
           <div className="wasd-input-wrapper">
             <div className="wasd-input">
@@ -101,7 +98,6 @@ const DashboardEditor = () => {
             <button
               onClick={() => {
                 setIsFocus(true);
-                setError(null);
               }}
               className={`primary medium`}
               style={{ width: "205px", height: "34px" }}

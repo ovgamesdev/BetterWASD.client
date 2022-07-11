@@ -1,5 +1,11 @@
 .files-gallery {
   user-select: none;
+  overflow: hidden;
+
+  .scrolled {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 .picker__controls {

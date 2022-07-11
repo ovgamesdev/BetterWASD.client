@@ -9,26 +9,24 @@ import Loading from "../Loading/Button";
 import { toast } from "react-toastify";
 import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
 import TabGroup from "../TabGroupV2";
+import AssetDragdrop from "./AssetDragdrop";
 
 import "./dropdrag-zone.scss";
 import "./files-gallery.scss";
-
 import play_svg from "./svg/play.svg";
 import pause_svg from "./svg/pause.svg";
-
 import link_svg from "./svg/link.svg";
 import close_svg from "./svg/close.svg";
 import file_upload_svg from "./svg/file_upload.svg";
-
 import image_svg from "./svg/image.svg";
 import sound_svg from "./svg/music_note.svg";
 
-const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept, sound_volume }) => {
+const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept, sound_volume, isInputOnly = false, style }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [gallery, setGallery] = useState([]);
   const [galleryGlobal, setGalleryGlobal] = useState([]);
 
-  const [defaultValue, setDefaultValue] = useState({ name: value, thumbnailLink: value, rawLink: value });
+  const [defaultValue, setDefaultValue] = useState(value);
   const [active, setActive] = useState(defaultValue);
   const [activeTab, setActiveTab] = useState("general");
   const [linkValue, setLinkValue] = useState("");
@@ -52,11 +50,6 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
         const { data } = await api.alertBox.getFiles(fileType);
         setGallery(data.channel);
         setGalleryGlobal(data.global);
-
-        const item = data.global.find((i) => i.rawLink === defaultValue.rawLink);
-        const itemUpload = data.channel.find((i) => i.rawLink === defaultValue.rawLink);
-        item && setDefaultValue(item);
-        itemUpload && setDefaultValue(itemUpload);
       } catch (e) {
       } finally {
         setIsLoading(false);
@@ -118,7 +111,6 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
       formData.append(fileType, file);
 
       const { data } = await api.alertBox.uploadFile(fileType, formData);
-
       setGallery([...gallery, data]);
 
       toast.update(toastId.current, { render: "Файл загружен!", type: "success", isLoading: false, autoClose: 5000 });
@@ -135,11 +127,11 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
 
   return (
     <>
-      <div className="preview">
-        {fileType === "images" && (
+      <div className="preview" style={style}>
+        {!isInputOnly && fileType === "images" && (
           <div className="img" style={{ backgroundImage: `url(${defaultValue.thumbnailLink || image_svg})` }}></div>
         )}
-        {fileType === "sounds" && (
+        {!isInputOnly && fileType === "sounds" && (
           <div className="flat-btn">
             <button
               className="medium primary"
@@ -176,7 +168,6 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
               style={{ margin: 0, paddingRight: "100px" }}
               value={defaultValue.name}
               readOnly
-              disabled
               placeholder={`https://example.com/${fileType}`}
             />
             <div className="picker__controls">
@@ -196,7 +187,10 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                   alt={"close"}
                   title={"Remove " + fileType}
                   onClick={() => {
-                    onChange("");
+                    onChange({
+                      raw: "",
+                      metadata: { name: "", thumbnailLink: "", rawLink: "" },
+                    });
                     setDefaultValue({ name: "", thumbnailLink: "", rawLink: "" });
                   }}
                 />
@@ -224,10 +218,10 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
 
             <div
               className={styles["modal-block__content"] + " files-gallery"}
-              style={{ padding: "0 24px", minHeight: "400px", display: "flex", flexDirection: "column" }}
+              style={{ padding: "0 24px", minHeight: "400px", maxHeight: "400px", display: "flex", flexDirection: "column" }}
             >
               <TabGroup
-                style={{ width: "100%", paddingTop: "10px" }}
+                style={{ width: "190px", paddingTop: "10px" }}
                 active="upload"
                 onChange={(e) => setActiveTab(e.value)}
                 tabs={[
@@ -256,43 +250,27 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
               {activeTab === "upload" && (
                 <>
                   <input type="file" accept={fileAccept} ref={inputFile} style={{ display: "none" }} onChange={onUpload} />
-                  <div className="asset-dragdrop">
-                    <div className="asset-dragdrop-zone">
-                      {drag ? (
-                        <div
-                          onDragStart={(e) => dragStartHandler(e)}
-                          onDragLeave={(e) => dragLeaveHandler(e)}
-                          onDragOver={(e) => dragStartHandler(e)}
-                          onDrop={(e) => onDropHandler(e)}
-                          className="dropdrag__zone"
-                        >
-                          Опустите файл, чтобы загрузить его
-                        </div>
-                      ) : (
-                        <div
-                          onDragStart={(e) => dragStartHandler(e)}
-                          onDragLeave={(e) => dragLeaveHandler(e)}
-                          onDragOver={(e) => dragStartHandler(e)}
-                          onClick={() => inputFile.current.click()}
-                          className="dropdrag__zone-button"
-                        >
-                          Перетащите файл, чтобы загрузить его
-                        </div>
-                      )}
+                  <div className="scrolled" style={{ height: "355px" }}>
+                    <AssetDragdrop
+                      dragStartHandler={dragStartHandler}
+                      dragLeaveHandler={dragLeaveHandler}
+                      onDropHandler={onDropHandler}
+                      drag={drag}
+                      inputFile={inputFile}
+                    />
+                    <div className="emotes">
+                      {isLoading && <Loading />}
+                      {gallery.map((i) => (
+                        <GalleryItem
+                          active={active}
+                          sound_volume={sound_volume}
+                          data={i}
+                          key={i.id}
+                          onSelect={setActive}
+                          onDelete={onDelete}
+                        />
+                      ))}
                     </div>
-                  </div>
-                  <div className="emotes">
-                    {isLoading && <Loading />}
-                    {gallery.map((i) => (
-                      <GalleryItem
-                        active={active}
-                        sound_volume={sound_volume}
-                        data={i}
-                        key={i.id}
-                        onSelect={setActive}
-                        onDelete={onDelete}
-                      />
-                    ))}
                   </div>
                 </>
               )}
@@ -314,7 +292,14 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                   style={{ width: "141.2px" }}
                   className={`primary medium basic hide ${isLoading ? "disabled" : ""}`}
                   onClick={() => {
-                    onChange(active.rawLink);
+                    onChange({
+                      raw: active.rawLink,
+                      metadata: {
+                        name: active.name,
+                        thumbnailLink: active.thumbnailLink,
+                        rawLink: active.rawLink,
+                      },
+                    });
                     setDefaultValue(active);
                     setIsComponentVisible(false);
                   }}
@@ -356,7 +341,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                   <input
                     placeholder={"https://example.com/" + fileType}
                     onChange={(e) => {
-                      setLinkValue(e.target.value);
+                      setLinkValue(e.target.value.trim());
                       if (fileType === "sounds") setLinkValueError(!e.target.value.trim().slice(0, 8).includes("https://"));
                     }}
                     value={linkValue}
@@ -384,8 +369,19 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                   disabled={linkValueError}
                   onClick={() => {
                     setIsLinkVisible(false);
-                    onChange(linkValue);
-                    setDefaultValue({ name: linkValue, thumbnailLink: linkValue, rawLink: linkValue });
+                    onChange({
+                      raw: linkValue,
+                      metadata: {
+                        name: linkValue.split("/")[linkValue.split("/").length - 1],
+                        thumbnailLink: linkValue,
+                        rawLink: linkValue,
+                      },
+                    });
+                    setDefaultValue({
+                      name: linkValue.split("/")[linkValue.split("/").length - 1],
+                      thumbnailLink: linkValue,
+                      rawLink: linkValue,
+                    });
                     setLinkValue("");
                   }}
                 >

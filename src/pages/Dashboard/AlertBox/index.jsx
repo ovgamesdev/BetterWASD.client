@@ -362,12 +362,12 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <FilesGallery
-                    value={settings.follow_image}
+                    value={settings.follow_image_metadata}
                     title="Галерея изображений"
                     title_link="Ссылка на изображение"
                     fileType="images"
                     fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
-                    onChange={(value) => setSettings({ ...settings, follow_image: value })}
+                    onChange={(value) => setSettings({ ...settings, follow_image: value.raw, follow_image_metadata: value.metadata })}
                   />
                 </div>
               </div>
@@ -377,12 +377,12 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <FilesGallery
-                    value={settings.follow_sound}
+                    value={settings.follow_sound_metadata}
                     title="Галерея звуков"
                     title_link="Ссылка на аудио"
                     fileType="sounds"
                     fileAccept=".mp3,.wav,.ogg"
-                    onChange={(value) => setSettings({ ...settings, follow_sound: value })}
+                    onChange={(value) => setSettings({ ...settings, follow_sound: value.raw, follow_sound_metadata: value.metadata })}
                     sound_volume={settings.follow_sound_volume}
                   />
                 </div>
@@ -594,12 +594,12 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <FilesGallery
-                    value={settings.sub_image}
+                    value={settings.sub_image_metadata}
                     title="Галерея изображений"
                     title_link="Ссылка на изображение"
                     fileType="images"
                     fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
-                    onChange={(value) => setSettings({ ...settings, sub_image: value })}
+                    onChange={(value) => setSettings({ ...settings, sub_image: value.raw, sub_image_metadata: value.metadata })}
                   />
                 </div>
               </div>
@@ -609,12 +609,12 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <FilesGallery
-                    value={settings.sub_sound}
+                    value={settings.sub_sound_metadata}
                     title="Галерея звуков"
                     title_link="Ссылка на аудио"
                     fileType="sounds"
                     fileAccept=".mp3,.wav,.ogg"
-                    onChange={(value) => setSettings({ ...settings, sub_sound: value })}
+                    onChange={(value) => setSettings({ ...settings, sub_sound: value.raw, sub_sound_metadata: value.metadata })}
                     sound_volume={settings.sub_sound_volume}
                   />
                 </div>
@@ -826,12 +826,12 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <FilesGallery
-                    value={settings.raid_image}
+                    value={settings.raid_image_metadata}
                     title="Галерея изображений"
                     title_link="Ссылка на изображение"
                     fileType="images"
                     fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
-                    onChange={(value) => setSettings({ ...settings, raid_image: value })}
+                    onChange={(value) => setSettings({ ...settings, raid_image: value.raw, raid_image_metadata: value.metadata })}
                   />
                 </div>
               </div>
@@ -841,12 +841,12 @@ const DashboardAlertBox = () => {
                 </div>
                 <div className="right">
                   <FilesGallery
-                    value={settings.raid_sound}
+                    value={settings.raid_sound_metadata}
                     title="Галерея звуков"
                     title_link="Ссылка на аудио"
                     fileType="sounds"
                     fileAccept=".mp3,.wav,.ogg"
-                    onChange={(value) => setSettings({ ...settings, raid_sound: value })}
+                    onChange={(value) => setSettings({ ...settings, raid_sound: value.raw, raid_sound_metadata: value.metadata })}
                     sound_volume={settings.raid_sound_volume}
                   />
                 </div>

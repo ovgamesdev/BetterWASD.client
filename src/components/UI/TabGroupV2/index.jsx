@@ -29,7 +29,7 @@ const TabGroup = (props) => {
 
   return (
     <section className="tabs-wrapper horizontal left medium" style={{ padding: "0", ...props.style }}>
-      <div className="tabs" style={{ display: "grid" }}>
+      <div className="tabs" style={{ display: "grid", width: "100%" }}>
         <div className="items" style={{ width: "100%" }}>
           {props.tabs &&
             props.tabs.map((tab, index) => (
