@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
-const useComponentVisible = (initialIsVisible) => {
-  const [isComponentVisible, setIsComponentVisible] = useState(
-    initialIsVisible
-  );
+const useComponentVisible = (initialIsVisible: false, onChangeVisible: (is: boolean) => {}) => {
+  const [isComponentVisible, setIsComponentVisible] = useState(initialIsVisible);
   const ref = useRef(null);
 
   const handleHideDropdown = (event: KeyboardEvent) => {
@@ -12,11 +10,15 @@ const useComponentVisible = (initialIsVisible) => {
     }
   };
 
-  const handleClickOutside = event => {
+  const handleClickOutside = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setIsComponentVisible(false);
     }
   };
+
+  useEffect(() => {
+    onChangeVisible && onChangeVisible(isComponentVisible);
+  }, [isComponentVisible, onChangeVisible]);
 
   useEffect(() => {
     document.addEventListener("keydown", handleHideDropdown, true);
@@ -28,6 +30,6 @@ const useComponentVisible = (initialIsVisible) => {
   });
 
   return { ref, isComponentVisible, setIsComponentVisible };
-}
+};
 
-export default useComponentVisible
+export default useComponentVisible;

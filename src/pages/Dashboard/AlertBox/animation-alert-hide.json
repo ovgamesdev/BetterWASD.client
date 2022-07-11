@@ -1,0 +1,165 @@
+[
+  {
+    "label": "Fade Out",
+    "options": [
+      {
+        "label": "Fade Out",
+        "value": "fadeOut"
+      },
+      {
+        "label": "Fade Out Down",
+        "value": "fadeOutDown"
+      },
+      {
+        "label": "Fade Out Down Big",
+        "value": "fadeOutDownBig"
+      },
+      {
+        "label": "Fade Out Left",
+        "value": "fadeOutLeft"
+      },
+      {
+        "label": "Fade Out Left Big",
+        "value": "fadeOutLeftBig"
+      },
+      {
+        "label": "Fade Out Right",
+        "value": "fadeOutRight"
+      },
+      {
+        "label": "Fade Out Right Big",
+        "value": "fadeOutRightBig"
+      },
+      {
+        "label": "Fade Out Up",
+        "value": "fadeOutUp"
+      },
+      {
+        "label": "Fade Out Up Big",
+        "value": "fadeOutUpBig"
+      }
+    ]
+  },
+  {
+    "label": "Zoom Out",
+    "options": [
+      {
+        "label": "Zoom Out",
+        "value": "zoomOut"
+      },
+      {
+        "label": "Zoom Out Down",
+        "value": "zoomOutDown"
+      },
+      {
+        "label": "Zoom Out Left",
+        "value": "zoomOutLeft"
+      },
+      {
+        "label": "Zoom Out Right",
+        "value": "zoomOutRight"
+      },
+      {
+        "label": "Zoom Out Up",
+        "value": "zoomOutUp"
+      }
+    ]
+  },
+  {
+    "label": "Bounce Out",
+    "options": [
+      {
+        "label": "Bounce Out",
+        "value": "bounceOut"
+      },
+      {
+        "label": "Bounce Out Down",
+        "value": "bounceOutDown"
+      },
+      {
+        "label": "Bounce Out Left",
+        "value": "bounceOutLeft"
+      },
+      {
+        "label": "Bounce Out Right",
+        "value": "bounceOutRight"
+      },
+      {
+        "label": "Bounce Out Up",
+        "value": "bounceOutUp"
+      }
+    ]
+  },
+  {
+    "label": "Slide Out",
+    "options": [
+      {
+        "label": "Slide Out Down",
+        "value": "slideOutDown"
+      },
+      {
+        "label": "Slide Out Left",
+        "value": "slideOutLeft"
+      },
+      {
+        "label": "Slide Out Right",
+        "value": "slideOutRight"
+      },
+      {
+        "label": "Slide Out Up",
+        "value": "slideOutUp"
+      }
+    ]
+  },
+  {
+    "label": "Flip Out",
+    "options": [
+      {
+        "label": "Flip Out X",
+        "value": "flipOutX"
+      },
+      {
+        "label": "Flip Out Y",
+        "value": "flipOutY"
+      }
+    ]
+  },
+  {
+    "label": "Rotate Out",
+    "options": [
+      {
+        "label": "Rotate Out",
+        "value": "rotateOut"
+      },
+      {
+        "label": "Rotate Out Down Left",
+        "value": "rotateOutDownLeft"
+      },
+      {
+        "label": "Rotate Out Down Right",
+        "value": "rotateOutDownRight"
+      },
+      {
+        "label": "Rotate Out Up Left",
+        "value": "rotateOutUpLeft"
+      },
+      {
+        "label": "Rotate Out Up Right",
+        "value": "rotateOutUpRight"
+      }
+    ]
+  },
+  {
+    "label": "Specials",
+    "options": [
+      {
+        "label": "Light Speed Out",
+        "value": "lightSpeedOut"
+      },
+      {
+        "label": "Roll Out",
+        "value": "rollOut"
+      }
+    ]
+  }
+]

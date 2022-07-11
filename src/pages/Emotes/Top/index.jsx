@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+
 import Loading from "../../../components/UI/Loading/Line";
 import Emote from "../../../components/UI/Emote";
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import api from "../../../services/api";
 
-import ReactPaginate from "react-paginate";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import api from "../../../services/api/index.js";
+import useMeta from "../../../hooks/useMeta/index.tsx";
 
 const EmotesTop = () => {
-  useTitle("BetterWASYA | Топ эмоций");
+  useMeta({ title: "BetterWASYA | Топ эмоций" });
 
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);
@@ -61,13 +62,12 @@ const EmotesTop = () => {
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         {search === "" && <div className="item__title"> Топ эмоции </div>}
         {search !== "" && <div className="item__title"> Топ эмоции: {search} </div>}
-        <div className="flat-btn ovg" style={{ display: "flex" }}>
+        <div className="flat-btn" style={{ display: "flex" }}>
           <wasd-input>
-            <div ovg="" className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-              <div ovg="" className="wasd-input search-container">
+            <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+              <div className="wasd-input search-container">
                 <input
                   style={{ margin: "0" }}
-                  ovg=""
                   placeholder="Поиск.."
                   type="text"
                   value={search}

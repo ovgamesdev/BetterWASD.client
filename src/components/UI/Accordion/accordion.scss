@@ -7,6 +7,7 @@
   color: var(--wasd-color-text-prime);
   position: relative;
   width: 100%;
+  display: block;
 }
 .accordion-wrap:hover {
   color: var(--wasd-color-corp-blue);
@@ -64,7 +65,7 @@
 }
 .accordion-content {
   color: rgba(var(--wasd-color-switch--rgb), 0.72);
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 22px;
   padding-bottom: 16px;

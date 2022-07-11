@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import useTitle from "../../../hooks/useTitle/index.tsx";
-import { decode } from "../../../lib/code-mnem";
-import { Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Moment from "react-moment";
+import { toast } from "react-toastify";
 
 import User from "../../../components/UI/User";
 import ButtonLoading from "../../../components/UI/Loading";
 
 import NotFound from "../../NotFound";
 import { HOSTURL } from "../../../index";
-import api from "../../../services/api";
+import api from "../../../services/api/index.js";
 import useAuth from "../../../hooks/useAuth";
+import useMeta from "../../../hooks/useMeta/index.tsx";
+import { decode } from "../../../lib/code-mnem";
 
-import classnames from "classnames";
 import styles from "./emote.module.scss";
 import modal_styles from "./../../modal.module.scss";
-
-import { toast } from "react-toastify";
 
 const Emote = () => {
   const { id } = useParams();
@@ -99,7 +96,14 @@ const Emote = () => {
   }, [id, auth.editor?.user_id]);
 
   const encoded = decode(data?.code);
-  useTitle(`BetterWASYA | Emote ${data?.code ? "| " + encoded : ""}`, [data]);
+  useMeta(
+    {
+      title: `BetterWASYA | Emote ${data?.code ? "| " + encoded : ""}`,
+      description: `Emote ${data?.code ? "| " + encoded : ""}`,
+      image: HOSTURL + "/cached/emote/" + data?._id + "/3x",
+    },
+    [data]
+  );
 
   if (error) return <NotFound />;
 
@@ -285,7 +289,7 @@ const Emote = () => {
             <div className="date loading" style={{ width: "150px", height: "14px", position: "absolute" }}></div>
           </div>
           {auth.user ? (
-            <div className={styles["root-footer"] + " flat-btn ovg"}>
+            <div className={styles["root-footer"] + " flat-btn"}>
               <div style={{ width: "165px", height: "32px" }} className="loading"></div>
               <div style={{ width: "165px", height: "32px", marginLeft: "5px" }} className="loading"></div>
             </div>
@@ -342,13 +346,9 @@ const Emote = () => {
               <Moment className={styles.date} date={new Date(data.createdAt)} format="Создано DD.MM.YYYY" />
             </div>
             {data.global === false && !isOwner && auth.user && (data.sharing || auth.user?.user_role !== "ADMIN") ? (
-              <div className={styles["root-footer"] + " flat-btn ovg"}>
+              <div className={styles["root-footer"] + " flat-btn"}>
                 {auth.user?.user_role === "ADMIN" && (
-                  <button
-                    onClick={() => setIsChangeMode(true)}
-                    style={{ minWidth: "167px" }}
-                    className={classnames("medium", "ovg", "primary")}
-                  >
+                  <button onClick={() => setIsChangeMode(true)} style={{ minWidth: "167px" }} className={`medium primary`}>
                     Изменить эмоцию
                   </button>
                 )}
@@ -358,15 +358,11 @@ const Emote = () => {
                       onClick={likeEmote}
                       style={{ minWidth: "167px" }}
                       disabled={isLoadingLike}
-                      className={classnames("medium", "ovg", data.likes.is_liked ? "warning" : "primary")}
+                      className={`medium ${data.likes.is_liked ? "warning" : "primary"}`}
                     >
                       {isLoadingLike ? <ButtonLoading /> : data.likes.is_liked ? "Удалить из канала" : "Добавить на канал"}
                     </button>
-                    <button
-                      onClick={() => setShowAlias(true)}
-                      style={{ minWidth: "167px" }}
-                      className={classnames("medium", "ovg", "primary")}
-                    >
+                    <button onClick={() => setShowAlias(true)} style={{ minWidth: "167px" }} className={`medium primary`}>
                       Изменить псевдоним
                     </button>
                     {auth.user.is_subscriber_active && !auth.editor && (
@@ -374,7 +370,7 @@ const Emote = () => {
                         onClick={personalEmote}
                         style={{ minWidth: "167px" }}
                         disabled={isLoadingPersonal}
-                        className={classnames("medium", "ovg", data.personals?.is_personaled ? "warning" : "primary")}
+                        className={`medium ${data.personals?.is_personaled ? "warning" : "primary"}`}
                       >
                         {isLoadingPersonal ? (
                           <ButtonLoading />
@@ -390,20 +386,12 @@ const Emote = () => {
               </div>
             ) : (
               isOwner && (
-                <div className={styles["root-footer"] + " flat-btn ovg"} style={{ display: "flex" }}>
-                  <button
-                    onClick={() => setIsChangeMode(true)}
-                    style={{ minWidth: "167px" }}
-                    className={classnames("medium", "ovg", "primary")}
-                  >
+                <div className={styles["root-footer"] + " flat-btn"} style={{ display: "flex" }}>
+                  <button onClick={() => setIsChangeMode(true)} style={{ minWidth: "167px" }} className={`medium primary`}>
                     Изменить эмоцию
                   </button>
                   {!data.global && (
-                    <button
-                      onClick={() => setShowAlias(true)}
-                      style={{ minWidth: "167px" }}
-                      className={classnames("medium", "ovg", "primary")}
-                    >
+                    <button onClick={() => setShowAlias(true)} style={{ minWidth: "167px" }} className={`medium primary`}>
                       Изменить псевдоним
                     </button>
                   )}
@@ -412,7 +400,7 @@ const Emote = () => {
                       onClick={personalEmote}
                       style={{ minWidth: "167px" }}
                       disabled={isLoadingPersonal}
-                      className={classnames("medium", "ovg", data.personals?.is_personaled ? "warning" : "primary")}
+                      className={`medium ${data.personals?.is_personaled ? "warning" : "primary"}`}
                     >
                       {isLoadingPersonal ? (
                         <ButtonLoading />
@@ -464,13 +452,12 @@ const Emote = () => {
               </div>
 
               <wasd-input>
-                <div ovg="" className="wasd-input-wrapper">
-                  <div ovg="" className={classnames("wasd-input", codeError && "warning")}>
+                <div className="wasd-input-wrapper">
+                  <div className={`wasd-input ${codeError ? "warning" : ""}`}>
                     <input
                       data-type="code"
                       value={newData.code || ""}
                       onChange={(e) => codeHandler(e)}
-                      ovg=""
                       placeholder="Код эмоции"
                       type="text"
                     />
@@ -490,8 +477,8 @@ const Emote = () => {
               <div>Примечания об утверждении</div>
 
               <wasd-input>
-                <div ovg="" className="wasd-input-wrapper">
-                  <div ovg="" className="wasd-input">
+                <div className="wasd-input-wrapper">
+                  <div className="wasd-input">
                     <textarea
                       value={newData.message || ""}
                       onChange={(e) => setNewData({ ...newData, message: e.target.value })}
@@ -500,7 +487,6 @@ const Emote = () => {
                         maxHeight: "200px",
                         minHeight: "40px",
                       }}
-                      ovg=""
                       placeholder=""
                       type="text"
                     ></textarea>
@@ -574,8 +560,8 @@ const Emote = () => {
                 </div>
               )}
             </div>
-            <div className={styles["root-footer"] + " flat-btn ovg"}>
-              <button onClick={() => setIsChangeMode(false)} className="primary medium ovg" style={{ width: "164px" }}>
+            <div className={styles["root-footer"] + " flat-btn"}>
+              <button onClick={() => setIsChangeMode(false)} className="primary medium" style={{ width: "164px" }}>
                 Обратно к эмоции
               </button>
               <button
@@ -592,12 +578,12 @@ const Emote = () => {
                     data.message !== newData.message
                   )
                 }
-                className="primary medium ovg"
+                className="primary medium"
                 style={{ width: "166px" }}
               >
                 {isLoadingUpdate ? <ButtonLoading /> : "Обновить эмоцию"}
               </button>
-              <button onClick={onDelete} disabled={isLoadingRemove} className="warning medium ovg" style={{ width: "164px" }}>
+              <button onClick={onDelete} disabled={isLoadingRemove} className="warning medium" style={{ width: "164px" }}>
                 {isLoadingRemove ? <ButtonLoading /> : "Удалить эмоцию"}
               </button>
             </div>
@@ -605,9 +591,9 @@ const Emote = () => {
         ) : null}
       </div>
 
-      {showAlias && <ovg-modal-backdrop></ovg-modal-backdrop>}
+      {showAlias && <modal-backdrop></modal-backdrop>}
       {showAlias && (
-        <ovg-modal-window
+        <modal-window
           data-show="show"
           className={modal_styles["show"]}
           onClick={(e) => {
@@ -617,7 +603,7 @@ const Emote = () => {
         >
           <div className={modal_styles["modal-block"] + " " + modal_styles["modal-block_medium"]} style={{ width: "440px" }}>
             <div className={modal_styles["modal-block__title"]}>
-              <span>
+              <span style={{ wordBreak: "break-word" }}>
                 Псевдоним эмоции «{data.code}» для канала {auth.editor?.user_login || auth.user?.user_login}
               </span>
             </div>
@@ -629,14 +615,13 @@ const Emote = () => {
                 </div>
                 <div className="col-64">
                   <wasd-input>
-                    <div ovg="" className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                      <div ovg="" className={`wasd-input${aliasError ? " warning" : ""}`}>
+                    <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+                      <div className={`wasd-input${aliasError ? " warning" : ""}`}>
                         <input
-                          ovg=""
                           placeholder={data.code}
                           type="text"
                           value={aliasCode}
-                          className={classnames(isLoading && "disabled")}
+                          className={isLoading ? "disabled" : ""}
                           onChange={(e) => aliasHandler(e)}
                         ></input>
                       </div>
@@ -661,18 +646,14 @@ const Emote = () => {
             </div>
 
             <div className={modal_styles["modal-block__footer"]}>
-              <div className="flat-btn ovg" style={{ display: "flex" }}>
-                <button
-                  className={classnames("medium", "ovg", "basic", "hide")}
-                  style={{ marginRight: "5px" }}
-                  onClick={() => setShowAlias(false)}
-                >
+              <div className="flat-btn" style={{ display: "flex" }}>
+                <button className={`medium basic hide`} style={{ marginRight: "5px" }} onClick={() => setShowAlias(false)}>
                   отмена
                 </button>
                 <button
                   disabled={aliasError || isLoadingAlias}
                   style={{ width: "141.2px" }}
-                  className={classnames("primary", "medium", "ovg")}
+                  className={`medium primary`}
                   onClick={() => setAlias()}
                 >
                   {isLoadingAlias ? <ButtonLoading /> : "переименовать"}
@@ -680,7 +661,7 @@ const Emote = () => {
               </div>
             </div>
           </div>
-        </ovg-modal-window>
+        </modal-window>
       )}
     </>
   );

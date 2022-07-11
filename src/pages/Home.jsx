@@ -1,22 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Slide } from "react-slideshow-image";
+
+import useMeta from "../hooks/useMeta/index.tsx";
+
 import "react-slideshow-image/dist/styles.css";
-import useTitle from "../hooks/useTitle/index.tsx";
 
 const Home = () => {
-  useTitle("BetterWASYA");
+  useMeta({ title: "BetterWASYA" });
 
   const slideImages = [
-    {
-      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_1.png",
-    },
-    {
-      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_2.png",
-    },
-    {
-      url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_3.png",
-    },
+    { url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_1.png" },
+    { url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_2.png" },
+    { url: "https://raw.githubusercontent.com/ovgamesdev/res/main/Screenshot%20_3.png" },
   ];
 
   return (
@@ -33,7 +29,7 @@ const Home = () => {
             >
               Скачать для Google Chrome
             </a>
-            {/*<button className="button-big white">twast</button>*/}
+            {/*<button className="button-big white"></button>*/}
           </div>
         </div>
 

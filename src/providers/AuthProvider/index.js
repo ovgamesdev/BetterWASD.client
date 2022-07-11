@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import api from "../../services/api";
+import api from "../../services/api/index.js";
 
 function AuthProvider(props) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -57,11 +57,7 @@ function AuthProvider(props) {
     [isLoaded, user, token, editor, setUser, setToken, logOut, setEditor]
   );
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {props.children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;
 }
 
 export default AuthProvider;

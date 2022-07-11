@@ -35,7 +35,7 @@ const EditorUser = (props) => {
   const user = props.user.user || props.user.editor;
 
   return (
-    <div className={styles.root + " flat-btn ovg"}>
+    <div className={styles.root + " flat-btn"}>
       <div style={{ marginRight: "auto" }}>
         <img width={34} height={34} src={user.channel_image} alt="avatar" />
         <Link to={"/users/" + user.user_id} className={styles.user_login}>
@@ -46,7 +46,7 @@ const EditorUser = (props) => {
         <button
           onClick={() => props.deleteEditor(user.user_id)}
           disabled={props.isLoadingRemove === user.user_id}
-          className="warning small ovg"
+          className="warning small"
           style={{ width: "24px", marginRight: "5px" }}
         >
           {props.isLoadingRemove === user.user_id ? <ButtonLoading /> : "x"}

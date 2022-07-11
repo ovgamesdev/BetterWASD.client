@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import ButtonLoading from "../../components/UI/Loading";
-import "react-slideshow-image/dist/styles.css";
-import classnames from "classnames";
-import api from "../../services/api";
+
+import api from "../../services/api/index.js";
 import useAuth from "../../hooks/useAuth";
+import useMeta from "../../hooks/useMeta/index.tsx";
 
 import styles from "../modal.module.scss";
-import useTitle from "../../hooks/useTitle/index.tsx";
+import "react-slideshow-image/dist/styles.css";
 
 const Login = () => {
-  useTitle("BetterWASYA | Авторизация");
+  useMeta({ title: "BetterWASYA | Авторизация" });
   const auth = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -67,9 +68,9 @@ const Login = () => {
         </div>
       </section>
 
-      {showAuth && <ovg-modal-backdrop></ovg-modal-backdrop>}
+      {showAuth && <modal-backdrop></modal-backdrop>}
       {showAuth && (
-        <ovg-modal-window
+        <modal-window
           data-show="show"
           className={styles["show"]}
           onClick={(e) => {
@@ -97,14 +98,13 @@ const Login = () => {
                 </div>
                 <div className="col-64">
                   <wasd-input>
-                    <div ovg="" className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                      <div ovg="" className="wasd-input">
+                    <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+                      <div className="wasd-input">
                         <input
-                          ovg=""
                           autoFocus
                           placeholder="Ваш токен"
                           type="text"
-                          className={classnames("blur", isLoading && "disabled")}
+                          className={`blur ${isLoading ? "disabled" : ""}`}
                           onChange={inputChange}
                         ></input>
                       </div>
@@ -126,12 +126,12 @@ const Login = () => {
             </div>
 
             <div className={styles["modal-block__footer"]}>
-              <div className="flat-btn ovg" style={{ display: "flex" }}>
-                <button className={classnames("medium", "ovg", "basic", "hide", isLoading && "disabled")} style={{ marginRight: "5px" }}>
+              <div className="flat-btn" style={{ display: "flex" }}>
+                <button className={`medium basic hide ${isLoading ? "disabled" : ""}`} style={{ marginRight: "5px" }}>
                   отмена
                 </button>
                 <button
-                  className={classnames("primary", "medium", "ovg", "updateUser", isLoading && "disabled")}
+                  className={`primary medium updateUser ${isLoading ? "disabled" : ""}`}
                   disabled={isLoadingLogin}
                   style={{ width: "109px" }}
                   onClick={onSubmit}
@@ -141,7 +141,7 @@ const Login = () => {
               </div>
             </div>
           </div>
-        </ovg-modal-window>
+        </modal-window>
       )}
     </>
   );

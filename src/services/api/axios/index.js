@@ -8,9 +8,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const authToken = localStorage["auth-token"];
 
-    if (authToken) {
-      config.headers.authorization = `Token ${authToken}`;
-    }
+    if (authToken) config.headers.authorization = `Token ${authToken}`;
 
     return config;
   },

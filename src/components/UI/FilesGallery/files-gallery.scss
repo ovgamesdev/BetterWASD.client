@@ -1,0 +1,21 @@
+.files-gallery {
+  user-select: none;
+  overflow: hidden;
+
+  .scrolled {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+.picker__controls {
+  position: absolute;
+  z-index: 1;
+  right: 10px;
+  top: 9px;
+
+  .picker-item {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}

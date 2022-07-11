@@ -5,7 +5,7 @@ function PrivateRoute({ children }) {
   const auth = useAuth();
   const location = useLocation();
   const url = new URLSearchParams();
-  url.set("redirect", location.pathname + location.search);
+  url.set("redirect", location.pathname + location.search + location.hash);
 
   return auth.user ? (
     children

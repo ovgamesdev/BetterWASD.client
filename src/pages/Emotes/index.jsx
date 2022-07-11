@@ -1,15 +1,16 @@
-import useTitle from "../../hooks/useTitle/index.tsx";
-import NavbarEmotes from "../../components/UI/Navbar/Emotes";
-
 import { Navigate, Route, Routes } from "react-router-dom";
+
+import NavbarEmotes from "../../components/UI/Navbar/Emotes";
 
 import EmotesTop from "./Top";
 import EmotesShared from "./Shared";
 import EmotesGlobal from "./Global";
 import Emote from "./Emote";
 
+import useMeta from "../../hooks/useMeta/index.tsx";
+
 const EmotesRoutes = () => {
-  useTitle("BetterWASYA | Эмоции");
+  useMeta({ title: "BetterWASYA | Эмоции" });
 
   return (
     <section className="question-section" style={{ paddingBottom: "160px" }}>

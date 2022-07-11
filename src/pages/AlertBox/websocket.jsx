@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
-
-import io from "socket.io-client";
-import api from "../../services/api";
-
 import { useSearchParams } from "react-router-dom";
+import io from "socket.io-client";
+
+import api from "../../services/api/index.js";
 
 const WebSocket = async (callback = () => {}, user_id, settings) => {
   const socketRef = useRef(null);

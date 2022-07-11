@@ -1,17 +1,7 @@
-import React from "react";
-// import './style.css'
-import classnames from "classnames";
+import FilesGallery from "../FilesGallery";
 import subStyle from "./sub.module.scss";
 
-const TabGroup = (props) => {
-  const subIcons = props.subIcons;
-  const defBadges = props.defBadges;
-  const setIsLoadedImages = props.setIsLoadedImages;
-  const isLoadedImages = props.isLoadedImages;
-  const setSubIcons = props.setSubIcons;
-
-  const item = props.item;
-
+const TabGroup = ({ subIcons, defBadges, setIsLoadedImages, isLoadedImages, setSubIcons, item }) => {
   const title = {
     "1mon": "1 мес.",
     "3mon": "3 мес.",
@@ -23,30 +13,26 @@ const TabGroup = (props) => {
   };
 
   return (
-    <div className={classnames(subStyle.item, isLoadedImages[item] ? "" : "warning")}>
+    <div className={`${subStyle.item} ${isLoadedImages[item] ? "" : "warning"}`}>
       <img
         width={20}
         height={20}
         src={subIcons[item] || defBadges[item]}
-        onLoad={(e) => setIsLoadedImages({ ...isLoadedImages, [item]: true })}
-        onError={(e) => setIsLoadedImages({ ...isLoadedImages, [item]: false })}
+        onLoad={() => setIsLoadedImages({ ...isLoadedImages, [item]: true })}
+        onError={() => setIsLoadedImages({ ...isLoadedImages, [item]: false })}
         alt="avatar"
       />
       <span style={{ minWidth: "50px" }}>{title[item]}</span>
-
-      <div ovg="" className="wasd-input-wrapper">
-        <div ovg="" className="wasd-input">
-          <label ovg="" className={classnames(isLoadedImages[item] ? "" : "show")}>
-            Недействительная ссылка на картинку
-          </label>
-          <input
-            ovg=""
-            value={subIcons[item] || ""}
-            onChange={(e) => setSubIcons({ ...subIcons, [item]: e.target.value })}
-            placeholder="Ссылка на иконку подписчика"
-          ></input>
-        </div>
-      </div>
+      <FilesGallery
+        style={{ width: "100%" }}
+        isInputOnly
+        value={{ name: subIcons[item] || "", thumbnailLink: subIcons[item] || "", rawLink: subIcons[item] || "" }}
+        title="Галерея изображений"
+        title_link="Ссылка на изображение"
+        fileType="images"
+        fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
+        onChange={(value) => setSubIcons({ ...subIcons, [item]: value.raw })}
+      />
     </div>
   );
 };
