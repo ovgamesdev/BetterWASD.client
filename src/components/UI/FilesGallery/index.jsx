@@ -111,6 +111,14 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
       formData.append(fileType, file);
 
       const { data } = await api.alertBox.uploadFile(fileType, formData);
+      if (data.error) {
+        return toast.update(toastId.current, {
+          render: "Ошибка загрузки файла.",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      }
       setGallery([...gallery, data]);
 
       toast.update(toastId.current, { render: "Файл загружен!", type: "success", isLoading: false, autoClose: 5000 });
