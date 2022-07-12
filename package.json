@@ -19,6 +19,7 @@
     "react-string-replace": "^1.1.0",
     "react-toastify": "^9.0.4",
     "react-tooltip": "^4.2.21",
+    "react-transition-group": "^4.4.2",
     "sass": "^1.52.1",
     "socket.io-client": "^2.4.0"
   },

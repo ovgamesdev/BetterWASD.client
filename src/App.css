@@ -20,7 +20,8 @@ body {
   overflow: hidden;
 }
 
-.wrapper {
+.wrapper,
+.loading--screen {
   height: 100%;
   margin-top: 0;
   padding: 0 10px;
@@ -32,7 +33,8 @@ body {
   position: absolute;
 }
 
-.wrapper:not(.alert_mode) {
+.wrapper:not(.alert_mode),
+.loading--screen:not(.alert_mode) {
   background-color: #0a1730;
 }
 .wrapper.uninstall_mode {
@@ -800,4 +802,17 @@ input[type="checkbox"]:after {
 .range-slider__wrap {
   display: flex !important;
   align-items: center;
+}
+
+/* app animations */
+.loading--app {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.list-transition-exit-active {
+  opacity: 0 !important;
+  transition: opacity 400ms;
 }

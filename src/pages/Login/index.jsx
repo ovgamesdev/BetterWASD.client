@@ -32,6 +32,8 @@ const Login = () => {
 
       auth.setToken(loginData.token);
       auth.setUser(loginData.user);
+
+      global.gtag("event", "signin_auth_token", { wasd_user_id: loginData.user.user_id, user_login: loginData.user.user_login });
     } catch (e) {
       if (e.message.match("404") || e.message.match("401")) {
         setError("Возможно, недействительный токен или ошибка с нашей стороны :(");

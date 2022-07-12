@@ -46,6 +46,11 @@ const DashboardEditor = () => {
         const { data } = await api.auth.addEditor({ user_login: e.target.value.trim() });
         setEditors([...editors, data]);
         toast.success("Пользователь добавлен в качестве редактора");
+        global.gtag("event", "add_user_editor", {
+          wasd_user_id: auth.user.user_id,
+          user_login: auth.user.user_login,
+          editor_user_id: data.editor.user_id,
+        });
       } catch (e) {
         toast.error("Ошибка добавления редактора");
       }
@@ -63,6 +68,11 @@ const DashboardEditor = () => {
       const filtred = editors.filter((v) => v.editor.user_id !== user_id);
       setEditors(filtred);
       toast.success("Пользователь удален!");
+      global.gtag("event", "delete_user_editor", {
+        wasd_user_id: auth.user.user_id,
+        user_login: auth.user.user_login,
+        editor_user_id: user_id,
+      });
     } catch (e) {
       toast.error("Ошибка удаления редактора");
     }

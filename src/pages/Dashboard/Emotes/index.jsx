@@ -60,6 +60,8 @@ const DashboardEmotes = () => {
     try {
       const { data } = await api.emote.postTvEmote({ url: url }, auth.editor?.user_id);
       if (data.message && data._id && data.code) {
+        global.gtag("event", "create_emote", { emote_id: data._id, wasd_user_id: data.user.user_id });
+
         navigate("/emotes/" + data._id);
       } else {
         setCreateEmote(data);
@@ -75,6 +77,8 @@ const DashboardEmotes = () => {
     try {
       const { data } = await api.emote.postTvEmote({ url: url, recreate: true }, auth.editor?.user_id);
       if (data.message && data._id && data.code) {
+        global.gtag("event", "create_emote", { emote_id: data._id, wasd_user_id: data.user.user_id });
+
         navigate("/emotes/" + data._id);
       } else {
         setCreateEmote(data);

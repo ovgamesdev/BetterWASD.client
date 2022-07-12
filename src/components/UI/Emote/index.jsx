@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { decode } from "../../../lib/code-mnem";
 import { HOSTURL } from "../../../index";
@@ -6,6 +6,8 @@ import { HOSTURL } from "../../../index";
 import styles from "./emote.module.scss";
 
 const Emotes = (props) => {
+  const [isLoadedImage, setIsLoadedImage] = useState(false);
+
   if (props.loading) {
     return (
       <div className={`${styles.wrapper} skelet-loading ${props.showUsername ? styles.user : ""}`}>
@@ -28,9 +30,23 @@ const Emotes = (props) => {
   const encoded = decode(props.emote.code);
 
   return (
-    <div className={`${styles.wrapper} ${props.showUsername ? styles.user : ""}`}>
+    <div className={`${styles.wrapper} ${props.showUsername ? styles.user : ""} ${isLoadedImage ? "" : "skelet-loading"}`}>
       <Link to={"/emotes/" + props.emote._id} className={styles.card} title={encoded}>
-        <img src={HOSTURL + "/cached/emote/" + props.emote._id + "/2x"} alt={encoded} />
+        <img
+          src={HOSTURL + "/cached/emote/" + props.emote._id + "/2x"}
+          alt={encoded}
+          style={{ display: `${isLoadedImage ? "" : "none"}` }}
+          onLoad={() => setIsLoadedImage(true)}
+          onError={() => setIsLoadedImage(false)}
+        />
+        {!isLoadedImage && (
+          <img
+            style={{ minWidth: "50px" }}
+            src="data:image/gif;base64,R0lGODlhAQABAPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAABAAEAAAgEAP8FBAA7"
+            alt="loading"
+            className="loading"
+          />
+        )}
         {!props.emote.sharing && (
           <div className={styles["private-emote"]}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 237 237">

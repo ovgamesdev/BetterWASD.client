@@ -35,7 +35,7 @@ function AuthProvider(props) {
     } catch {
       // setToken(null);
     } finally {
-      setIsLoaded(false);
+      setIsLoaded(true);
     }
   }, []);
 

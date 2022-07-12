@@ -67,6 +67,11 @@ const DashboardSub = () => {
       await api.subBadge.setSubBadges({ badges: subIcons }, auth.editor?.user_id);
       setSavedBadges(subIcons);
       toast.success("Значки подписчика сохранены!");
+      global.gtag("event", "update_user_sub_badges", {
+        wasd_user_id: auth.user.user_id,
+        user_login: auth.user.user_login,
+        badges: JSON.stringify(subIcons),
+      });
     } catch {
       toast.error("Ошибка сохранения значков");
     }
@@ -80,6 +85,10 @@ const DashboardSub = () => {
       setSavedBadges(nullBages);
       setSubIcons(nullBages);
       toast.success("Значки подписчиков удалены!");
+      global.gtag("event", "delete_user_sub_badges", {
+        wasd_user_id: auth.user.user_id,
+        user_login: auth.user.user_login,
+      });
     } catch {
       toast.error("Ошибка удаления значков подписчика");
     }
