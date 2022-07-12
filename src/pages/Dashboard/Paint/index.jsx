@@ -51,6 +51,12 @@ const DashboardPaint = () => {
       await api.paint.setPaint({ paint: paint });
       auth.setUser({ ...auth.user, paint: paint.toString() });
       toast.success("Цвет успешно изменен");
+      global.gtag("event", "update_user_paint", {
+        wasd_user_id: auth.user.user_id,
+        user_login: auth.user.user_login,
+        old_paint: auth.user.paint?.toString(),
+        new_paint: paint.toString(),
+      });
     } catch {
       toast.error("Ошибка изменения цвета");
     } finally {
@@ -64,6 +70,12 @@ const DashboardPaint = () => {
       await api.paint.deletePaint();
       auth.setUser({ ...auth.user, paint: null });
       toast.success("Цвет успешно сброшен");
+      global.gtag("event", "delete_user_paint", {
+        wasd_user_id: auth.user.user_id,
+        user_login: auth.user.user_login,
+        old_paint: auth.user.paint?.toString(),
+        new_paint: "",
+      });
     } catch {
       toast.error("Ошибка удаления имени");
     } finally {

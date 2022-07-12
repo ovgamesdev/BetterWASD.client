@@ -1,13 +1,12 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import PrivateRoute from "../components/PrivateRoute";
+import GuestRoute from "../components/GuestRoute";
+
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
 import NotFound from "../../pages/NotFound";
-import useAuth from "../../hooks/useAuth";
-import PrivateRoute from "../components/PrivateRoute";
-import GuestRoute from "../components/GuestRoute";
 import Terms from "../../pages/Terms";
-// import Emote from "../../pages/Emotes/Emote";
 import User from "../../pages/User";
 import Privacy from "../../pages/Privacy";
 import Dashboard from "../../pages/Dashboard";
@@ -15,10 +14,8 @@ import EmotesRoutes from "../../pages/Emotes";
 import AlertBox from "../../pages/AlertBox";
 import Uninstall from "../../pages/Uninstall";
 
-function AppRoutes() {
-  const auth = useAuth();
-
-  return auth ? (
+const AppRoutes = () => {
+  return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/terms" element={<Terms />} />
@@ -36,7 +33,7 @@ function AppRoutes() {
             <Dashboard />
           </PrivateRoute>
         }
-      ></Route>
+      />
 
       <Route
         path="/login"
@@ -50,9 +47,7 @@ function AppRoutes() {
 
       <Route path="*" element={<NotFound />} />
     </Routes>
-  ) : (
-    <div> loading </div>
   );
-}
+};
 
 export default AppRoutes;

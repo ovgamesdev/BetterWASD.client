@@ -149,6 +149,8 @@ const Emote = () => {
       setData(nData);
       setNewData(nData);
       toast.success("Эмоция была изменена");
+
+      global.gtag("event", "update_emote", { emote_id: data._id, wasd_user_id: data.user.user_id });
     } catch {
       toast.error("Ошибка при изменении эмоции");
     } finally {
@@ -167,9 +169,12 @@ const Emote = () => {
         setData(null);
         setNewData(null);
         navigate("/dashboard/emotes");
-      }
+        toast.success("Эмоция успешно удалена");
 
-      toast.success("Эмоция успешно удалена");
+        global.gtag("event", "delete_emote", { emote_id: data._id, wasd_user_id: data.user.user_id });
+      } else {
+        toast.error("Ошибка удаления эмоции");
+      }
     } catch {
       toast.error("Ошибка при удалении эмоции");
     } finally {
@@ -184,10 +189,12 @@ const Emote = () => {
         const { data: nData } = await api.emote.unlikeEmote(data._id, auth.editor?.user_id);
         if (nData) setData({ ...data, likes: { ...nData } });
         toast.success("Эмоция удалена с вашего канала");
+        global.gtag("event", "unlike_emote", { wasd_user_id: auth.user.user_id, user_login: auth.user.user_login, emote_id: data._id });
       } else {
         const { data: nData } = await api.emote.likeEmote(data._id, auth.editor?.user_id);
         if (nData) setData({ ...data, likes: { ...nData } });
         toast.success("Эмоция добавлена на ваш канал");
+        global.gtag("event", "like_emote", { wasd_user_id: auth.user.user_id, user_login: auth.user.user_login, emote_id: data._id });
       }
     } catch {
       if (data.likes.is_liked) {
@@ -207,6 +214,7 @@ const Emote = () => {
       if (typeof nData.users === "object") {
         setData({ ...data, personals: { ...nData } });
         toast.success("Удалена персональная эмоция");
+        global.gtag("event", "unpersonal_emote", { wasd_user_id: auth.user.user_id, user_login: auth.user.user_login, emote_id: data._id });
       } else {
         toast.info(nData.message);
       }
@@ -215,6 +223,7 @@ const Emote = () => {
       if (typeof nData.users === "object") {
         setData({ ...data, personals: { ...nData } });
         toast.success("Добавлена персональная эмоция");
+        global.gtag("event", "personal_emote", { wasd_user_id: auth.user.user_id, user_login: auth.user.user_login, emote_id: data._id });
       } else {
         toast.info(nData.message);
       }
@@ -233,10 +242,24 @@ const Emote = () => {
         const { data: nData } = await api.emote.deleteAlias(data._id, auth.editor?.user_id);
         if (nData.ok === true) setData({ ...data, alias: null });
         toast.success("Псевдоним успешно удален");
+        global.gtag("event", "delete_alias_emote", {
+          wasd_user_id: auth.user.user_id,
+          user_login: auth.user.user_login,
+          emote_id: data._id,
+          old_alias: data.alias,
+          new_alias: "",
+        });
       } else {
         const { data: nData } = await api.emote.updateAlias(data._id, aliasCode, auth.editor?.user_id);
         if (nData) setData({ ...data, alias: nData.alias });
         toast.success("Псевдоним успешно изменен");
+        global.gtag("event", "create_alias_emote", {
+          wasd_user_id: auth.user.user_id,
+          user_login: auth.user.user_login,
+          emote_id: data._id,
+          old_alias: data.alias,
+          new_alias: nData.alias,
+        });
       }
     } catch {
       toast.error("Ошибка при удалении псевдонима");

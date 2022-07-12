@@ -10,6 +10,7 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const onLogOut = () => {
+    global.gtag("event", "logout_auth_token", { wasd_user_id: auth.user.user_id, user_login: auth.user.user_login });
     auth.logOut();
     navigate("/");
   };
@@ -19,6 +20,12 @@ const Navbar = () => {
       profile_image: profile.user.channel_image,
       user_id: profile.user.user_id,
       user_login: profile.user.user_login,
+    });
+    global.gtag("event", "user_to_editor", {
+      wasd_user_id: auth.user.user_id,
+      user_login: auth.user.user_login,
+      editor_user_id: profile.user.user_id,
+      editor_user_login: profile.user.user_login,
     });
   };
 
