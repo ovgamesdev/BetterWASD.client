@@ -12,29 +12,12 @@ import useMeta from "../../../hooks/useMeta/index.tsx";
 
 import previewStyle from "./preview.module.scss";
 import "./../../user.css";
+import PaintPreview from "../../../components/UI/PaintPreview";
 
 const DashboardPaint = () => {
   useMeta({ title: "BetterWASYA | Цвет имени" });
   const navigate = useNavigate();
 
-  const userColors = [
-    "#7fba40",
-    "#1c3fc8",
-    "#a5276d",
-    "#913ca7",
-    "#4332b6",
-    "#266bc5",
-    "#5bc3c1",
-    "#d87539",
-    "#a9ad47",
-    "#3ca13b",
-    "#4db89a",
-    "#6a4691",
-    "#f5a623",
-    "#e7719e",
-    "#9fcbef",
-    "#7b4b4b",
-  ];
   const auth = useAuth();
   const [carusel, setCarusel] = useState(auth.user?.paint?.length < 5 ? Number(auth.user?.paint) : 0);
   const [color, setColor] = useState(auth.user?.paint?.length < 5 ? "rgba(255,255,255,1)" : auth.user?.paint);
@@ -131,37 +114,9 @@ const DashboardPaint = () => {
 
           <span className={previewStyle.message}>
             <span className={previewStyle.time}>10:00</span>
-            {!picker ? (
-              <span>
-                <span
-                  data-betterwasya-paint={carusel}
-                  style={{
-                    color: userColors[auth.user.user_id % (userColors.length - 1)],
-                  }}
-                >
-                  {auth.user.user_login}
-                </span>
-              </span>
-            ) : color?.match("gradient") ? (
-              <span data-betterwasya-paint="" style={{ backgroundImage: color }}>
-                {auth.user.user_login}
-              </span>
-            ) : (
-              <span data-betterwasya-paint="" style={{ color: color }}>
-                {auth.user.user_login}
-              </span>
-            )}
+            <PaintPreview paint={getColor()} user_login={auth.user.user_login} user_id={auth.user.user_id} />
             <span className={previewStyle.text}>Предпросмотр сообщения</span>
           </span>
-
-          {/* <span style={{padding: '5px', backgroundColor: '#f0f0f8', color: 'rgba(26, 32, 44, .88)'}}>
-								<span style={{color: 'rgba(26, 32, 44, .64)', fontSize: '10px', heigth: '20px', marginRight: '8px'}}>10:00</span>
-								{ !picker ? 
-									<span data-betterwasya-paint={carusel} style={{color: userColors[auth.user.user_id % (userColors.length - 1)]}}>{auth.user.user_login}</span> : color?.match('gradient') ? <span data-betterwasya-paint="" style={{backgroundImage: color}}>{auth.user.user_login}</span>
-								:
-									<span data-betterwasya-paint="" style={{color: color}}>{auth.user.user_login}</span>
-								} <span style={{margin: '10px 4px'}}>Предпросмотр сообщения</span>
-							</span> */}
         </div>
         {!picker && (
           <button onClick={() => calculateCarusel(carusel + 1)}>

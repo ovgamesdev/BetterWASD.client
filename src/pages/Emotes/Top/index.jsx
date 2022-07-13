@@ -35,7 +35,6 @@ const EmotesTop = () => {
           setTotal(headers.total);
           setData(res);
         } catch (e) {
-          console.error(e);
           setError(e);
         } finally {
           setIsLoading(false);
