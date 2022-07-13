@@ -1,0 +1,19 @@
+.paint__table {
+  width: 100%;
+
+  th {
+    padding: 10px 2px;
+  }
+
+  td {
+    .center {
+      display: flex;
+      justify-content: center;
+      font-size: 12px;
+    }
+    .preview {
+      background-color: #141820;
+      padding: 10px 15px;
+    }
+  }
+}

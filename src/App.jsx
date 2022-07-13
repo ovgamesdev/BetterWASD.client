@@ -54,9 +54,11 @@ function App() {
 
       <CSSTransition in={!auth.isLoaded} timeout={400} classNames="list-transition" unmountOnExit appear>
         {(state) => (
-          <div className={`loading--screen ${state} ${wrapperClassName}`} style={{ zIndex: 9999999 }}>
-            <div className="loading--app">
+          <div className={`loader-wrapper ${state}`} style={{ zIndex: 9999999 }}>
+            <div className="loader-content">
+              {/* <img className="loader-image" src="https://static.wasd.tv/assets/fe/images/preloader_wasd_300.gif" alt="" /> */}
               <Loading />
+              Загрузка...
             </div>
           </div>
         )}

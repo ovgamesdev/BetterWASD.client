@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import PrivateRoute from "../components/PrivateRoute";
 import GuestRoute from "../components/GuestRoute";
+import AdminRoute from "../components/AdminRoute";
 
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
@@ -13,6 +14,7 @@ import Dashboard from "../../pages/Dashboard";
 import EmotesRoutes from "../../pages/Emotes";
 import AlertBox from "../../pages/AlertBox";
 import Uninstall from "../../pages/Uninstall";
+import AdminDashboard from "../../pages/AdminDashboard";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +27,15 @@ const AppRoutes = () => {
 
       <Route path="/alert-box/v1/:token" element={<AlertBox />} />
       <Route path="/uninstall/:user_id" element={<Uninstall />} />
+
+      <Route
+        path="/admin/*"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        }
+      />
 
       <Route
         path="/dashboard/*"
