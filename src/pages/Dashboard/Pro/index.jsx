@@ -114,7 +114,7 @@ const DashboardPro = () => {
           {/* <br /> • уникальный цвет имени пользователя */}
         </div>
       </div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       {subData && subData.cancellation_effective_date === null && <div className="item__title">Подписка уже оформлена</div>}
 

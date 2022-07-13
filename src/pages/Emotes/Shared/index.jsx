@@ -93,7 +93,7 @@ const EmotesShared = () => {
       </div>
 
       <div className="item__descr">Эмоции других пользователей, которые вы можете добавить в свой чат на BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
       <div className="emotes">
         {error && error.message}
         {isLoading && !isFirsLoading && <Loading />}

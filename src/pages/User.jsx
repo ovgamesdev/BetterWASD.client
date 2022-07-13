@@ -50,7 +50,7 @@ const Emotes = () => {
               </a>
             </div>
             <div className="item__descr">Эмоции доступны на этом канале с BetterWASYA.</div>
-            <div className="item__border"></div>
+            <div className="item__border" />
 
             {!!data.personalEmotes?.length && (
               <>

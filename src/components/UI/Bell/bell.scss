@@ -362,6 +362,18 @@
   position: relative;
 }
 
+.bell .bell-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  padding: 5px;
+
+  button:not(:first-child) {
+    margin-left: 5px;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .bell .bell-info__elem:hover {
     background: rgb(var(--color-switch), 0.08);

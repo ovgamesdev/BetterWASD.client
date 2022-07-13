@@ -85,7 +85,7 @@ const DashboardEditor = () => {
       <div className="item__descr">
         Все пользователи, добавленные в этот список, могут управлять вашими эмоциями и значками подписчика на BetterWASYA.
       </div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       <div>
         <div className="bonuses__icons">
@@ -125,7 +125,7 @@ const DashboardEditor = () => {
         <>
           <div className="item__title"> Пользователи, которыми вы управляете как редактор </div>
           <div className="item__descr"> Вы можете управлять эмодзи для любого из перечисленных ниже пользователей. </div>
-          <div className="item__border"></div>
+          <div className="item__border" />
 
           <div>
             <div className="bonuses__icons">

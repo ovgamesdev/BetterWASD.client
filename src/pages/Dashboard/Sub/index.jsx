@@ -112,7 +112,7 @@ const DashboardSub = () => {
         Значок подписчика в чате доступен пользователям с BetterWASYA.
         {/*<br></br><p style={{fontSize: '14px', color: 'var(--wasd-color-text-fourth)'}}>Выдается на месяц, после чего иконка сбросится.</p>*/}
       </div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       {isLoading ? <Loading /> : null}
       {isLoading ? null : isPartner ? (

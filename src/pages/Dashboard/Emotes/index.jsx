@@ -112,7 +112,7 @@ const DashboardEmotes = () => {
         <div className="item__descr">
           Любые смайлики, добавленные здесь, могут использоваться в чате вашего канала на WASD.TV как вами, так и вашими зрителями.
         </div>
-        <div className="item__border"></div>
+        <div className="item__border" />
 
         {data.channelEmotes?.length || data.sharedEmotes?.length || data.personalEmotes?.length
           ? null

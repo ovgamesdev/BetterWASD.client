@@ -93,7 +93,7 @@ const EmotesTop = () => {
       </div>
 
       <div className="item__descr">Лучшие общие эмоции на всем BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
       <div className="emotes">
         {error && error.message}
         {isLoading && !isFirsLoading && <Loading />}

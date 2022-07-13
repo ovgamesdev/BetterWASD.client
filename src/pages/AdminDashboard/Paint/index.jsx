@@ -10,7 +10,7 @@ import Loading from "../../../components/UI/Loading/Button";
 
 import api from "../../../services/api/index.js";
 import useMeta from "../../../hooks/useMeta/index.tsx";
-import PaintItem from "./PaintItem";
+import PaintItem from "./Item";
 
 import "./../../user.css";
 import "./paint-item.scss";
@@ -20,7 +20,6 @@ const AdminDashboardPaint = () => {
   useMeta({ title: "BetterWASYA | Admin | Цвет имени" });
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isFirsLoading, setIsFirsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(Array(60).fill({}));
 
@@ -44,7 +43,6 @@ const AdminDashboardPaint = () => {
           setError(e);
         } finally {
           setIsLoading(false);
-          setIsFirsLoading(false);
           setError(null);
         }
       };
@@ -80,10 +78,10 @@ const AdminDashboardPaint = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Цвет имени </div>
       <div className="item__descr">Цвет доступен пользователям с BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       {error && error.message}
-      {isLoading && !isFirsLoading && <Loading />}
+      {isLoading && <Loading />}
 
       {!isLoading && (
         <table className="paint__table">

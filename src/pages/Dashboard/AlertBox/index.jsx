@@ -128,7 +128,7 @@ const DashboardAlertBox = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Оповещения </div>
       <div className="item__descr">Порадуйте ваших зрителей с помощью красивых оповещений на стриме.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       {isLoading ? <Loading /> : null}
       {!isLoading && settings && (
@@ -201,7 +201,7 @@ const DashboardAlertBox = () => {
             }}
             tabs={tabOptions}
           />
-          <div className="item__border"></div>
+          <div className="item__border" />
 
           {activeTab === "general" && (
             <>
@@ -965,7 +965,7 @@ const DashboardAlertBox = () => {
             </>
           )}
 
-          <div className="item__border"></div>
+          <div className="item__border" />
           <div className="flat-btn" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <button onClick={onSave} disabled={isLoadingUpdate} className={`primary medium`} style={{ width: "300px" }}>
               {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}

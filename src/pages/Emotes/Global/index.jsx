@@ -58,7 +58,7 @@ const EmotesGlobal = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Глобальные эмоции </div>
       <div className="item__descr">Эмоции, которые можно использовать во всех чатах на WASD.TV с BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
       <div className="emotes">
         {error && error.message}
         {isLoading && !isFirsLoading && <Loading />}

@@ -90,7 +90,7 @@ const DashboardPaint = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Цвет имени </div>
       <div className="item__descr">Цвет доступен пользователям с BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       <TabGroup
         onChange={(e) => setPicker(!!e)}
