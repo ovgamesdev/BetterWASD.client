@@ -105,13 +105,7 @@ const DashboardEditor = () => {
           </div>
         ) : (
           <div className="flat-btn" style={{ display: "flex" }}>
-            <button
-              onClick={() => {
-                setIsFocus(true);
-              }}
-              className={`primary medium`}
-              style={{ width: "205px", height: "34px" }}
-            >
+            <button onClick={() => setIsFocus(true)} className="primary medium" style={{ width: "205px", height: "34px" }}>
               Добавить пользователя
             </button>
           </div>

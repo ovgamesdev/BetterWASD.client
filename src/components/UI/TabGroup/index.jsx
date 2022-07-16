@@ -18,7 +18,7 @@ const TabGroup = (props) => {
   };
 
   useEffect(() => {
-    if (!active.element && first) first?.click();
+    if (!active.element && first) first.click();
     setIsF((i) => i + 1);
   }, [first, active.element]);
 
@@ -40,7 +40,7 @@ const TabGroup = (props) => {
           <div
             className="inkbar"
             style={{ width: position.width + "px", left: position.left + "px", transition: isF > 3 ? "left 0.2s, width 0.2s" : "" }}
-          ></div>
+          />
         </div>
       </div>
     </section>

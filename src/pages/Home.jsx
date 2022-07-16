@@ -37,7 +37,7 @@ const Home = () => {
           <Slide>
             {slideImages.map((slideImage, index) => (
               <div className="each-slide" key={index}>
-                <div className="slideshow-img" style={{ backgroundImage: `url(${slideImage.url})` }}></div>
+                <div className="slideshow-img" style={{ backgroundImage: `url(${slideImage.url})` }} />
               </div>
             ))}
           </Slide>

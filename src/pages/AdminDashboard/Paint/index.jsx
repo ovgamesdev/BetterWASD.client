@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-// import ColorPicker, { useColorPicker } from "react-best-gradient-color-picker";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-// import TabGroup from "../../../components/UI/TabGroup";
-// import ButtonLoading from "../../../components/UI/Loading";
 import Loading from "../../../components/UI/Loading/Button";
 
 import api from "../../../services/api/index.js";
@@ -14,7 +11,6 @@ import PaintItem from "./Item";
 
 import "./../../user.css";
 import "./paint-item.scss";
-import { toast } from "react-toastify";
 
 const AdminDashboardPaint = () => {
   useMeta({ title: "BetterWASYA | Admin | Цвет имени" });
@@ -108,17 +104,17 @@ const AdminDashboardPaint = () => {
           nextLabel=">"
           previousLabel="<"
           onPageChange={(e) => setPage(e.selected + 1)}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-          disabledClassName={"disabled"}
+          containerClassName="pagination justify-content-center"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          activeClassName="active"
+          disabledClassName="disabled"
           initialPage={Number(page) - 1}
         />
       )}

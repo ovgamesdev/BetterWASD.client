@@ -57,7 +57,7 @@ const Bell = () => {
       {isComponentVisible && (
         <div className="bell__info bell-info">
           <div className="bell-info__title">Уведомления</div>
-          <div className="bell-info__hr"></div>
+          <div className="bell-info__hr" />
           <div className="bell-info__list bell-info__list--scroll">
             {bells.map((bell) => (
               <BellItem

@@ -69,7 +69,8 @@
         color: rgba(var(--color-system-white), 0.8);
       }
 
-      &[aria-current] {
+      &[aria-current],
+      &.active {
         color: rgb(var(--color-system-white));
       }
     }

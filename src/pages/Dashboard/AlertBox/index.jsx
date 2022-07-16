@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 
@@ -35,9 +35,7 @@ const tabOptions = [
   { label: "Подписка", value: "subscriptions" },
   { label: "Рейд", value: "raids" },
 ];
-const fontOptions = fonts.map((v) => {
-  return { label: v, value: v };
-});
+const fontOptions = fonts.map((v) => ({ label: v, value: v }));
 
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
 
@@ -162,7 +160,7 @@ const DashboardAlertBox = () => {
                         setFilters(value);
                         setFilterEdited(true);
                       }}
-                      title={"Фильтр событий"}
+                      title="Фильтр событий"
                     />
                   </div>
                 </div>
@@ -340,15 +338,9 @@ const DashboardAlertBox = () => {
                       onChange={(value) => setSettings({ ...settings, follow_text_animation: value.value })}
                       options={animationText}
                     />
-                    <div
-                      style={{
-                        font: '600 16px "Open Sans"',
-                        textTransform: "uppercase",
-                      }}
-                      className="preview"
-                    >
-                      {"Sample Text".split("").map((w, i) => (
-                        <span key={i} className={"animated-letter " + settings.follow_text_animation}>
+                    <div style={{ font: '600 16px "Open Sans"', textTransform: "uppercase" }} className="preview">
+                      {"SampleText".split("").map((w, i) => (
+                        <span key={i} className={`animated-letter ${settings.follow_text_animation}`}>
                           {w}
                         </span>
                       ))}
@@ -572,15 +564,9 @@ const DashboardAlertBox = () => {
                       onChange={(value) => setSettings({ ...settings, sub_text_animation: value.value })}
                       options={animationText}
                     />
-                    <div
-                      style={{
-                        font: '600 16px "Open Sans"',
-                        textTransform: "uppercase",
-                      }}
-                      className="preview"
-                    >
-                      {"Sample Text".split("").map((w, i) => (
-                        <span key={i} className={"animated-letter " + settings.sub_text_animation}>
+                    <div style={{ font: '600 16px "Open Sans"', textTransform: "uppercase" }} className="preview">
+                      {"SampleText".split("").map((w, i) => (
+                        <span key={i} className={`animated-letter ${settings.sub_text_animation}`}>
                           {w}
                         </span>
                       ))}
@@ -804,15 +790,9 @@ const DashboardAlertBox = () => {
                       onChange={(value) => setSettings({ ...settings, raid_text_animation: value.value })}
                       options={animationText}
                     />
-                    <div
-                      style={{
-                        font: '600 16px "Open Sans"',
-                        textTransform: "uppercase",
-                      }}
-                      className="preview"
-                    >
-                      {"Sample Text".split("").map((w, i) => (
-                        <span key={i} className={"animated-letter " + settings.raid_text_animation}>
+                    <div style={{ font: '600 16px "Open Sans"', textTransform: "uppercase" }} className="preview">
+                      {"SampleText".split("").map((w, i) => (
+                        <span key={i} className={`animated-letter ${settings.raid_text_animation}`}>
                           {w}
                         </span>
                       ))}
@@ -967,7 +947,7 @@ const DashboardAlertBox = () => {
 
           <div className="item__border" />
           <div className="flat-btn" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <button onClick={onSave} disabled={isLoadingUpdate} className={`primary medium`} style={{ width: "300px" }}>
+            <button onClick={onSave} disabled={isLoadingUpdate} className="primary medium" style={{ width: "300px" }}>
               {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
             </button>
           </div>

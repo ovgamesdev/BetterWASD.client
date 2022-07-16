@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import useAuth from "../../../hooks/useAuth";
 import Bell from "../Bell/index.jsx";
@@ -9,6 +9,7 @@ import "./navbar.scss";
 
 const Navbar = () => {
   const auth = useAuth();
+  const location = useLocation();
 
   return (
     !window.location.pathname.match("/alert-box/") &&
@@ -19,20 +20,23 @@ const Navbar = () => {
             <NavLink to="/">
               <img
                 className="nav-img"
-                alt="BWASD"
+                alt="BWASYA"
                 src="https://raw.githubusercontent.com/ovgamesdev/res/main/Wasya_Better_color_logo_dark.svg"
               />
             </NavLink>
-            <NavLink exact="true" to="/emotes" className="nav-link">
+            <NavLink to="/emotes/top" className={() => `nav-link ${location.pathname.split("/")[1] === "emotes" ? "active" : ""}`}>
               эмоции
             </NavLink>
             {auth.user && (
-              <NavLink exact="true" to="/dashboard/emotes" className="nav-link">
+              <NavLink
+                to="/dashboard/emotes"
+                className={() => `nav-link ${location.pathname.split("/")[1] === "dashboard" ? "active" : ""}`}
+              >
                 панель управления
               </NavLink>
             )}
             {auth.user?.user_role === "ADMIN" && (
-              <NavLink exact="true" to="/admin/paint" className="nav-link">
+              <NavLink to="/admin/paint" className={() => `nav-link ${location.pathname.split("/")[1] === "admin" ? "active" : ""}`}>
                 admin
               </NavLink>
             )}

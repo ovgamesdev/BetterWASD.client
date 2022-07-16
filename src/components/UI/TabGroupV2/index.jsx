@@ -23,7 +23,7 @@ const TabGroup = (props) => {
   };
 
   useEffect(() => {
-    if (!active.element && first) first?.click();
+    if (!active.element && first) first.click();
     setIsF((i) => i + 1);
   }, [first, active.element]);
 
@@ -31,21 +31,20 @@ const TabGroup = (props) => {
     <section className="tabs-wrapper horizontal left medium" style={{ padding: "0", ...props.style }}>
       <div className="tabs" style={{ display: "grid", width: "100%" }}>
         <div className="items" style={{ width: "100%" }}>
-          {props.tabs &&
-            props.tabs.map((tab, index) => (
-              <div
-                key={index}
-                ref={(e) => index === active.index && setFirst(e)}
-                onClick={(e) => onClick(e, index)}
-                className={`item ${index === active.index ? "item-active" : ""}`}
-              >
-                {tab.label}
-              </div>
-            ))}
+          {props.tabs?.map((tab, index) => (
+            <div
+              key={index}
+              ref={(e) => index === active.index && setFirst(e)}
+              onClick={(e) => onClick(e, index)}
+              className={`item ${index === active.index ? "item-active" : ""}`}
+            >
+              {tab.label}
+            </div>
+          ))}
           <div
             className="inkbar"
             style={{ width: position.width + "px", left: position.left + "px", transition: isF > 3 ? "left 0.2s, width 0.2s" : "" }}
-          ></div>
+          />
         </div>
       </div>
     </section>

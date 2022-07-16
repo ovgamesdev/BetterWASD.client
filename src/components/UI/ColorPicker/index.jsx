@@ -13,7 +13,7 @@ const ColorPicker = ({ value, onChange }) => {
     <div className="picker-wrapper" ref={ref}>
       <button className={`wrapper__button ${isComponentVisible ? "active" : ""}`} onClick={() => setIsComponentVisible(true)}>
         {color.hex}
-        <div className="wrapper__button-preview" style={{ background: color.hex }}></div>
+        <div className="wrapper__button-preview" style={{ background: color.hex }} />
       </button>
       {isComponentVisible && (
         <div className="wrapper__picker">

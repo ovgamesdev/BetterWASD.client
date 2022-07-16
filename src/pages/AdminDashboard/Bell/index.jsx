@@ -68,17 +68,20 @@ const AdminDashboardBell = () => {
       }
     }
   };
-  const onCreate = async () => {
-    setData([...data, { text: "", link: "", linkText: "", version: "site", date: new Date() }]);
-  };
+  const onCreate = async () => setData([...data, { text: "", link: "", linkText: "", version: "site", date: new Date() }]);
 
   return (
     <div className="item block item_right" style={{ marginTop: "0px" }}>
-      <div className="item__title"> Уведомления </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div className="item__title"> Уведомления </div>
+        <div className="flat-btn" style={{ display: "flex" }}>
+          <button onClick={onCreate} className="primary medium" disabled={isLoading}>
+            Создать уведомление
+          </button>
+        </div>
+      </div>
       <div className="item__descr"> Уведовления BetterWASYA. </div>
       <div className="item__border" />
-
-      <button onClick={onCreate}>create</button>
 
       {error && error.message}
       {isLoading && <Loading />}

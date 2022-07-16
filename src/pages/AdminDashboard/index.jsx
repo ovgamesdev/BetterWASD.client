@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import AdminNavbarDashboard from "../../components/UI/Navbar/AdminDashboard";
 import AdminDashboardPaint from "./Paint";
 import AdminDashboardBell from "./Bell";
+import AdminDashboardSupport from "./Support";
 
 import useMeta from "../../hooks/useMeta/index.tsx";
 
@@ -22,6 +23,7 @@ const AdminDashboard = () => {
         <Routes>
           <Route path="paint" element={<AdminDashboardPaint />} />
           <Route path="bell" element={<AdminDashboardBell />} />
+          <Route path="support" element={<AdminDashboardSupport />} />
 
           <Route path="*" element={<Navigate to="paint" />} />
         </Routes>

@@ -12,7 +12,7 @@ import "./question.scss";
 import "react-slideshow-image/dist/styles.css";
 
 const Uninstall = () => {
-  useMeta({ title: "BetterWASYA | Обратная связь" });
+  useMeta({ title: "BetterWASYA | Удаление | Обратная связь" });
 
   const { user_id } = useParams();
 
@@ -96,7 +96,7 @@ const Uninstall = () => {
               <router-outlet></router-outlet>
               <wasd-support _nghost-uup-c336="">
                 <div className="test-bar__wrap first" style={{ display: "none" }}>
-                  <div className="test-bar__comment"></div>
+                  <div className="test-bar__comment" />
                 </div>
                 {placeholderData && (
                   <>
