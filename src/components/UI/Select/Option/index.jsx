@@ -10,9 +10,7 @@ const Option = ({ onClick, defaultValue, option, isMulti }) => {
     defaultValue.push(option);
     return defaultValue;
   };
-  const removeOption = () => {
-    return defaultValue.filter((v) => v.value !== option.value);
-  };
+  const removeOption = () => defaultValue.filter((v) => v.value !== option.value);
 
   return (
     <div

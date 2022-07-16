@@ -282,8 +282,8 @@ const Emote = () => {
       <div className="item item__rigtt" style={{ width: "100%" }}>
         <div className={styles.root + " " + styles.block + " skelet-loading"} style={column[3]}>
           <div className={styles["root-header"]}>
-            <div style={{ width: "150px", height: "18px", marginRight: "50px" }} className="loading"></div>
-            <div style={{ width: "180px", height: "18px" }} className="loading"></div>
+            <div style={{ width: "150px", height: "18px", marginRight: "50px" }} className="loading" />
+            <div style={{ width: "180px", height: "18px" }} className="loading" />
           </div>
           <div className={styles["root-body"]}>
             <div className={styles.content}>
@@ -309,18 +309,18 @@ const Emote = () => {
                 className="loading"
               />
             </div>
-            <div className="date loading" style={{ width: "150px", height: "14px", position: "absolute" }}></div>
+            <div className="date loading" style={{ width: "150px", height: "14px", position: "absolute" }} />
           </div>
           {auth.user ? (
             <div className={styles["root-footer"] + " flat-btn"}>
-              <div style={{ width: "165px", height: "32px" }} className="loading"></div>
-              <div style={{ width: "165px", height: "32px", marginLeft: "5px" }} className="loading"></div>
+              <div style={{ width: "165px", height: "32px" }} className="loading" />
+              <div style={{ width: "165px", height: "32px", marginLeft: "5px" }} className="loading" />
             </div>
           ) : null}
         </div>
         <div className={styles.root + " " + styles.block + " skelet-loading"}>
           <div className={styles["root-header"]}>
-            <div style={{ width: "100px", height: "18px" }} className="loading"></div>
+            <div style={{ width: "100px", height: "18px" }} className="loading" />
           </div>
           <div className={styles["root-body"]}>
             <div className="emotes">

@@ -4,17 +4,8 @@ const useComponentVisible = (initialIsVisible: false, onChangeVisible: (is: bool
   const [isComponentVisible, setIsComponentVisible] = useState(initialIsVisible);
   const ref = useRef(null);
 
-  const handleHideDropdown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      setIsComponentVisible(false);
-    }
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setIsComponentVisible(false);
-    }
-  };
+  const handleHideDropdown = (event: KeyboardEvent) => event.key === "Escape" && setIsComponentVisible(false);
+  const handleClickOutside = (event: MouseEvent) => ref.current && !ref.current.contains(event.target) && setIsComponentVisible(false);
 
   useEffect(() => {
     onChangeVisible && onChangeVisible(isComponentVisible);

@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-// import ColorPicker, { useColorPicker } from "react-best-gradient-color-picker";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-// import TabGroup from "../../../components/UI/TabGroup";
-// import ButtonLoading from "../../../components/UI/Loading";
 import Loading from "../../../components/UI/Loading/Button";
 
 import api from "../../../services/api/index.js";
 import useMeta from "../../../hooks/useMeta/index.tsx";
-import PaintItem from "./PaintItem";
+import PaintItem from "./Item";
 
 import "./../../user.css";
 import "./paint-item.scss";
-import { toast } from "react-toastify";
 
 const AdminDashboardPaint = () => {
   useMeta({ title: "BetterWASYA | Admin | Цвет имени" });
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isFirsLoading, setIsFirsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(Array(60).fill({}));
 
@@ -44,7 +39,6 @@ const AdminDashboardPaint = () => {
           setError(e);
         } finally {
           setIsLoading(false);
-          setIsFirsLoading(false);
           setError(null);
         }
       };
@@ -80,10 +74,10 @@ const AdminDashboardPaint = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Цвет имени </div>
       <div className="item__descr">Цвет доступен пользователям с BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       {error && error.message}
-      {isLoading && !isFirsLoading && <Loading />}
+      {isLoading && <Loading />}
 
       {!isLoading && (
         <table className="paint__table">
@@ -110,17 +104,17 @@ const AdminDashboardPaint = () => {
           nextLabel=">"
           previousLabel="<"
           onPageChange={(e) => setPage(e.selected + 1)}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-          disabledClassName={"disabled"}
+          containerClassName="pagination justify-content-center"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          activeClassName="active"
+          disabledClassName="disabled"
           initialPage={Number(page) - 1}
         />
       )}

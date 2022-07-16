@@ -24,7 +24,7 @@ const Slider = ({ min, max, onChange, step, tooltipLabel = (v) => v, value }) =>
         style={{ left: `calc(${map(min, max, 0, 100, value)}% + ${map(min, max, 10, -10, value)}px)` }}
       >
         <div className="range-slider__tooltip__label">{tooltipLabel(value)}</div>
-        <div className="range-slider__tooltip__caret"></div>
+        <div className="range-slider__tooltip__caret" />
       </div>
     </div>
   );

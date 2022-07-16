@@ -58,7 +58,7 @@ const EmotesGlobal = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Глобальные эмоции </div>
       <div className="item__descr">Эмоции, которые можно использовать во всех чатах на WASD.TV с BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
       <div className="emotes">
         {error && error.message}
         {isLoading && !isFirsLoading && <Loading />}
@@ -73,17 +73,17 @@ const EmotesGlobal = () => {
           nextLabel=">"
           previousLabel="<"
           onPageChange={(e) => setPage(e.selected + 1)}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-          disabledClassName={"disabled"}
+          containerClassName="pagination justify-content-center"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          activeClassName="active"
+          disabledClassName="disabled"
           initialPage={Number(page) - 1}
         />
       )}

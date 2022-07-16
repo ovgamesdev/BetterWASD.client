@@ -31,6 +31,8 @@ function AuthProvider(props) {
       if (tokenData) {
         const { data } = await api.auth.getProfile();
         setUser(data);
+
+        global.gtag("event", "login_auth_token", { wasd_user_id: data.user_id, user_login: data.user_login });
       }
     } catch {
       // setToken(null);

@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface IUsePaddle {
-  (props: { vendor: number; environment?: string; eventCallback?: (data: any) => void }): {
-    paddle: any;
-  };
+  (props: { vendor: number; environment?: string; eventCallback?: (data: any) => void }): { paddle: any };
 }
 
 const usePaddle: IUsePaddle = ({ environment, vendor, eventCallback = () => {} }) => {
@@ -18,7 +16,7 @@ const usePaddle: IUsePaddle = ({ environment, vendor, eventCallback = () => {} }
     }
     const script = document.createElement("script");
     script.src = "https://cdn.paddle.com/paddle/paddle.js";
-    script.id = "paddle"
+    script.id = "paddle";
     document.body.appendChild(script);
     script.addEventListener("load", () => {
       // @ts-ignore

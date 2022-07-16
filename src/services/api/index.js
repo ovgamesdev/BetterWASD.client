@@ -7,17 +7,8 @@ import uninstall from "./endpoints/uninstall.ts";
 import alertBox from "./endpoints/alert-box.ts";
 import admin from "./endpoints/admin.ts";
 import bells from "./endpoints/bells.ts";
+import support from "./endpoints/support.ts";
 
-const api = {
-  auth,
-  emote,
-  paint,
-  subBadge,
-  wasd,
-  uninstall,
-  alertBox,
-  admin,
-  bells,
-};
+const api = { auth, emote, paint, subBadge, wasd, uninstall, alertBox, admin, bells, support };
 
 export default api;

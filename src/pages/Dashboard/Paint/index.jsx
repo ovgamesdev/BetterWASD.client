@@ -90,7 +90,7 @@ const DashboardPaint = () => {
     <div className="item block item_right" style={{ marginTop: "0px" }}>
       <div className="item__title"> Цвет имени </div>
       <div className="item__descr">Цвет доступен пользователям с BetterWASYA.</div>
-      <div className="item__border"></div>
+      <div className="item__border" />
 
       <TabGroup
         onChange={(e) => setPicker(!!e)}
@@ -105,7 +105,7 @@ const DashboardPaint = () => {
         {!picker && (
           <button onClick={() => calculateCarusel(carusel - 1)}>
             <svg width="20" height="20" viewBox="0 0 24 24">
-              <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"></path>
+              <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
             </svg>
           </button>
         )}
@@ -121,7 +121,7 @@ const DashboardPaint = () => {
         {!picker && (
           <button onClick={() => calculateCarusel(carusel + 1)}>
             <svg width="20" height="20" viewBox="0 0 24 24">
-              <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"></path>
+              <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
             </svg>
           </button>
         )}
@@ -144,13 +144,7 @@ const DashboardPaint = () => {
 
       <div className="flat-btn buttons" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {getColor()?.toString().length > 155 && auth.user?.user_role !== "ADMIN" && (
-          <span
-            className=""
-            style={{
-              marginBottom: "5px",
-              color: "rgba(var(--wasd-color-warning--rgb), .75)",
-            }}
-          >
+          <span style={{ marginBottom: "5px", color: "rgba(var(--wasd-color-warning--rgb), .75)" }}>
             Вы используете большое количество цветов
           </span>
         )}

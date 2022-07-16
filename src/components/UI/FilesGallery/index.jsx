@@ -137,7 +137,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
     <>
       <div className="preview" style={style}>
         {!isInputOnly && fileType === "images" && (
-          <div className="img" style={{ backgroundImage: `url(${defaultValue.thumbnailLink || image_svg})` }}></div>
+          <div className="img" style={{ backgroundImage: `url(${defaultValue.thumbnailLink || image_svg})` }} />
         )}
         {!isInputOnly && fileType === "sounds" && (
           <div className="flat-btn">
@@ -183,7 +183,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                 width={20}
                 className="picker-item"
                 src={link_svg}
-                alt={"link"}
+                alt="link"
                 title={"Link " + fileType}
                 onClick={() => setIsLinkVisible(true)}
               />
@@ -192,13 +192,10 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                   width={20}
                   className="picker-item"
                   src={close_svg}
-                  alt={"close"}
+                  alt="close"
                   title={"Remove " + fileType}
                   onClick={() => {
-                    onChange({
-                      raw: "",
-                      metadata: { name: "", thumbnailLink: "", rawLink: "" },
-                    });
+                    onChange({ raw: "", metadata: { name: "", thumbnailLink: "", rawLink: "" } });
                     setDefaultValue({ name: "", thumbnailLink: "", rawLink: "" });
                   }}
                 />
@@ -207,7 +204,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                 width={20}
                 className="picker-item"
                 src={file_upload_svg}
-                alt={"file_upload"}
+                alt="file_upload"
                 title={"Select " + fileType}
                 onClick={() => setIsComponentVisible(true)}
               />

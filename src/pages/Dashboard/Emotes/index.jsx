@@ -17,11 +17,7 @@ const DashboardEmotes = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCreateEmote, setIsLoadingCreateEmote] = useState(false);
-  const [data, setData] = useState({
-    channelEmotes: Array(12 * 3).fill({}),
-    sharedEmotes: [],
-    personalEmotes: [],
-  });
+  const [data, setData] = useState({ channelEmotes: Array(12 * 3).fill({}), sharedEmotes: [], personalEmotes: [] });
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
   const [url, setURL] = useState("");
@@ -29,11 +25,7 @@ const DashboardEmotes = () => {
   const [createEmote, setCreateEmote] = useState({});
 
   useEffect(() => {
-    setData({
-      channelEmotes: Array(12 * 3).fill({}),
-      sharedEmotes: [],
-      personalEmotes: [],
-    });
+    setData({ channelEmotes: Array(12 * 3).fill({}), sharedEmotes: [], personalEmotes: [] });
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -103,7 +95,7 @@ const DashboardEmotes = () => {
                 setError(null);
                 setCreateEmote(null);
               }}
-              className={`primary medium`}
+              className="primary medium"
             >
               Создать эмоцию
             </button>
@@ -112,7 +104,7 @@ const DashboardEmotes = () => {
         <div className="item__descr">
           Любые смайлики, добавленные здесь, могут использоваться в чате вашего канала на WASD.TV как вами, так и вашими зрителями.
         </div>
-        <div className="item__border"></div>
+        <div className="item__border" />
 
         {data.channelEmotes?.length || data.sharedEmotes?.length || data.personalEmotes?.length
           ? null
@@ -205,7 +197,7 @@ const DashboardEmotes = () => {
 
                       {createEmote?.message && createEmote._id && (
                         <div style={{ display: "flex", alignItems: "center", marginTop: "5px", fontSize: "12px" }}>
-                          <span className=""> Создать новую эмоцю? </span>
+                          <span> Создать новую эмоцю? </span>
                         </div>
                       )}
 

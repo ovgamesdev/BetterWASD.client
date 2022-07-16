@@ -68,10 +68,10 @@ const Event = (props) => {
   return (
     <div id="widget" className="widget-AlertBox" data-layout={layout}>
       <div id="alert-box">
-        <div id="particles"></div>
+        <div id="particles" />
         <div id="wrap">
           <div id="alert-image-wrap">
-            <div id="alert-image" style={{ backgroundImage: "url(" + image + ")" }}></div>
+            <div id="alert-image" style={{ backgroundImage: "url(" + image + ")" }} />
           </div>
 
           <div id="alert-text-wrap" className={`${isShowText ? "animated fadeIn" : "hidden"}`}>
