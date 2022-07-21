@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import Moment from "react-moment";
 import { toast } from "react-toastify";
 
 import User from "../../../components/UI/User";
@@ -11,10 +10,13 @@ import { HOSTURL } from "../../../index";
 import api from "../../../services/api/index.js";
 import useAuth from "../../../hooks/useAuth";
 import useMeta from "../../../hooks/useMeta/index.tsx";
+import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
 import { decode } from "../../../lib/code-mnem";
 
+import Modal from "../../../components/UI/Modal";
+import Time from "../../../components/UI/Time";
+
 import styles from "./emote.module.scss";
-import modal_styles from "./../../modal.module.scss";
 
 const Emote = () => {
   const { id } = useParams();
@@ -28,8 +30,9 @@ const Emote = () => {
   const [isLoadingAlias, setIsLoadingAlias] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
-  const [showAlias, setShowAlias] = useState(false);
   const [aliasCode, setAliasCode] = useState("");
+
+  const { isComponentVisible: showAlias, setIsComponentVisible: setShowAlias, ref } = useComponentVisible();
 
   const [isChangeMode, setIsChangeMode] = useState(false);
 
@@ -108,28 +111,12 @@ const Emote = () => {
   if (error) return <NotFound />;
 
   let column = [
-    {
-      marginRight: "10px",
-      justifyContent: "flex-start",
-    },
-    {
-      marginLeft: "10px",
-    },
-    {
-      display: "flex",
-      justifyContent: "center",
-    },
-    {
-      width: "100%",
-    },
-    {
-      display: "flex",
-      justifyContent: "space-evenly",
-      paddingTop: "5px",
-    },
-    {
-      maxWidth: "40%",
-    },
+    { marginRight: "10px", justifyContent: "flex-start" },
+    { marginLeft: "10px" },
+    { display: "flex", justifyContent: "center" },
+    { width: "100%" },
+    { display: "flex", justifyContent: "space-evenly", paddingTop: "5px" },
+    { maxWidth: "40%" },
   ];
 
   const onUpdate = async () => {
@@ -366,7 +353,8 @@ const Emote = () => {
                 <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/2x"} alt="2x" />
                 <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/3x"} alt="3x" />
               </div>
-              <Moment className={styles.date} date={new Date(data.createdAt)} format="Создано DD.MM.YYYY" />
+
+              <Time className={styles.date} date={new Date(data.createdAt)} format="Создано DD.MM.YYYY" />
             </div>
             {data.global === false && !isOwner && auth.user && (data.sharing || auth.user?.user_role !== "ADMIN") ? (
               <div className={styles["root-footer"] + " flat-btn"}>
@@ -439,7 +427,7 @@ const Emote = () => {
             )}
           </div>
         )}
-        {data?.likes?.total !== 0 && !isChangeMode ? (
+        {data?.likes?.total !== 0 && !isChangeMode && (
           <div className={styles.root + " " + styles.block} style={column[3]}>
             <div className={styles["root-header"]}>
               <div className={styles.title}>Каналы ({data?.likes?.total})</div>
@@ -450,8 +438,8 @@ const Emote = () => {
               </div>
             </div>
           </div>
-        ) : null}
-        {isChangeMode ? (
+        )}
+        {isChangeMode && (
           <div className={styles.root + " " + styles.block} style={column[3]}>
             <div className={styles["root-header"]}>
               <div className={styles.title}>
@@ -567,7 +555,7 @@ const Emote = () => {
                 </div>
               )}
 
-              {auth.user?.user_role === "ADMIN" && <br></br>}
+              {auth.user?.user_role === "ADMIN" && <br />}
 
               {auth.user?.user_role === "ADMIN" && (
                 <div className="hover-pointer">
@@ -611,81 +599,56 @@ const Emote = () => {
               </button>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
 
-      {showAlias && <modal-backdrop></modal-backdrop>}
-      {showAlias && (
-        <modal-window
-          data-show="show"
-          className={modal_styles["show"]}
-          onClick={(e) => {
-            !isLoading && e.target.dataset.show === "show" && setShowAlias(false);
-            setAliasError(null);
-          }}
-        >
-          <div className={modal_styles["modal-block"] + " " + modal_styles["modal-block_medium"]} style={{ width: "440px" }}>
-            <div className={modal_styles["modal-block__title"]}>
-              <span style={{ wordBreak: "break-word" }}>
-                Псевдоним эмоции «{data.code}» для канала {auth.editor?.user_login || auth.user?.user_login}
-              </span>
-            </div>
-
-            <div className={modal_styles["modal-block__content"]} style={{ padding: "0 24px" }}>
-              <div className={modal_styles.row}>
-                <div className="col-36">
-                  <span style={{ color: "rgb(255,255,255)", fontSize: "16px" }}>Код эмоции</span>
-                </div>
-                <div className="col-64">
-                  <wasd-input>
-                    <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                      <div className={`wasd-input${aliasError ? " warning" : ""}`}>
-                        <input
-                          placeholder={data.code}
-                          type="text"
-                          value={aliasCode}
-                          className={isLoading ? "disabled" : ""}
-                          onChange={(e) => aliasHandler(e)}
-                        ></input>
-                      </div>
-
-                      {aliasError && (
-                        <span className="error" style={{ marginTop: "5px" }}>
-                          {aliasError}
-                        </span>
-                      )}
-                    </div>
-                  </wasd-input>
-                  <p
-                    style={{
-                      paddingTop: "5px",
-                      color: "var(--wasd-color-text-third)",
-                    }}
-                  >
-                    Коды эмоций могут быть буквами и цифрами. Не менее 3 символов.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className={modal_styles["modal-block__footer"]}>
-              <div className="flat-btn" style={{ display: "flex" }}>
-                <button className={`medium basic hide`} style={{ marginRight: "5px" }} onClick={() => setShowAlias(false)}>
-                  отмена
-                </button>
-                <button
-                  disabled={aliasError || isLoadingAlias}
-                  style={{ width: "141.2px" }}
-                  className={`medium primary`}
-                  onClick={() => setAlias()}
-                >
-                  {isLoadingAlias ? <ButtonLoading /> : "переименовать"}
-                </button>
-              </div>
-            </div>
+      <Modal isShow={showAlias} visibleRef={ref}>
+        <span style={{ wordBreak: "break-word" }}>
+          Псевдоним эмоции «{data.code}» для канала {auth.editor?.user_login || auth.user?.user_login}
+        </span>
+        <>
+          <div className="col-36">
+            <span style={{ color: "rgb(255,255,255)", fontSize: "16px" }}>Код эмоции</span>
           </div>
-        </modal-window>
-      )}
+          <div className="col-64">
+            <wasd-input>
+              <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
+                <div className={`wasd-input${aliasError ? " warning" : ""}`}>
+                  <input
+                    placeholder={data.code}
+                    type="text"
+                    value={aliasCode}
+                    className={isLoading ? "disabled" : ""}
+                    onChange={(e) => aliasHandler(e)}
+                  />
+                </div>
+
+                {aliasError && (
+                  <span className="error" style={{ marginTop: "5px" }}>
+                    {aliasError}
+                  </span>
+                )}
+              </div>
+            </wasd-input>
+            <p style={{ paddingTop: "5px", color: "var(--wasd-color-text-third)" }}>
+              Коды эмоций могут быть буквами и цифрами. Не менее 3 символов.
+            </p>
+          </div>
+        </>
+        <div className="flat-btn" style={{ display: "flex" }}>
+          <button className="medium basic hide" style={{ marginRight: "5px" }} onClick={() => setShowAlias(false)}>
+            отмена
+          </button>
+          <button
+            disabled={aliasError || isLoadingAlias}
+            style={{ width: "141.2px" }}
+            className={`medium primary`}
+            onClick={() => setAlias()}
+          >
+            {isLoadingAlias ? <ButtonLoading /> : "переименовать"}
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };

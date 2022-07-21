@@ -98,8 +98,8 @@ const DashboardPaint = () => {
         tabs={[{ title: "Предустановленные цвета" }, { title: "Цветовая палитра/градиент" }]}
       />
 
-      <br></br>
-      <br></br>
+      <br />
+      <br />
 
       <div className={previewStyle.root}>
         {!picker && (

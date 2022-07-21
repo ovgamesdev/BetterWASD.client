@@ -110,14 +110,14 @@ const DashboardSub = () => {
       <div className="item__title"> Значок подписчика </div>
       <div className="item__descr">
         Значок подписчика в чате доступен пользователям с BetterWASYA.
-        {/*<br></br><p style={{fontSize: '14px', color: 'var(--wasd-color-text-fourth)'}}>Выдается на месяц, после чего иконка сбросится.</p>*/}
+        {/*<br/><p style={{fontSize: '14px', color: 'var(--wasd-color-text-fourth)'}}>Выдается на месяц, после чего иконка сбросится.</p>*/}
       </div>
       <div className="item__border" />
 
       {isLoading ? <Loading /> : null}
       {isLoading ? null : isPartner ? (
         <div>
-          <div className="item__descr">Рекомендуется размер изображения от 20 до 40px.</div>
+          <div className="item__descr">Рекомендуется размер изображения 36x36px.</div>
 
           <div className="bonuses__icons">
             {Object.keys(subIcons).map((key, index) => (
@@ -134,7 +134,7 @@ const DashboardSub = () => {
             ))}
           </div>
 
-          <br></br>
+          <br />
 
           <div className="flat-btn" style={{ display: "flex", paddingTop: "5px", flexDirection: "column", alignItems: "center" }}>
             <button

@@ -1,15 +1,12 @@
-import React, { useRef } from "react";
-import { useState } from "react";
-
+import React, { useRef, useState, useEffect } from "react";
 import api from "../../../services/api/index.js";
-import styles from "./../../../pages/modal.module.scss";
-import { useEffect } from "react";
 import GalleryItem from "./Item";
 import Loading from "../Loading/Button";
 import { toast } from "react-toastify";
 import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
 import TabGroup from "../TabGroupV2";
 import AssetDragdrop from "./AssetDragdrop";
+import Modal from "../../../components/UI/Modal";
 
 import "./dropdrag-zone.scss";
 import "./files-gallery.scss";
@@ -38,8 +35,11 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
   const inputFile = useRef(null);
   const toastId = useRef(null);
 
-  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false, (is) => !is && setActive(defaultValue));
-  const { ref: refLinkVisible, isComponentVisible: isLinkVisible, setIsComponentVisible: setIsLinkVisible } = useComponentVisible(false);
+  // const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false, (is) => !is && setActive(defaultValue));
+  // const { ref: refLinkVisible, isComponentVisible: isLinkVisible, setIsComponentVisible: setIsLinkVisible } = useComponentVisible(false);
+
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible();
+  const { ref: refLinkVisible, isComponentVisible: isLinkVisible, setIsComponentVisible: setIsLinkVisible } = useComponentVisible();
 
   useEffect(() => {
     const find = async () => {
@@ -136,9 +136,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
   return (
     <>
       <div className="preview" style={style}>
-        {!isInputOnly && fileType === "images" && (
-          <div className="img" style={{ backgroundImage: `url(${defaultValue.thumbnailLink || image_svg})` }} />
-        )}
+        {!isInputOnly && fileType === "images" && <div className="img" style={{ backgroundImage: `url(${defaultValue.thumbnailLink || image_svg})` }} />}
         {!isInputOnly && fileType === "sounds" && (
           <div className="flat-btn">
             <button
@@ -159,34 +157,16 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                 };
               }}
             >
-              <img
-                referrerPolicy="no-referrer"
-                width={30}
-                height={30}
-                src={isPlayed ? pause_svg : play_svg}
-                alt={isPlayed ? "pause" : "play"}
-              />
+              <img referrerPolicy="no-referrer" width={30} height={30} src={isPlayed ? pause_svg : play_svg} alt={isPlayed ? "pause" : "play"} />
             </button>
           </div>
         )}
 
         <div className="wasd-input-wrapper">
           <div className="wasd-input">
-            <input
-              style={{ margin: 0, paddingRight: "100px" }}
-              value={defaultValue.name}
-              readOnly
-              placeholder={`https://example.com/${fileType}`}
-            />
+            <input style={{ margin: 0, paddingRight: "100px" }} value={defaultValue.name} readOnly placeholder={`https://example.com/${fileType}`} />
             <div className="picker__controls">
-              <img
-                width={20}
-                className="picker-item"
-                src={link_svg}
-                alt="link"
-                title={"Link " + fileType}
-                onClick={() => setIsLinkVisible(true)}
-              />
+              <img width={20} className="picker-item" src={link_svg} alt="link" title={"Link " + fileType} onClick={() => setIsLinkVisible(true)} />
               {defaultValue.rawLink !== "" && (
                 <img
                   width={20}
@@ -200,203 +180,157 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                   }}
                 />
               )}
-              <img
-                width={20}
-                className="picker-item"
-                src={file_upload_svg}
-                alt="file_upload"
-                title={"Select " + fileType}
-                onClick={() => setIsComponentVisible(true)}
-              />
+              <img width={20} className="picker-item" src={file_upload_svg} alt="file_upload" title={"Select " + fileType} onClick={() => setIsComponentVisible(true)} />
             </div>
           </div>
         </div>
       </div>
 
-      {(isComponentVisible || isLinkVisible) && <modal-backdrop></modal-backdrop>}
-      {isComponentVisible && (
-        <modal-window data-show="show" className={styles["show"]}>
-          <div className={styles["modal-block"] + " " + styles["modal-block_medium"]} style={{ width: "440px" }} ref={ref}>
-            <div className={styles["modal-block__title"]}>
-              <span> {title} </span>
-            </div>
+      <Modal
+        isShow={isComponentVisible}
+        visibleRef={ref}
+        contentClassName="files-gallery"
+        contentStyle={{ padding: "0 24px", minHeight: "400px", maxHeight: "400px", display: "flex", flexDirection: "column" }}
+      >
+        <span> {title} </span>
+        <>
+          <TabGroup
+            style={{ width: "190px", paddingTop: "10px" }}
+            active="upload"
+            onChange={(e) => setActiveTab(e.value)}
+            tabs={[
+              { label: "Общие", value: "general" },
+              { label: "Загрузки", value: "upload" },
+            ]}
+          />
 
-            <div
-              className={styles["modal-block__content"] + " files-gallery"}
-              style={{ padding: "0 24px", minHeight: "400px", maxHeight: "400px", display: "flex", flexDirection: "column" }}
-            >
-              <TabGroup
-                style={{ width: "190px", paddingTop: "10px" }}
-                active="upload"
-                onChange={(e) => setActiveTab(e.value)}
-                tabs={[
-                  { label: "Общие", value: "general" },
-                  { label: "Загрузки", value: "upload" },
-                ]}
-              />
-
-              {activeTab === "general" && (
-                <>
-                  <div className="emotes">
-                    {isLoading && <Loading />}
-                    {galleryGlobal.map((i) => (
-                      <GalleryItem
-                        active={active}
-                        sound_volume={sound_volume}
-                        data={i}
-                        key={i.id}
-                        onSelect={setActive}
-                        onDelete={onDelete}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-              {activeTab === "upload" && (
-                <>
-                  <input type="file" accept={fileAccept} ref={inputFile} style={{ display: "none" }} onChange={onUpload} />
-                  <div className="scrolled" style={{ height: "355px" }}>
-                    <AssetDragdrop
-                      dragStartHandler={dragStartHandler}
-                      dragLeaveHandler={dragLeaveHandler}
-                      onDropHandler={onDropHandler}
-                      drag={drag}
-                      inputFile={inputFile}
-                    />
-                    <div className="emotes">
-                      {isLoading && <Loading />}
-                      {gallery.map((i) => (
-                        <GalleryItem
-                          active={active}
-                          sound_volume={sound_volume}
-                          data={i}
-                          key={i.id}
-                          onSelect={setActive}
-                          onDelete={onDelete}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-
-            <div className={styles["modal-block__footer"]}>
-              <div className="flat-btn" style={{ display: "flex" }}>
-                <button
-                  className={`medium basic hide ${isLoading ? "disabled" : ""}`}
-                  style={{ marginRight: "5px" }}
-                  onClick={() => {
-                    setActive(defaultValue);
-                    setIsComponentVisible(false);
-                  }}
-                >
-                  отмена
-                </button>
-                <button
-                  style={{ width: "141.2px" }}
-                  className={`primary medium basic hide ${isLoading ? "disabled" : ""}`}
-                  onClick={() => {
-                    onChange({
-                      raw: active.rawLink,
-                      metadata: {
-                        name: active.name,
-                        thumbnailLink: active.thumbnailLink,
-                        rawLink: active.rawLink,
-                      },
-                    });
-                    setDefaultValue(active);
-                    setIsComponentVisible(false);
-                  }}
-                >
-                  выбрать
-                </button>
+          {activeTab === "general" && (
+            <>
+              <div className="emotes">
+                {isLoading && <Loading />}
+                {galleryGlobal.map((i) => (
+                  <GalleryItem active={active} sound_volume={sound_volume} data={i} key={i.id} onSelect={setActive} onDelete={onDelete} />
+                ))}
               </div>
-            </div>
-          </div>
-        </modal-window>
-      )}
-
-      {isLinkVisible && (
-        <modal-window data-show="show" className={styles["show"]}>
-          <div className={styles["modal-block"] + " " + styles["modal-block_medium"]} style={{ width: "440px" }} ref={refLinkVisible}>
-            <div className={styles["modal-block__title"]}>
-              <span> {title_link} </span>
-            </div>
-
-            <div className={styles["modal-block__content"] + " files-gallery"} style={{ padding: "15px 24px", display: "flex" }}>
-              {fileType === "images" && (
-                <>
-                  <img style={{ display: linkValueError ? "" : "none" }} src={image_svg} alt="preview" width={38} height={38} />
-                  <img
-                    style={{ display: linkValueError ? "none" : "" }}
-                    src={linkValue}
-                    alt="preview"
-                    width={38}
-                    height={38}
-                    onLoad={() => setLinkValueError(false)}
-                    onError={() => setLinkValueError(true)}
-                  />
-                </>
-              )}
-              {fileType === "sounds" && <img src={sound_svg} alt="preview" width={38} height={38} />}
-
-              <div className="wasd-input-wrapper" style={{ marginLeft: "5px" }}>
-                <div className={`wasd-input ${linkValueError ? "warning" : ""}`}>
-                  <input
-                    placeholder={"https://example.com/" + fileType}
-                    onChange={(e) => {
-                      setLinkValue(e.target.value.trim());
-                      if (fileType === "sounds") setLinkValueError(!e.target.value.trim().slice(0, 8).includes("https://"));
-                    }}
-                    value={linkValue}
-                    style={{ margin: "0px" }}
-                  />
+            </>
+          )}
+          {activeTab === "upload" && (
+            <>
+              <input type="file" accept={fileAccept} ref={inputFile} style={{ display: "none" }} onChange={onUpload} />
+              <div className="scrolled" style={{ height: "355px" }}>
+                <AssetDragdrop dragStartHandler={dragStartHandler} dragLeaveHandler={dragLeaveHandler} onDropHandler={onDropHandler} drag={drag} inputFile={inputFile} />
+                <div className="emotes">
+                  {isLoading && <Loading />}
+                  {gallery.map((i) => (
+                    <GalleryItem active={active} sound_volume={sound_volume} data={i} key={i.id} onSelect={setActive} onDelete={onDelete} />
+                  ))}
                 </div>
               </div>
-            </div>
+            </>
+          )}
+        </>
+        <div className="flat-btn" style={{ display: "flex" }}>
+          <button
+            className={`medium basic hide ${isLoading ? "disabled" : ""}`}
+            style={{ marginRight: "5px" }}
+            onClick={() => {
+              setActive(defaultValue);
+              setIsComponentVisible(false);
+            }}
+          >
+            отмена
+          </button>
+          <button
+            style={{ width: "141.2px" }}
+            className={`primary medium basic hide ${isLoading ? "disabled" : ""}`}
+            onClick={() => {
+              onChange({
+                raw: active.rawLink,
+                metadata: {
+                  name: active.name,
+                  thumbnailLink: active.thumbnailLink,
+                  rawLink: active.rawLink,
+                },
+              });
+              setDefaultValue(active);
+              setIsComponentVisible(false);
+            }}
+          >
+            выбрать
+          </button>
+        </div>
+      </Modal>
 
-            <div className={styles["modal-block__footer"]}>
-              <div className="flat-btn" style={{ display: "flex" }}>
-                <button
-                  className={`medium basic hide ${isLoading ? "disabled" : ""}`}
-                  style={{ marginRight: "5px" }}
-                  onClick={() => {
-                    setIsLinkVisible(false);
-                    setLinkValue("");
-                  }}
-                >
-                  отмена
-                </button>
-                <button
-                  style={{ width: "141.2px" }}
-                  className={`primary medium basic hide ${isLoading ? "disabled" : ""}`}
-                  disabled={linkValueError}
-                  onClick={() => {
-                    setIsLinkVisible(false);
-                    onChange({
-                      raw: linkValue,
-                      metadata: {
-                        name: linkValue.split("/")[linkValue.split("/").length - 1],
-                        thumbnailLink: linkValue,
-                        rawLink: linkValue,
-                      },
-                    });
-                    setDefaultValue({
-                      name: linkValue.split("/")[linkValue.split("/").length - 1],
-                      thumbnailLink: linkValue,
-                      rawLink: linkValue,
-                    });
-                    setLinkValue("");
-                  }}
-                >
-                  выбрать
-                </button>
-              </div>
+      <Modal isShow={isLinkVisible} visibleRef={refLinkVisible} contentClassName="files-gallery" contentStyle={{ padding: "15px 24px", display: "flex" }}>
+        <span> {title_link} </span>
+        <>
+          {fileType === "images" && (
+            <>
+              <img style={{ display: linkValueError ? "" : "none" }} src={image_svg} alt="preview" width={38} height={38} />
+              <img
+                style={{ display: linkValueError ? "none" : "" }}
+                src={linkValue}
+                alt="preview"
+                width={38}
+                height={38}
+                onLoad={() => setLinkValueError(false)}
+                onError={() => setLinkValueError(true)}
+              />
+            </>
+          )}
+          {fileType === "sounds" && <img src={sound_svg} alt="preview" width={38} height={38} />}
+
+          <div className="wasd-input-wrapper" style={{ marginLeft: "5px" }}>
+            <div className={`wasd-input ${linkValueError ? "warning" : ""}`}>
+              <input
+                placeholder={"https://example.com/" + fileType}
+                onChange={(e) => {
+                  setLinkValue(e.target.value.trim());
+                  if (fileType === "sounds") setLinkValueError(!e.target.value.trim().slice(0, 8).includes("https://"));
+                }}
+                value={linkValue}
+                style={{ margin: "0px" }}
+              />
             </div>
           </div>
-        </modal-window>
-      )}
+        </>
+        <div className="flat-btn" style={{ display: "flex" }}>
+          <button
+            className={`medium basic hide ${isLoading ? "disabled" : ""}`}
+            style={{ marginRight: "5px" }}
+            onClick={() => {
+              setIsLinkVisible(false);
+              setLinkValue("");
+            }}
+          >
+            отмена
+          </button>
+          <button
+            style={{ width: "141.2px" }}
+            className={`primary medium basic hide ${isLoading ? "disabled" : ""}`}
+            disabled={linkValueError}
+            onClick={() => {
+              setIsLinkVisible(false);
+              onChange({
+                raw: linkValue,
+                metadata: {
+                  name: linkValue.split("/")[linkValue.split("/").length - 1],
+                  thumbnailLink: linkValue,
+                  rawLink: linkValue,
+                },
+              });
+              setDefaultValue({
+                name: linkValue.split("/")[linkValue.split("/").length - 1],
+                thumbnailLink: linkValue,
+                rawLink: linkValue,
+              });
+              setLinkValue("");
+            }}
+          >
+            выбрать
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };

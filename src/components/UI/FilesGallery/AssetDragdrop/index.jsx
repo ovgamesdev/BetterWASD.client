@@ -3,13 +3,7 @@ const AssetDragdrop = ({ dragStartHandler, dragLeaveHandler, onDropHandler, drag
     <div className="asset-dragdrop">
       <div className="asset-dragdrop-zone">
         {drag ? (
-          <div
-            onDragStart={(e) => dragStartHandler(e)}
-            onDragLeave={(e) => dragLeaveHandler(e)}
-            onDragOver={(e) => dragStartHandler(e)}
-            onDrop={(e) => onDropHandler(e)}
-            className="dropdrag__zone"
-          >
+          <div onDragStart={(e) => dragStartHandler(e)} onDragLeave={(e) => dragLeaveHandler(e)} onDragOver={(e) => dragStartHandler(e)} onDrop={(e) => onDropHandler(e)} className="dropdrag__zone">
             Опустите файл, чтобы загрузить его
           </div>
         ) : (

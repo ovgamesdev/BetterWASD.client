@@ -2,6 +2,7 @@
   max-height: 100%;
   max-width: 100%;
   display: flex;
+
   > .tabs {
     color: var(--color-switch);
     display: flex;
@@ -11,6 +12,7 @@
     line-height: 1.71;
     max-width: 100%;
     position: relative;
+
     > .title {
       color: var(--color-switch);
       font-family: Roboto-Bold;

@@ -43,12 +43,7 @@ const EditorUser = (props) => {
         </Link>
       </div>
       {typeof props.isLoadingRemove !== "undefined" && (
-        <button
-          onClick={() => props.deleteEditor(user.user_id)}
-          disabled={props.isLoadingRemove === user.user_id}
-          className="warning small"
-          style={{ width: "24px", marginRight: "5px" }}
-        >
+        <button onClick={() => props.deleteEditor(user.user_id)} disabled={props.isLoadingRemove === user.user_id} className="warning small" style={{ width: "24px", marginRight: "5px" }}>
           {props.isLoadingRemove === user.user_id ? <ButtonLoading /> : "x"}
         </button>
       )}

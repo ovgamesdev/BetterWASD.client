@@ -94,7 +94,7 @@ const DashboardEditor = () => {
           ))}
         </div>
 
-        <br></br>
+        <br />
 
         {isFocus ? (
           <div className="wasd-input-wrapper">
@@ -112,8 +112,8 @@ const DashboardEditor = () => {
         )}
       </div>
 
-      <br></br>
-      <br></br>
+      <br />
+      <br />
 
       {auth.user.channel_editor.length !== 0 && (
         <>

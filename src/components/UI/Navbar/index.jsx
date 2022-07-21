@@ -18,20 +18,13 @@ const Navbar = () => {
         <div className="nav">
           <div className="d-flex" style={{ alignItems: "flex-end" }}>
             <NavLink to="/">
-              <img
-                className="nav-img"
-                alt="BWASYA"
-                src="https://raw.githubusercontent.com/ovgamesdev/res/main/Wasya_Better_color_logo_dark.svg"
-              />
+              <img className="nav-img" alt="BWASYA" src="https://raw.githubusercontent.com/ovgamesdev/res/main/Wasya_Better_color_logo_dark.svg" />
             </NavLink>
             <NavLink to="/emotes/top" className={() => `nav-link ${location.pathname.split("/")[1] === "emotes" ? "active" : ""}`}>
               эмоции
             </NavLink>
             {auth.user && (
-              <NavLink
-                to="/dashboard/emotes"
-                className={() => `nav-link ${location.pathname.split("/")[1] === "dashboard" ? "active" : ""}`}
-              >
+              <NavLink to="/dashboard/emotes" className={() => `nav-link ${location.pathname.split("/")[1] === "dashboard" ? "active" : ""}`}>
                 панель управления
               </NavLink>
             )}

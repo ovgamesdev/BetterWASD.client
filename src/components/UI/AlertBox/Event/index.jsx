@@ -11,21 +11,7 @@ import "../custom.css";
 const Event = (props) => {
   // console.log(props.info);
 
-  const {
-    image,
-    layout,
-    message_template,
-    sound,
-    sound_volume,
-    text_animation,
-    text_delay,
-    font,
-    font_size,
-    font_weight,
-    font_color,
-    font_color2,
-    payload,
-  } = props.info;
+  const { image, layout, message_template, sound, sound_volume, text_animation, text_delay, font, font_size, font_weight, font_color, font_color2, payload } = props.info;
 
   // eslint-disable-next-line no-unused-vars
   const [playing, toggle, audio] = useAudio(sound, sound_volume);

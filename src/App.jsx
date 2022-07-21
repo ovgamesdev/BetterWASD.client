@@ -21,9 +21,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.isLoaded]);
 
-  const wrapperClassName =
-    (window.location.pathname.match("/alert-box/") ? " alert_mode" : "") +
-    (window.location.pathname.match("/uninstall/") ? " uninstall_mode" : "");
+  const wrapperClassName = (window.location.pathname.match("/alert-box/") ? " alert_mode" : "") + (window.location.pathname.match("/uninstall/") ? " uninstall_mode" : "");
 
   return (
     <>
@@ -46,7 +44,7 @@ function App() {
             progressClassName="toast-progress"
           />
         )}
-        <div className={`wrapper ${wrapperClassName}`}>
+        <div className={`wrapper${wrapperClassName}`}>
           <Navbar />
           <Routes />
         </div>

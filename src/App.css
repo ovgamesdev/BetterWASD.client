@@ -23,9 +23,10 @@ body {
 .wrapper {
   height: 100%;
   margin-top: 0;
-  padding: 0 10px;
+  padding: 0 0 0 10px;
   overflow-x: hidden;
-  overflow-y: auto;
+  /* overflow-y: auto; */
+  overflow-y: scroll;
   display: block;
   width: 100%;
   flex-direction: column;
@@ -47,7 +48,7 @@ footer {
 div::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-  background: rgba(var(--wasd-color-switch--rgb), 0.24);
+  /* background: rgba(var(--wasd-color-switch--rgb), 0.24); */
   border-radius: 0.4rem 0.4rem 0.4rem 0.4rem;
 }
 
@@ -220,13 +221,11 @@ section .block .descr {
   box-shadow: 0 18px 30px -12px rgba(0, 94, 255, 0.35);
 }
 .button-big.blue:not([disabled]):hover {
-  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.2), rgba(var(--color-system-white), 0.2)),
-    radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
+  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.2), rgba(var(--color-system-white), 0.2)), radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
   box-shadow: 0 24px 36px -12px rgba(0, 94, 255, 0.35);
 }
 .button-big.blue:not([disabled]):active {
-  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.4), rgba(var(--color-system-white), 0.4)),
-    radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
+  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.4), rgba(var(--color-system-white), 0.4)), radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
   box-shadow: none;
 }
 .button-big.blue[disabled] {
@@ -263,13 +262,11 @@ section .block .descr {
   box-shadow: 0 18px 30px -12px rgba(0, 94, 255, 0.35);
 }
 .button-small.blue:not([disabled]):hover {
-  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.2), rgba(var(--color-system-white), 0.2)),
-    radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
+  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.2), rgba(var(--color-system-white), 0.2)), radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
   box-shadow: 0 24px 36px -12px rgba(0, 94, 255, 0.35);
 }
 .button-small.blue:not([disabled]):active {
-  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.4), rgba(var(--color-system-white), 0.4)),
-    radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
+  background: linear-gradient(0deg, rgba(var(--color-system-white), 0.4), rgba(var(--color-system-white), 0.4)), radial-gradient(90.57% 139.63% at 94.34% 6.25%, #1a8cff 0, #1a75ff 100%);
   box-shadow: none;
 }
 .button-small.blue[disabled] {

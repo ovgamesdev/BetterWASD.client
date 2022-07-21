@@ -2,15 +2,7 @@ import FilesGallery from "../FilesGallery";
 import subStyle from "./sub.module.scss";
 
 const TabGroup = ({ subIcons, defBadges, setIsLoadedImages, isLoadedImages, setSubIcons, item }) => {
-  const title = {
-    "1mon": "1 мес.",
-    "3mon": "3 мес.",
-    "6mon": "6 мес.",
-    "9mon": "9 мес.",
-    "12mon": "1 г.",
-    "18mon": "1,5 г.",
-    "24mon": "2 г.",
-  };
+  const title = { "1mon": "1 мес.", "3mon": "3 мес.", "6mon": "6 мес.", "9mon": "9 мес.", "12mon": "1 г.", "18mon": "1,5 г.", "24mon": "2 г." };
 
   return (
     <div className={`${subStyle.item} ${isLoadedImages[item] ? "" : "warning"}`}>

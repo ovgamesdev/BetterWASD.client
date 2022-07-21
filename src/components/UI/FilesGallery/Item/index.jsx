@@ -44,19 +44,7 @@ const GalleryItem = ({ onSelect, onDelete, data, active, sound_volume }) => {
       onMouseLeave={() => setIsHover(false)}
     >
       <div className={styles.card}>
-        <img
-          referrerPolicy="no-referrer"
-          src={
-            !isCanPlay
-              ? data.thumbnailLink || data.iconLink
-              : !isPlayed
-              ? isHover
-                ? playSvg
-                : data.thumbnailLink || data.iconLink
-              : pauseSvg
-          }
-          alt={data.name}
-        />
+        <img referrerPolicy="no-referrer" src={!isCanPlay ? data.thumbnailLink || data.iconLink : !isPlayed ? (isHover ? playSvg : data.thumbnailLink || data.iconLink) : pauseSvg} alt={data.name} />
 
         <div className={styles["delete-emote"]} onClick={() => onDelete(data.id)}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px">

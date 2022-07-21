@@ -60,14 +60,7 @@ const Bell = () => {
           <div className="bell-info__hr" />
           <div className="bell-info__list bell-info__list--scroll">
             {bells.map((bell) => (
-              <BellItem
-                key={bell._id}
-                text={bell.text}
-                link={bell.link}
-                linkText={bell.linkText}
-                date={bell.date}
-                onClose={() => setIsComponentVisible(false)}
-              />
+              <BellItem key={bell._id} text={bell.text} link={bell.link} linkText={bell.linkText} date={bell.date} onClose={() => setIsComponentVisible(false)} />
             ))}
           </div>
         </div>

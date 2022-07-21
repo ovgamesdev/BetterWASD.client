@@ -27,13 +27,7 @@ const Users = (props) => {
   return (
     <div className={`${styles.wrapper} ${isLoadedImage ? "" : "skelet-loading"}`}>
       <Link to={"/users/" + props.user.user_id} className={styles.card} title={props.user.user_login}>
-        <img
-          src={props.user.channel_image}
-          alt="avatar"
-          style={{ display: `${isLoadedImage ? "" : "none"}` }}
-          onLoad={() => setIsLoadedImage(true)}
-          onError={() => setIsLoadedImage(false)}
-        />
+        <img src={props.user.channel_image} alt="avatar" style={{ display: `${isLoadedImage ? "" : "none"}` }} onLoad={() => setIsLoadedImage(true)} onError={() => setIsLoadedImage(false)} />
         {!isLoadedImage && (
           <img
             style={{ minWidth: "50px" }}
