@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
+import "./pagination.scss";
+
 const Pagination = ({ page, total, search, limit, setPage }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,7 +23,7 @@ const Pagination = ({ page, total, search, limit, setPage }) => {
           nextLabel=">"
           previousLabel="<"
           onPageChange={(e) => setPage(e.selected + 1)}
-          containerClassName="pagination justify-content-center"
+          containerClassName="pagination"
           pageClassName="page-item"
           pageLinkClassName="page-link"
           previousClassName="page-item"

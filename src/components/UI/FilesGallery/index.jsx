@@ -1,12 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 import api from "../../../services/api/index.js";
+import { toast } from "react-toastify";
+
+import useAuth from "../../../hooks/useAuth/index.jsx";
+import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
+
 import GalleryItem from "./Item";
 import Loading from "../Loading/Button";
-import { toast } from "react-toastify";
-import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
 import TabGroup from "../TabGroupV2";
 import AssetDragdrop from "./AssetDragdrop";
-import Modal from "../../../components/UI/Modal";
+import Input from "../Input/index.jsx";
+import Modal from "../Modal";
 
 import "./dropdrag-zone.scss";
 import "./files-gallery.scss";
@@ -19,9 +23,7 @@ import image_svg from "./svg/image.svg";
 import sound_svg from "./svg/music_note.svg";
 
 const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept, sound_volume, isInputOnly = false, style }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [gallery, setGallery] = useState([]);
-  const [galleryGlobal, setGalleryGlobal] = useState([]);
+  const auth = useAuth();
 
   const [defaultValue, setDefaultValue] = useState(value);
   const [active, setActive] = useState(defaultValue);
@@ -30,53 +32,77 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
   const [linkValueError, setLinkValueError] = useState(true);
 
   const [drag, setDrag] = useState(false);
-  const [isPlayed, setIsPlayed] = useState(false);
+  const [isPlayed, setIsPlayed] = useState(null);
+  const [itemPlayed, setItemPlayed] = useState(null);
 
   const inputFile = useRef(null);
   const toastId = useRef(null);
 
-  // const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false, (is) => !is && setActive(defaultValue));
-  // const { ref: refLinkVisible, isComponentVisible: isLinkVisible, setIsComponentVisible: setIsLinkVisible } = useComponentVisible(false);
-
-  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible();
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false, (is) => {
+    if (is) return;
+    itemPlayed && itemPlayed.audio.pause();
+    setItemPlayed(null);
+    setActive(defaultValue);
+  });
   const { ref: refLinkVisible, isComponentVisible: isLinkVisible, setIsComponentVisible: setIsLinkVisible } = useComponentVisible();
 
   useEffect(() => {
-    const find = async () => {
-      try {
-        setIsLoading(true);
-        setGallery([]);
-        setGalleryGlobal([]);
-        const { data } = await api.alertBox.getFiles(fileType);
-        setGallery(data.channel);
-        setGalleryGlobal(data.global);
-      } catch (e) {
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    find();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     return () => {
-      if (isPlayed) isPlayed.pause();
+      isPlayed && isPlayed.pause();
+      itemPlayed && itemPlayed.audio.pause();
     };
-  }, [isPlayed]);
+  }, [isPlayed, itemPlayed]);
 
-  const onDelete = async (id) => {
+  const onPlay = (item) => {
+    if (itemPlayed?.rawLink === item.rawLink) {
+      itemPlayed.audio.pause();
+      setItemPlayed(null);
+      return;
+    }
+
+    const audio = new Audio(item.rawLink);
+    setItemPlayed({ ...item, audio });
+    audio.volume = sound_volume / 100;
+    audio.play();
+    audio.onended = () => setItemPlayed(null);
+    audio.onerror = () => {
+      setItemPlayed(null);
+      toast.error("Мы не можем воспроизвести этот звук");
+    };
+  };
+
+  const onDelete = async (item) => {
     try {
       const isDelete = global.confirm("Вы уверены?");
       if (!isDelete) return;
 
-      await api.alertBox.deleteFile(fileType, id);
+      if (itemPlayed?.id === item.id) {
+        itemPlayed.audio.pause();
+        setItemPlayed(null);
+      }
 
-      setGallery(gallery.filter((g) => g.id !== id));
+      if (active?.rawLink === item.rawLink) setActive(defaultValue);
+
+      if (defaultValue?.rawLink === item.rawLink) {
+        const def = auth.files[fileType].channel[0]?.rawLink !== item.rawLink ? auth.files[fileType].channel[0] : auth.files[fileType].channel[1];
+
+        setActive(def);
+        setDefaultValue(def);
+
+        onChange({ raw: def.rawLink, metadata: { name: def.name, thumbnailLink: def.thumbnailLink, rawLink: def.rawLink } });
+      }
+
+      await api.upload.delete(fileType, item.id, auth.editor?.user_id);
+
+      auth.setFiles({ ...auth.files, [fileType]: { channel: auth.files[fileType].channel.filter((g) => g.id !== item.id), global: auth.files[fileType].global } });
+
       toast.success("Файл удален");
     } catch (e) {
-      toast.error("Ошибка удаления");
+      if (e.response.data.code === "NOT_ACCESS") {
+        toast.error("Нет доступа");
+      } else {
+        toast.error("Ошибка удаления");
+      }
     }
   };
 
@@ -110,7 +136,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
       const formData = new FormData();
       formData.append(fileType, file);
 
-      const { data } = await api.alertBox.uploadFile(fileType, formData);
+      const { data } = await api.upload.post(fileType, formData, auth.editor?.user_id);
       if (data.error) {
         return toast.update(toastId.current, {
           render: "Ошибка загрузки файла.",
@@ -119,12 +145,14 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
           autoClose: 5000,
         });
       }
-      setGallery([...gallery, data]);
+      auth.setFiles({ ...auth.files, [fileType]: { channel: [...auth.files[fileType].channel, data], global: auth.files[fileType].global } });
 
       toast.update(toastId.current, { render: "Файл загружен!", type: "success", isLoading: false, autoClose: 5000 });
     } catch (e) {
       if (e.response.data.code === "LIMIT_FILE_SIZE") {
         toast.update(toastId.current, { render: "Размер файла превысил 2,5 Мб.", type: "error", isLoading: false, autoClose: 5000 });
+      } else if (e.response.data.code === "NOT_ACCESS") {
+        toast.update(toastId.current, { render: "Нет доступа", type: "error", isLoading: false, autoClose: 5000 });
       } else {
         toast.update(toastId.current, { render: "Мы не можем загрузить этот файл.", type: "error", isLoading: false, autoClose: 5000 });
       }
@@ -133,10 +161,12 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
     toastId.current = null;
   };
 
+  const accessUploadFile = auth.editor?.access ? (auth.editor?.access?.canUploadFile ? true : false) : true;
+
   return (
     <>
       <div className="preview" style={style}>
-        {!isInputOnly && fileType === "images" && <div className="img" style={{ backgroundImage: `url(${defaultValue.thumbnailLink || image_svg})` }} />}
+        {!isInputOnly && fileType === "images" && <div className="img" style={{ backgroundImage: `url(${value.thumbnailLink || image_svg})` }} />}
         {!isInputOnly && fileType === "sounds" && (
           <div className="flat-btn">
             <button
@@ -144,15 +174,15 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
               onClick={() => {
                 if (isPlayed) {
                   isPlayed.pause();
-                  return setIsPlayed(false);
+                  return setIsPlayed(null);
                 }
-                const audio = new Audio(active.rawLink);
+                const audio = new Audio(defaultValue.rawLink);
                 audio.volume = sound_volume / 100;
                 setIsPlayed(audio);
                 audio.play();
-                audio.onended = () => setIsPlayed(false);
+                audio.onended = () => setIsPlayed(null);
                 audio.onerror = () => {
-                  setIsPlayed(false);
+                  setIsPlayed(null);
                   toast.error("Мы не можем воспроизвести этот звук");
                 };
               }}
@@ -162,36 +192,35 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
           </div>
         )}
 
-        <div className="wasd-input-wrapper">
-          <div className="wasd-input">
-            <input style={{ margin: 0, paddingRight: "100px" }} value={defaultValue.name} readOnly placeholder={`https://example.com/${fileType}`} />
-            <div className="picker__controls">
-              <img width={20} className="picker-item" src={link_svg} alt="link" title={"Link " + fileType} onClick={() => setIsLinkVisible(true)} />
-              {defaultValue.rawLink !== "" && (
-                <img
-                  width={20}
-                  className="picker-item"
-                  src={close_svg}
-                  alt="close"
-                  title={"Remove " + fileType}
-                  onClick={() => {
-                    onChange({ raw: "", metadata: { name: "", thumbnailLink: "", rawLink: "" } });
-                    setDefaultValue({ name: "", thumbnailLink: "", rawLink: "" });
-                  }}
-                />
-              )}
-              <img width={20} className="picker-item" src={file_upload_svg} alt="file_upload" title={"Select " + fileType} onClick={() => setIsComponentVisible(true)} />
-            </div>
+        <Input
+          placeholder={`https://example.com/${fileType}`}
+          readOnly
+          value={value.name}
+          inputClassName={isComponentVisible || isLinkVisible ? "active" : ""}
+          style={{ marginLeft: "5px" }}
+          inputStyle={{ margin: 0, paddingRight: "100px" }}
+        >
+          <div className="picker__controls">
+            <img width={20} className="picker-item" src={link_svg} alt="link" title={"Link " + fileType} onClick={() => setIsLinkVisible(true)} />
+            {value.rawLink !== "" && (
+              <img
+                width={20}
+                className="picker-item"
+                src={close_svg}
+                alt="close"
+                title={"Remove " + fileType}
+                onClick={() => {
+                  onChange({ raw: "", metadata: { name: "", thumbnailLink: "", rawLink: "" } });
+                  setDefaultValue({ name: "", thumbnailLink: "", rawLink: "" });
+                }}
+              />
+            )}
+            <img width={20} className="picker-item" src={file_upload_svg} alt="file_upload" title={"Select " + fileType} onClick={() => setIsComponentVisible(true)} />
           </div>
-        </div>
+        </Input>
       </div>
 
-      <Modal
-        isShow={isComponentVisible}
-        visibleRef={ref}
-        contentClassName="files-gallery"
-        contentStyle={{ padding: "0 24px", minHeight: "400px", maxHeight: "400px", display: "flex", flexDirection: "column" }}
-      >
+      <Modal isShow={isComponentVisible} visibleRef={ref} contentClassName="files-gallery" contentStyle={{ minHeight: "400px", maxHeight: "400px", display: "flex", flexDirection: "column" }}>
         <span> {title} </span>
         <>
           <TabGroup
@@ -207,9 +236,19 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
           {activeTab === "general" && (
             <>
               <div className="emotes">
-                {isLoading && <Loading />}
-                {galleryGlobal.map((i) => (
-                  <GalleryItem active={active} sound_volume={sound_volume} data={i} key={i.id} onSelect={setActive} onDelete={onDelete} />
+                {auth.files[fileType].isLoading && <Loading />}
+                {auth.files[fileType].global?.map((i) => (
+                  <GalleryItem
+                    active={active}
+                    sound_volume={sound_volume}
+                    data={i}
+                    key={i.id}
+                    onSelect={setActive}
+                    onDelete={onDelete}
+                    onPlay={onPlay}
+                    itemPlayed={itemPlayed}
+                    access={accessUploadFile}
+                  />
                 ))}
               </div>
             </>
@@ -218,11 +257,21 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
             <>
               <input type="file" accept={fileAccept} ref={inputFile} style={{ display: "none" }} onChange={onUpload} />
               <div className="scrolled" style={{ height: "355px" }}>
-                <AssetDragdrop dragStartHandler={dragStartHandler} dragLeaveHandler={dragLeaveHandler} onDropHandler={onDropHandler} drag={drag} inputFile={inputFile} />
+                <AssetDragdrop dragStartHandler={dragStartHandler} dragLeaveHandler={dragLeaveHandler} onDropHandler={onDropHandler} drag={drag} inputFile={inputFile} access={accessUploadFile} />
                 <div className="emotes">
-                  {isLoading && <Loading />}
-                  {gallery.map((i) => (
-                    <GalleryItem active={active} sound_volume={sound_volume} data={i} key={i.id} onSelect={setActive} onDelete={onDelete} />
+                  {auth.files[fileType].isLoading && <Loading />}
+                  {auth.files[fileType].channel?.map((i) => (
+                    <GalleryItem
+                      active={active}
+                      sound_volume={sound_volume}
+                      data={i}
+                      key={i.id}
+                      onSelect={setActive}
+                      onDelete={onDelete}
+                      onPlay={onPlay}
+                      itemPlayed={itemPlayed}
+                      access={accessUploadFile}
+                    />
                   ))}
                 </div>
               </div>
@@ -231,7 +280,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
         </>
         <div className="flat-btn" style={{ display: "flex" }}>
           <button
-            className={`medium basic hide ${isLoading ? "disabled" : ""}`}
+            className="medium basic hide"
             style={{ marginRight: "5px" }}
             onClick={() => {
               setActive(defaultValue);
@@ -242,16 +291,9 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
           </button>
           <button
             style={{ width: "141.2px" }}
-            className={`primary medium basic hide ${isLoading ? "disabled" : ""}`}
+            className="primary medium basic hide"
             onClick={() => {
-              onChange({
-                raw: active.rawLink,
-                metadata: {
-                  name: active.name,
-                  thumbnailLink: active.thumbnailLink,
-                  rawLink: active.rawLink,
-                },
-              });
+              onChange({ raw: active.rawLink, metadata: { name: active.name, thumbnailLink: active.thumbnailLink, rawLink: active.rawLink } });
               setDefaultValue(active);
               setIsComponentVisible(false);
             }}
@@ -280,23 +322,20 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
           )}
           {fileType === "sounds" && <img src={sound_svg} alt="preview" width={38} height={38} />}
 
-          <div className="wasd-input-wrapper" style={{ marginLeft: "5px" }}>
-            <div className={`wasd-input ${linkValueError ? "warning" : ""}`}>
-              <input
-                placeholder={"https://example.com/" + fileType}
-                onChange={(e) => {
-                  setLinkValue(e.target.value.trim());
-                  if (fileType === "sounds") setLinkValueError(!e.target.value.trim().slice(0, 8).includes("https://"));
-                }}
-                value={linkValue}
-                style={{ margin: "0px" }}
-              />
-            </div>
-          </div>
+          <Input
+            placeholder={`https://example.com/${fileType}`}
+            onChange={(e) => {
+              setLinkValue(e.target.value.trim());
+              if (fileType === "sounds") setLinkValueError(!e.target.value.trim().slice(0, 8).includes("https://"));
+            }}
+            value={linkValue}
+            className={linkValueError ? "warning" : ""}
+            style={{ marginLeft: "5px" }}
+          />
         </>
         <div className="flat-btn" style={{ display: "flex" }}>
           <button
-            className={`medium basic hide ${isLoading ? "disabled" : ""}`}
+            className="medium basic hide"
             style={{ marginRight: "5px" }}
             onClick={() => {
               setIsLinkVisible(false);
@@ -307,23 +346,12 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
           </button>
           <button
             style={{ width: "141.2px" }}
-            className={`primary medium basic hide ${isLoading ? "disabled" : ""}`}
+            className="primary medium basic hide"
             disabled={linkValueError}
             onClick={() => {
               setIsLinkVisible(false);
-              onChange({
-                raw: linkValue,
-                metadata: {
-                  name: linkValue.split("/")[linkValue.split("/").length - 1],
-                  thumbnailLink: linkValue,
-                  rawLink: linkValue,
-                },
-              });
-              setDefaultValue({
-                name: linkValue.split("/")[linkValue.split("/").length - 1],
-                thumbnailLink: linkValue,
-                rawLink: linkValue,
-              });
+              onChange({ raw: linkValue, metadata: { name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue } });
+              setDefaultValue({ name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue });
               setLinkValue("");
             }}
           >

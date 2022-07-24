@@ -11,7 +11,7 @@ import useAuth from "./hooks/useAuth";
 
 import "./toastify.scss";
 import "./App.css";
-import "./pages/button.css";
+import "./button.css";
 
 function App() {
   const auth = useAuth();

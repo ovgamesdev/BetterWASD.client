@@ -1,0 +1,20 @@
+.search-container {
+  display: inline-block;
+  margin-left: auto;
+  position: relative;
+  vertical-align: middle;
+
+  input {
+    padding-left: 35px !important;
+  }
+
+  svg {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    width: 20px;
+    height: 100%;
+    margin-left: 10px;
+    color: #f6f7f8a3;
+  }
+}

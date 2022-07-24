@@ -1,9 +1,9 @@
 const Time = ({ className = "", format, date }) => {
   const time = new Date(date);
 
-  const dd = time.getUTCDate();
-  const mm = time.getUTCMonth();
-  const yyyy = time.getUTCFullYear();
+  const dd = time.getDate();
+  const mm = time.getMonth();
+  const yyyy = time.getFullYear();
 
   const formatted = format
     .replace("DD", dd > 9 ? dd : "0" + dd)

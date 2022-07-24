@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+
+import Input from "../../components/UI/Input";
 import ButtonLoading from "../../components/UI/Loading";
+
 import useMeta from "../../hooks/useMeta/index.tsx";
 import api from "../../services/api";
 
@@ -15,8 +18,6 @@ const FagSupport = () => {
   const [email, setEmail] = useState("");
 
   const { id } = useParams();
-
-  console.log(id);
 
   const submit = async () => {
     try {
@@ -44,34 +45,30 @@ const FagSupport = () => {
                 <div className="test-bar__wrap first">
                   <div className="test-bar__comment">Есть вопросы или проблемы? Напиши нам и мы все решим</div>
                 </div>
-                <div className="wasd-input-wrapper">
-                  <div className="text-question__container first wasd-input">
-                    <textarea
-                      className="text-question"
-                      placeholder="Описание проблемы или предложения"
-                      style={{ height: "100%", resize: "none", fontSize: "20px", margin: "0" }}
-                      value={text}
-                      onChange={(e) => setText(e.target.value)}
-                    />
-                  </div>
-                </div>
+
+                <Input
+                  type="textarea"
+                  placeholder="Описание проблемы или предложения"
+                  style={{ marginBottom: "2rem" }}
+                  inputClassName="text-question"
+                  className="text-question__container"
+                  inputStyle={{ height: "100%", resize: "none", fontSize: "20px", margin: "0" }}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
 
                 <div className="test-bar__wrap second" style={{ margin: "10px 0 10px" }}>
                   <div className="test-bar__comment">Как мы можем с вами связаться</div>
                 </div>
 
-                <div className="wasd-input-wrapper">
-                  <div className="text-question__container second wasd-input" style={{ height: "50px" }}>
-                    <input
-                      type="email"
-                      className="text-question"
-                      placeholder="email"
-                      style={{ height: "50px", fontSize: "20px", margin: "0" }}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                </div>
+                <Input
+                  type="email"
+                  placeholder="email"
+                  style={{ marginBottom: "2rem" }}
+                  inputStyle={{ height: "50px", fontSize: "20px", margin: "0" }}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
 
                 <div className="send-question">
                   <div className="flat-btn">
@@ -88,10 +85,7 @@ const FagSupport = () => {
 
       {isLoading && (
         <section className="section-default section-flex">
-          <div
-            className="container container-sm"
-            style={{ fontSize: "30px", display: "flex", justifyContent: "center", alignItems: "center" }}
-          >
+          <div className="container container-sm" style={{ fontSize: "30px", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <div className="loader_div" style={{ paddingRight: "10px" }}>
               <ButtonLoading />
             </div>

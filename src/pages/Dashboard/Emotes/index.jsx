@@ -4,11 +4,30 @@ import { useNavigate, Link } from "react-router-dom";
 import Emote from "../../../components/UI/Emote";
 import ButtonLoading from "../../../components/UI/Loading";
 import Modal from "../../../components/UI/Modal";
+import Input from "../../../components/UI/Input";
 
 import api from "../../../services/api/index.js";
 import useAuth from "../../../hooks/useAuth";
 import useMeta from "../../../hooks/useMeta/index.tsx";
 import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
+
+const services = {
+  "7tv": {
+    name: "7tv.app",
+    home_page: "https://7tv.app/emotes",
+    emote_page: "https://7tv.app/emotes/000000000000000000000000",
+  },
+  bttv: {
+    name: "BetterTTV",
+    home_page: "https://betterttv.com/emotes/top",
+    emote_page: "https://betterttv.com/emotes/000000000000000000000000",
+  },
+  ffz: {
+    name: "FrankerFaceZ",
+    home_page: "https://www.frankerfacez.com/emoticons/",
+    emote_page: "https://www.frankerfacez.com/emoticon/000000-EMOTE",
+  },
+};
 
 const DashboardEmotes = () => {
   useMeta({ title: "BetterWASYA | Эмоции" });
@@ -22,8 +41,15 @@ const DashboardEmotes = () => {
   const [url, setURL] = useState("");
 
   const [createEmote, setCreateEmote] = useState({});
+  const [activeService, setActiveService] = useState("7tv");
 
   const { isComponentVisible: show, setIsComponentVisible: setShow, ref } = useComponentVisible();
+
+  useEffect(() => {
+    if (!show || url !== "") return;
+    const update = setInterval(() => setActiveService((v) => (v === "7tv" ? "bttv" : v === "bttv" ? "ffz" : v === "ffz" ? "7tv" : "bttv")), 2500);
+    return () => clearInterval(update);
+  }, [activeService, show, url]);
 
   useEffect(() => {
     setData({ channelEmotes: Array(12 * 3).fill({}), sharedEmotes: [], personalEmotes: [] });
@@ -102,20 +128,13 @@ const DashboardEmotes = () => {
             </button>
           </div>
         </div>
-        <div className="item__descr">
-          Любые смайлики, добавленные здесь, могут использоваться в чате вашего канала на WASD.TV как вами, так и вашими зрителями.
-        </div>
+        <div className="item__descr">Любые смайлики, добавленные здесь, могут использоваться в чате вашего канала на WASD.TV как вами, так и вашими зрителями.</div>
         <div className="item__border" />
 
-        {data.channelEmotes?.length || data.sharedEmotes?.length || data.personalEmotes?.length
-          ? null
-          : "Вы еще на добавили эмоции на свой канал"}
+        {data.channelEmotes?.length !== 0 || data.sharedEmotes?.length !== 0 || data.personalEmotes?.length !== 0 ? null : "Вы еще на добавили эмоции на свой канал"}
 
         {data.channelEmotes?.length !== 0 && <div className="item__title">Эмоции канала ({data.channelEmotes?.length}/∞)</div>}
-        <div className="emotes">
-          {data.channelEmotes?.length &&
-            data.channelEmotes.map((emote, index) => <Emote key={emote._id || index} emote={emote} loading={isLoading} />)}
-        </div>
+        <div className="emotes">{data.channelEmotes?.length !== 0 && data.channelEmotes.map((emote, index) => <Emote key={emote._id || index} emote={emote} loading={isLoading} />)}</div>
 
         {data.personalEmotes?.length !== 0 && (
           <div className="item__title" style={{ marginTop: "25px" }}>
@@ -123,10 +142,7 @@ const DashboardEmotes = () => {
           </div>
         )}
         <div className="emotes">
-          {data.personalEmotes?.length !== 0 &&
-            data.personalEmotes.map((emote, index) => (
-              <Emote showUsername={true} key={emote._id || index} emote={emote} loading={isLoading} />
-            ))}
+          {data.personalEmotes?.length !== 0 && data.personalEmotes.map((emote, index) => <Emote showUsername={true} key={emote._id || index} emote={emote} loading={isLoading} />)}
         </div>
 
         {data.sharedEmotes?.length !== 0 && (
@@ -135,64 +151,55 @@ const DashboardEmotes = () => {
           </div>
         )}
         <div className="emotes">
-          {data.sharedEmotes?.length !== 0 &&
-            data.sharedEmotes.map((emote, index) => (
-              <Emote showUsername={true} key={emote._id || index} emote={emote} loading={isLoading} />
-            ))}
+          {data.sharedEmotes?.length !== 0 && data.sharedEmotes.map((emote, index) => <Emote showUsername={true} key={emote._id || index} emote={emote} loading={isLoading} />)}
         </div>
       </div>
 
       <Modal isShow={show} visibleRef={ref}>
-        <span> Создание эмоции из 7tv.app </span>
+        <span>Создание эмоции</span>
         <>
-          <div className="col-36">
-            <label>
-              На данный момент доступна возможность клонировать эмоцию из{" "}
-              <a href="https://7tv.app/emotes" target="_blank" rel="noreferrer">
-                7tv.app
-              </a>
-            </label>
-            <br />
-            <br />
-            <label> Ссылка на эмоцию </label>
+          <div style={{ fontSize: "16px", marginTop: "5px" }}>Можно клонировать эмоции из таких источников:</div>
+          <div style={{ margin: "5px 0 5px 0", fontSize: "16px" }}>
+            <a target="_blank" rel="noreferrer" href={services["7tv"].home_page} style={{ margin: "0 10px 0 0" }}>
+              {services["7tv"].name}
+            </a>
+            <a target="_blank" rel="noreferrer" href={services["bttv"].home_page} style={{ margin: "0 10px" }}>
+              {services["bttv"].name}
+            </a>
+            <a target="_blank" rel="noreferrer" href={services["ffz"].home_page} style={{ margin: "0 0 0 10px" }}>
+              {services["ffz"].name}
+            </a>
           </div>
-          <div className="col-64">
-            <wasd-input>
-              <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                <div className="wasd-input">
-                  <input
-                    placeholder="https://7tv.app/emotes/000000000000000000000000"
-                    type="text"
-                    className={isLoading ? "disabled" : ""}
-                    autoFocus={true}
-                    onChange={(e) => inputChange(e)}
-                  />
-                </div>
 
-                {createEmote?.message && createEmote._id && (
-                  <div style={{ display: "flex", marginTop: "5px", fontSize: "12px", marginRight: "5px" }}>
-                    <span> {createEmote?.message} </span>
-
-                    <Link style={{ marginLeft: "5px" }} to={`/emotes/${createEmote._id}`}>
-                      Просмотреть
-                    </Link>
-                  </div>
-                )}
-
-                {createEmote?.message && createEmote._id && (
-                  <div style={{ display: "flex", alignItems: "center", marginTop: "5px", fontSize: "12px" }}>
-                    <span> Создать новую эмоцю? </span>
-                  </div>
-                )}
-
-                {error && (
-                  <span className="error" style={{ marginTop: "5px" }}>
-                    {error}
-                  </span>
-                )}
+          <label> Ссылка на эмоцию </label>
+          <Input
+            placeholder={services[activeService].emote_page}
+            inputClassName={isLoading ? "disabled" : ""}
+            autoFocus
+            value={url}
+            onChange={(e) => inputChange(e)}
+            style={{ flexDirection: "column", alignItems: "stretch", marginTop: "5px" }}
+          />
+          {createEmote?.message && createEmote._id && (
+            <>
+              <div style={{ display: "flex", marginTop: "5px", fontSize: "12px", marginRight: "5px", alignItems: "center" }}>
+                <span> {createEmote?.message} </span>
+                <img src={createEmote.newImg} alt="preview" style={{ marginLeft: "15px" }} />
+                <Link style={{ marginLeft: "5px" }} to={`/emotes/${createEmote._id}`}>
+                  Просмотреть
+                </Link>
               </div>
-            </wasd-input>
-          </div>
+              <div style={{ display: "flex", alignItems: "center", marginTop: "5px", fontSize: "12px" }}>
+                <span> Создать новую эмоцю? </span>
+              </div>
+            </>
+          )}
+
+          {error && (
+            <span className="error" style={{ marginTop: "5px" }}>
+              {error}
+            </span>
+          )}
         </>
         <div className="flat-btn" style={{ display: "flex" }}>
           <button className={`medium basic ${isLoading ? "disabled" : ""}`} style={{ marginRight: "5px" }} onClick={() => setShow(false)}>

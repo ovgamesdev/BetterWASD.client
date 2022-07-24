@@ -11,11 +11,17 @@ import UserOnlyRoute from "../../routes/components/UserOnlyRoute";
 import NavbarDashboard from "../../components/UI/Navbar/Dashboard";
 
 import useMeta from "../../hooks/useMeta/index.tsx";
+import useAuth from "../../hooks/useAuth";
 
 import "./../user.css";
 
 const DashboardRoutes = () => {
   useMeta({ title: "BetterWASYA | Панель управления" });
+
+  const auth = useAuth();
+
+  const accessAlertBox = auth.editor?.access ? (auth.editor?.access?.canAlertBox ? true : false) : true;
+  const accessSubBadges = auth.editor?.access ? (auth.editor?.access?.canSubBadges ? true : false) : true;
 
   return (
     <section className="question-section" style={{ paddingBottom: "160px" }}>
@@ -34,7 +40,6 @@ const DashboardRoutes = () => {
               </UserOnlyRoute>
             }
           />
-          <Route path="sub-badges" element={<DashboardSub />} />
           <Route
             path="editors"
             element={
@@ -51,15 +56,8 @@ const DashboardRoutes = () => {
               </UserOnlyRoute>
             }
           /> */}
-          <Route
-            path="alertbox"
-            element={
-              <UserOnlyRoute to="/dashboard/emotes">
-                <DashboardAlertBox />
-              </UserOnlyRoute>
-            }
-          />
-
+          {accessSubBadges && <Route path="sub-badges" element={<DashboardSub />} />}
+          {accessAlertBox && <Route path="alertbox" element={<DashboardAlertBox />} />}
           <Route path="*" element={<Navigate to="emotes" />} />
         </Routes>
       </div>

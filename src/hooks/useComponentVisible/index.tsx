@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const useComponentVisible = (initialIsVisible: false, onChangeVisible: (is: boolean) => {}) => {
+const useComponentVisible = (initialIsVisible = false, onChangeVisible: (is: boolean) => {}) => {
   const [isComponentVisible, setIsComponentVisible] = useState(initialIsVisible);
   const ref = useRef(null);
 

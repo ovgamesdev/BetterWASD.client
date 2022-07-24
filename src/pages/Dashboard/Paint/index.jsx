@@ -48,6 +48,7 @@ const DashboardPaint = () => {
   };
 
   const onDelete = async () => {
+    if (!global.confirm("Вы уверены?")) return;
     try {
       setIsLoadingRemove(true);
       await api.paint.deletePaint();
@@ -83,8 +84,7 @@ const DashboardPaint = () => {
     }
   };
 
-  const isEdit =
-    getColor().toString() === auth.user.paint?.toString() || (getColor().toString().length > 155 && auth.user?.user_role !== "ADMIN");
+  const isEdit = getColor().toString() === auth.user.paint?.toString() || (getColor().toString().length > 155 && auth.user?.user_role !== "ADMIN");
 
   return (
     <div className="item block item_right" style={{ marginTop: "0px" }}>
@@ -92,11 +92,7 @@ const DashboardPaint = () => {
       <div className="item__descr">Цвет доступен пользователям с BetterWASYA.</div>
       <div className="item__border" />
 
-      <TabGroup
-        onChange={(e) => setPicker(!!e)}
-        active={picker ? 1 : 0}
-        tabs={[{ title: "Предустановленные цвета" }, { title: "Цветовая палитра/градиент" }]}
-      />
+      <TabGroup onChange={(e) => setPicker(!!e)} active={picker ? 1 : 0} tabs={[{ title: "Предустановленные цвета" }, { title: "Цветовая палитра/градиент" }]} />
 
       <br />
       <br />
@@ -130,38 +126,19 @@ const DashboardPaint = () => {
       <div className="wrapper__color-picker">
         {picker && (
           <div style={{ width: "300px" }} className="color-picker">
-            <ColorPicker
-              hidePresets={true}
-              hideEyeDrop={true}
-              hideColorGuide={true}
-              hideInputType={true}
-              value={color}
-              onChange={setColor}
-            />
+            <ColorPicker hidePresets={true} hideEyeDrop={true} hideColorGuide={true} hideInputType={true} value={color} onChange={setColor} />
           </div>
         )}
       </div>
 
       <div className="flat-btn buttons" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {getColor()?.toString().length > 155 && auth.user?.user_role !== "ADMIN" && (
-          <span style={{ marginBottom: "5px", color: "rgba(var(--wasd-color-warning--rgb), .75)" }}>
-            Вы используете большое количество цветов
-          </span>
+          <span style={{ marginBottom: "5px", color: "rgba(var(--wasd-color-warning--rgb), .75)" }}>Вы используете большое количество цветов</span>
         )}
-        <button
-          onClick={onSave}
-          disabled={isLoadingUpdate}
-          className={`primary medium ${isEdit ? "disabled" : ""}`}
-          style={{ width: "300px" }}
-        >
+        <button onClick={onSave} disabled={isLoadingUpdate} className={`primary medium ${isEdit ? "disabled" : ""}`} style={{ width: "300px" }}>
           {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
         </button>
-        <button
-          onClick={onDelete}
-          disabled={isLoadingRemove}
-          className={`warning medium ${typeof auth.user?.paint !== "string" ? "disabled" : ""}`}
-          style={{ marginTop: "5px", width: "300px" }}
-        >
+        <button onClick={onDelete} disabled={isLoadingRemove} className={`warning medium ${typeof auth.user?.paint !== "string" ? "disabled" : ""}`} style={{ marginTop: "5px", width: "300px" }}>
           {isLoadingRemove ? <ButtonLoading /> : "Восстановить по умолчанию"}
         </button>
       </div>

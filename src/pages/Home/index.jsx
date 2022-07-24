@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Slide } from "react-slideshow-image";
 
-import useMeta from "../hooks/useMeta/index.tsx";
+import useMeta from "../../hooks/useMeta/index.tsx";
 
 import "react-slideshow-image/dist/styles.css";
 
@@ -22,11 +22,7 @@ const Home = () => {
           <div className="main-title">Набор для улучшения WASD.TV</div>
           <div className="descr">Получите собственные эмоции и множество новых функций, без которых вы никогда не захотите обойтись.</div>
           <div className="buttons">
-            <a
-              href="https://chrome.google.com/webstore/detail/cokaeiijnnpcfaoehijmdfcgbkpffgbh"
-              target="_blank noreferrer"
-              className="button button-big blue"
-            >
+            <a href="https://chrome.google.com/webstore/detail/cokaeiijnnpcfaoehijmdfcgbkpffgbh" target="_blank noreferrer" className="button button-big blue">
               Скачать для Google Chrome
             </a>
             {/*<button className="button-big white"></button>*/}

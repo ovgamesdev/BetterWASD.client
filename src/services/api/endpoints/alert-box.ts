@@ -1,13 +1,9 @@
 import axios from "../axios";
 
 const endpoint = {
-  testFollow: () => axios.post(`/v1/alert-box/test/follow/`),
-  testSub: () => axios.post(`/v1/alert-box/test/sub/`),
-  testRaid: () => axios.post(`/v1/alert-box/test/raid/`),
-
-  uploadFile: (type: "sounds" | "images", data: any) => axios.post(`/v1/upload/alertbox/${type}/`, data),
-  getFiles: (type: "sounds" | "images") => axios.get(`/v1/upload/alertbox/${type}/`),
-  deleteFile: (type: "sounds" | "images", id: string) => axios.delete(`/v1/upload/alertbox/${type}/${id}`),
+  testFollow: (user_id: number) => axios.post(`/v1/alert-box/test/follow/${typeof user_id !== "undefined" ? user_id : ""}`),
+  testSub: (user_id: number) => axios.post(`/v1/alert-box/test/sub/${typeof user_id !== "undefined" ? user_id : ""}`),
+  testRaid: (user_id: number) => axios.post(`/v1/alert-box/test/raid/${typeof user_id !== "undefined" ? user_id : ""}`),
 };
 
 export default endpoint;

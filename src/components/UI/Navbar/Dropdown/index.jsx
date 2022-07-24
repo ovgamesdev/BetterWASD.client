@@ -18,7 +18,7 @@ const Dropdown = () => {
   };
 
   const toEditor = (profile) => {
-    auth.setEditor({ profile_image: profile.user.channel_image, user_id: profile.user.user_id, user_login: profile.user.user_login });
+    auth.setEditor({ profile_image: profile.user.channel_image, user_id: profile.user.user_id, user_login: profile.user.user_login, access: profile.access });
     global.gtag("event", "user_to_editor", { wasd_user_id: auth.user.user_id, user_login: auth.user.user_login, editor_user_id: profile.user.user_id, editor_user_login: profile.user.user_login });
   };
 

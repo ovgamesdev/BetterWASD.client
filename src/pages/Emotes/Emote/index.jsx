@@ -15,6 +15,7 @@ import { decode } from "../../../lib/code-mnem";
 
 import Modal from "../../../components/UI/Modal";
 import Time from "../../../components/UI/Time";
+import Input from "../../../components/UI/Input";
 
 import styles from "./emote.module.scss";
 
@@ -365,31 +366,15 @@ const Emote = () => {
                 )}
                 {data.sharing && !data.global && (
                   <>
-                    <button
-                      onClick={likeEmote}
-                      style={{ minWidth: "167px" }}
-                      disabled={isLoadingLike}
-                      className={`medium ${data.likes.is_liked ? "warning" : "primary"}`}
-                    >
+                    <button onClick={likeEmote} style={{ minWidth: "167px" }} disabled={isLoadingLike} className={`medium ${data.likes.is_liked ? "warning" : "primary"}`}>
                       {isLoadingLike ? <ButtonLoading /> : data.likes.is_liked ? "Удалить из канала" : "Добавить на канал"}
                     </button>
                     <button onClick={() => setShowAlias(true)} style={{ minWidth: "167px" }} className={`medium primary`}>
                       Изменить псевдоним
                     </button>
                     {auth.user.is_subscriber_active && !auth.editor && (
-                      <button
-                        onClick={personalEmote}
-                        style={{ minWidth: "167px" }}
-                        disabled={isLoadingPersonal}
-                        className={`medium ${data.personals?.is_personaled ? "warning" : "primary"}`}
-                      >
-                        {isLoadingPersonal ? (
-                          <ButtonLoading />
-                        ) : data.personals?.is_personaled ? (
-                          "Удалить из персональных"
-                        ) : (
-                          "Добавить как персональную"
-                        )}
+                      <button onClick={personalEmote} style={{ minWidth: "167px" }} disabled={isLoadingPersonal} className={`medium ${data.personals?.is_personaled ? "warning" : "primary"}`}>
+                        {isLoadingPersonal ? <ButtonLoading /> : data.personals?.is_personaled ? "Удалить из персональных" : "Добавить как персональную"}
                       </button>
                     )}
                   </>
@@ -407,19 +392,8 @@ const Emote = () => {
                     </button>
                   )}
                   {auth.user.is_subscriber_active && !auth.editor && (
-                    <button
-                      onClick={personalEmote}
-                      style={{ minWidth: "167px" }}
-                      disabled={isLoadingPersonal}
-                      className={`medium ${data.personals?.is_personaled ? "warning" : "primary"}`}
-                    >
-                      {isLoadingPersonal ? (
-                        <ButtonLoading />
-                      ) : data.personals?.is_personaled ? (
-                        "Удалить из персональных"
-                      ) : (
-                        "Добавить как персональную"
-                      )}
+                    <button onClick={personalEmote} style={{ minWidth: "167px" }} disabled={isLoadingPersonal} className={`medium ${data.personals?.is_personaled ? "warning" : "primary"}`}>
+                      {isLoadingPersonal ? <ButtonLoading /> : data.personals?.is_personaled ? "Удалить из персональных" : "Добавить как персональную"}
                     </button>
                   )}
                 </div>
@@ -433,9 +407,7 @@ const Emote = () => {
               <div className={styles.title}>Каналы ({data?.likes?.total})</div>
             </div>
             <div className={styles["root-body"]}>
-              <div className="emotes">
-                {data && data.likes && data.likes.users ? data.likes.users.map((user) => <User key={user.user_id} user={user} />) : null}
-              </div>
+              <div className="emotes">{data && data.likes && data.likes.users ? data.likes.users.map((user) => <User key={user.user_id} user={user} />) : null}</div>
             </div>
           </div>
         )}
@@ -462,79 +434,33 @@ const Emote = () => {
                 )}
               </div>
 
-              <wasd-input>
-                <div className="wasd-input-wrapper">
-                  <div className={`wasd-input ${codeError ? "warning" : ""}`}>
-                    <input
-                      data-type="code"
-                      value={newData.code || ""}
-                      onChange={(e) => codeHandler(e)}
-                      placeholder="Код эмоции"
-                      type="text"
-                    />
-                  </div>
-                </div>
-              </wasd-input>
+              <Input className={codeError ? "warning" : ""} style={{ margin: "4px 0 0" }} value={newData.code || ""} onChange={(e) => codeHandler(e)} placeholder="Код эмоции" />
 
-              <p
-                style={{
-                  paddingTop: "5px",
-                  color: "var(--wasd-color-text-third)",
-                }}
-              >
-                Коды эмоций могут быть буквами и цифрами. Не менее 3 символов.
-              </p>
+              <p style={{ paddingTop: "5px", color: "var(--wasd-color-text-third)" }}>Коды эмоций могут быть буквами и цифрами. Не менее 3 символов.</p>
 
               <div>Примечания об утверждении</div>
 
-              <wasd-input>
-                <div className="wasd-input-wrapper">
-                  <div className="wasd-input">
-                    <textarea
-                      value={newData.message || ""}
-                      onChange={(e) => setNewData({ ...newData, message: e.target.value })}
-                      style={{
-                        height: "100px",
-                        maxHeight: "200px",
-                        minHeight: "40px",
-                      }}
-                      placeholder=""
-                      type="text"
-                    ></textarea>
-                  </div>
-                </div>
-              </wasd-input>
+              <Input
+                type="textarea"
+                inputStyle={{ height: "100px", maxHeight: "200px", minHeight: "40px" }}
+                style={{ margin: "4px 0 0" }}
+                value={newData.message || ""}
+                onChange={(e) => setNewData({ ...newData, message: e.target.value })}
+              />
 
-              <p
-                style={{
-                  paddingTop: "5px",
-                  color: "var(--wasd-color-text-third)",
-                }}
-              >
-                Если ваша эмоция будет решена для проверки вручную (либо автоматически, либо кем-то, кто сообщил об этом), пожалуйста,
-                объясните эту эмоцию и предоставьте обоснование для использования.
+              <p style={{ paddingTop: "5px", color: "var(--wasd-color-text-third)" }}>
+                Если ваша эмоция будет решена для проверки вручную (либо автоматически, либо кем-то, кто сообщил об этом), пожалуйста, объясните эту эмоцию и предоставьте обоснование для
+                использования.
               </p>
 
               <div className="hover-pointer">
-                <input
-                  id="sharing"
-                  type="checkbox"
-                  checked={newData.sharing || false}
-                  onChange={(e) => setNewData({ ...newData, sharing: e.target.checked })}
-                />
+                <input id="sharing" type="checkbox" checked={newData.sharing || false} onChange={(e) => setNewData({ ...newData, sharing: e.target.checked })} />
                 <label htmlFor="sharing" style={{ marginLeft: "5px" }}>
                   Совместное использование
                 </label>
               </div>
 
-              <p
-                style={{
-                  paddingTop: "5px",
-                  color: "var(--wasd-color-text-third)",
-                }}
-              >
-                Включение общего доступа позволяет другим пользователям добавлять эту эмоцию в свой чат WASD.TV.
-              </p>
+              <p style={{ paddingTop: "5px", color: "var(--wasd-color-text-third)" }}>Включение общего доступа позволяет другим пользователям добавлять эту эмоцию в свой чат WASD.TV.</p>
 
               {auth.user?.user_role === "ADMIN" && (
                 <div className="hover-pointer">
@@ -559,12 +485,7 @@ const Emote = () => {
 
               {auth.user?.user_role === "ADMIN" && (
                 <div className="hover-pointer">
-                  <input
-                    id="global"
-                    type="checkbox"
-                    checked={newData.global || false}
-                    onChange={(e) => setNewData({ ...newData, global: e.target.checked })}
-                  />
+                  <input id="global" type="checkbox" checked={newData.global || false} onChange={(e) => setNewData({ ...newData, global: e.target.checked })} />
                   <label htmlFor="global" style={{ marginLeft: "5px" }}>
                     Глобальная эмоция
                   </label>
@@ -584,8 +505,7 @@ const Emote = () => {
                     data.code !== newData.code ||
                     data.global !== newData.global ||
                     data.sharing !== newData.sharing ||
-                    !!data.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length !==
-                      !!newData.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length ||
+                    !!data.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length !== !!newData.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length ||
                     data.message !== newData.message
                   )
                 }
@@ -607,44 +527,27 @@ const Emote = () => {
           Псевдоним эмоции «{data.code}» для канала {auth.editor?.user_login || auth.user?.user_login}
         </span>
         <>
-          <div className="col-36">
-            <span style={{ color: "rgb(255,255,255)", fontSize: "16px" }}>Код эмоции</span>
-          </div>
-          <div className="col-64">
-            <wasd-input>
-              <div className="wasd-input-wrapper" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                <div className={`wasd-input${aliasError ? " warning" : ""}`}>
-                  <input
-                    placeholder={data.code}
-                    type="text"
-                    value={aliasCode}
-                    className={isLoading ? "disabled" : ""}
-                    onChange={(e) => aliasHandler(e)}
-                  />
-                </div>
-
-                {aliasError && (
-                  <span className="error" style={{ marginTop: "5px" }}>
-                    {aliasError}
-                  </span>
-                )}
-              </div>
-            </wasd-input>
-            <p style={{ paddingTop: "5px", color: "var(--wasd-color-text-third)" }}>
-              Коды эмоций могут быть буквами и цифрами. Не менее 3 символов.
-            </p>
-          </div>
+          <span style={{ color: "#fff", fontSize: "16px" }}>Код эмоции</span>
+          <Input
+            className={aliasError ? " warning" : ""}
+            style={{ flexDirection: "column", alignItems: "stretch" }}
+            placeholder={data.code}
+            value={aliasCode}
+            onChange={(e) => aliasHandler(e)}
+            disabled={isLoading}
+          />
+          {aliasError && (
+            <span className="error" style={{ marginTop: "5px" }}>
+              {aliasError}
+            </span>
+          )}
+          <p style={{ paddingTop: "5px", color: "var(--wasd-color-text-third)" }}>Коды эмоций могут быть буквами и цифрами. Не менее 3 символов.</p>
         </>
         <div className="flat-btn" style={{ display: "flex" }}>
           <button className="medium basic hide" style={{ marginRight: "5px" }} onClick={() => setShowAlias(false)}>
             отмена
           </button>
-          <button
-            disabled={aliasError || isLoadingAlias}
-            style={{ width: "141.2px" }}
-            className={`medium primary`}
-            onClick={() => setAlias()}
-          >
+          <button disabled={aliasError || isLoadingAlias} style={{ width: "141.2px" }} className="medium primary" onClick={() => setAlias()}>
             {isLoadingAlias ? <ButtonLoading /> : "переименовать"}
           </button>
         </div>

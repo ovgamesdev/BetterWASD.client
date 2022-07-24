@@ -7,6 +7,7 @@ function AuthProvider(props) {
   const [user, setUser] = useState(null);
   const [token, setTokenData] = useState(null);
   const [editor, setEditor] = useState(null);
+  const [files, setFiles] = useState({ sounds: { channel: [], global: [], isLoading: true }, images: { channel: [], global: [], isLoading: true } });
 
   const setToken = useCallback((tokenData) => {
     setTokenData(tokenData);
@@ -45,18 +46,31 @@ function AuthProvider(props) {
     loadData();
   }, [loadData]);
 
+  useEffect(() => {
+    const fetch = async () => {
+      setFiles({ sounds: { channel: [], global: [], isLoading: true }, images: { channel: [], global: [], isLoading: true } });
+      const { data: dataSounds } = await api.upload.get("sounds", editor?.user_id);
+      setFiles({ sounds: { ...dataSounds, isLoading: false }, images: {} });
+      const { data: dataImages } = await api.upload.get("images", editor?.user_id);
+      setFiles({ sounds: { ...dataSounds, isLoading: false }, images: { ...dataImages, isLoading: false } });
+    };
+    fetch();
+  }, [editor]);
+
   const contextValue = useMemo(
     () => ({
       isLoaded,
       user,
       token,
       editor,
+      files,
       setUser,
       setToken,
       logOut,
       setEditor,
+      setFiles,
     }),
-    [isLoaded, user, token, editor, setUser, setToken, logOut, setEditor]
+    [isLoaded, user, token, editor, files, setUser, setToken, logOut, setEditor, setFiles]
   );
 
   return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;

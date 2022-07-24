@@ -4,16 +4,22 @@ modal-window {
   height: 100%;
   justify-content: center;
   left: 0;
-  opacity: 1;
+  opacity: 0;
   outline: 0;
   overflow-x: hidden;
   overflow-y: auto;
   position: fixed;
   top: 0px;
-  transition: all 0.5s ease;
+  // transition: all 0.5s ease;
   width: 100%;
   z-index: 5558;
   overflow: hidden;
+
+  &.modal-transition-enter-active,
+  &.modal-transition-enter-done {
+    opacity: 1 !important;
+    transition: opacity 150ms;
+  }
 }
 
 .modal-block {
