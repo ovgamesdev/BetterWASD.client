@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute";
 import GuestRoute from "../components/GuestRoute";
 import AdminRoute from "../components/AdminRoute";
+import UserOnlyRoute from "../components/UserOnlyRoute";
 
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
@@ -32,17 +33,17 @@ const AppRoutes = () => {
       <Route
         path="/faq/support"
         element={
-          <PrivateRoute>
+          <UserOnlyRoute to="/">
             <FagSupport />
-          </PrivateRoute>
+          </UserOnlyRoute>
         }
       />
       <Route
         path="/faq/support/reply/:id"
         element={
-          <PrivateRoute>
+          <UserOnlyRoute to="/">
             <FagSupport />
-          </PrivateRoute>
+          </UserOnlyRoute>
         }
       />
 

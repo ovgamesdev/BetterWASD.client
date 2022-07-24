@@ -28,19 +28,11 @@ const TabGroup = (props) => {
         <div className="items">
           {props.tabs &&
             props.tabs.map((tab, index) => (
-              <div
-                key={index}
-                ref={(e) => index === active.index && setFirst(e)}
-                onClick={(e) => onClick(e, index)}
-                className={`item ${index === active.index ? "item-active" : ""}`}
-              >
+              <div key={index} ref={(e) => index === active.index && setFirst(e)} onClick={(e) => onClick(e, index)} className={`item ${index === active.index ? "item-active" : ""}`}>
                 {tab.title}
               </div>
             ))}
-          <div
-            className="inkbar"
-            style={{ width: position.width + "px", left: position.left + "px", transition: isF > 3 ? "left 0.2s, width 0.2s" : "" }}
-          />
+          <div className="inkbar" style={{ width: position.width + "px", left: position.left + "px", transition: isF > 3 ? "left 0.2s, width 0.2s" : "" }} />
         </div>
       </div>
     </section>

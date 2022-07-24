@@ -32,7 +32,11 @@
   align-items: flex-start;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Open Sans";
+  font-family: Roboto, sans-serif;
+
+  .user_login {
+    font-family: Roboto-Medium, sans-serif;
+  }
 
   .message {
     padding: 25px;

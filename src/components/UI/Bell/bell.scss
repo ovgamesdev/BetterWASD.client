@@ -77,11 +77,9 @@
   width: 12px;
   height: 14px;
   z-index: 1;
-  -webkit-animation: animation-visible var(--duration) var(--delay) ease-in-out alternate,
-    animation-scale-point var(--duration) calc(var(--calc-delay) + var(--delay) - 0.3s) ease-in-out alternate,
+  -webkit-animation: animation-visible var(--duration) var(--delay) ease-in-out alternate, animation-scale-point var(--duration) calc(var(--calc-delay) + var(--delay) - 0.3s) ease-in-out alternate,
     animation-hidden var(--duration) calc(var(--calc-delay) + var(--delay)) ease-in-out alternate;
-  animation: animation-visible var(--duration) var(--delay) ease-in-out alternate,
-    animation-scale-point var(--duration) calc(var(--calc-delay) + var(--delay) - 0.3s) ease-in-out alternate,
+  animation: animation-visible var(--duration) var(--delay) ease-in-out alternate, animation-scale-point var(--duration) calc(var(--calc-delay) + var(--delay) - 0.3s) ease-in-out alternate,
     animation-hidden var(--duration) calc(var(--calc-delay) + var(--delay)) ease-in-out alternate;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
@@ -101,11 +99,9 @@
 }
 
 .bell__icon-wrap--animation .bell__icon--animation {
-  -webkit-animation: animation-scale-max var(--duration) var(--delay) ease-in-out,
-    animation-rotate var(--duration) calc(var(--duration) + var(--delay)) ease-in-out alternate var(--iteration),
+  -webkit-animation: animation-scale-max var(--duration) var(--delay) ease-in-out, animation-rotate var(--duration) calc(var(--duration) + var(--delay)) ease-in-out alternate var(--iteration),
     animation-scale-min var(--duration) calc(var(--calc-delay) + var(--delay)) ease-in-out;
-  animation: animation-scale-max var(--duration) var(--delay) ease-in-out,
-    animation-rotate var(--duration) calc(var(--duration) + var(--delay)) ease-in-out alternate var(--iteration),
+  animation: animation-scale-max var(--duration) var(--delay) ease-in-out, animation-rotate var(--duration) calc(var(--duration) + var(--delay)) ease-in-out alternate var(--iteration),
     animation-scale-min var(--duration) calc(var(--calc-delay) + var(--delay)) ease-in-out;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;

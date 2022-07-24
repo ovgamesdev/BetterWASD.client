@@ -1,0 +1,101 @@
+.input-wrapper .input-content .show {
+  opacity: 1 !important;
+}
+
+.input-wrapper {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  font-family: Roboto, sans-serif;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.input-wrapper .input-content {
+  caret-color: var(--wasd-color-corp-blue);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+}
+
+.input-wrapper .input-content label {
+  align-items: center;
+  color: rgba(var(--wasd-color-switch--rgb), 0.64);
+  display: flex;
+  font-size: 12px;
+  height: 14px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.input-wrapper .input-content input.has-button {
+  padding-right: 28px;
+}
+
+.input-wrapper .input-content input,
+.input-wrapper .input-content textarea,
+.input-wrapper .input-content select {
+  background-color: var(--color-second-layer);
+  border: 1px solid var(--wasd-color-text-fourth);
+  transition: all 100ms;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: var(--wasd-color-switch);
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  height: 38px;
+  margin: 4px 0 0;
+  outline: none;
+  padding: 0 8px;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  resize: vertical;
+}
+
+.input-wrapper .input-content input,
+.input-wrapper .input-content textarea {
+  padding: 10px;
+}
+
+.input-wrapper .input-content button {
+  height: 24px;
+  left: auto;
+  position: absolute;
+  right: 4px;
+  top: 22px;
+  width: 24px;
+}
+
+/* files-gallery.scss */
+.input-wrapper .input-content .picker__controls:hover + input,
+
+/* input.scss */
+.input-wrapper .input-content input:hover,
+.input-wrapper .input-content select:hover,
+.input-wrapper .input-content textarea:hover {
+  border: 1px solid var(--wasd-color-text-prime);
+}
+
+/* files-gallery.scss */
+.input-wrapper .input-content .picker__controls:active + input,
+.input-wrapper .input-content .picker__controls:focus + input,
+.input-wrapper .input-content input.active,
+
+/* input.scss */
+.input-wrapper .input-content input:active,
+.input-wrapper .input-content input:focus,
+.input-wrapper .input-content select:active,
+.input-wrapper .input-content select:focus,
+.input-wrapper .input-content textarea:active,
+.input-wrapper .input-content textarea:focus {
+  border: 1px solid var(--wasd-color-corp-blue);
+  box-shadow: 0 0 0 2px rgba(var(--wasd-color-corp-blue--rgb), 0.48);
+}
+
+/* options.scss */
+.row .right .preview .input-wrapper {
+  padding-left: 10px;
+  width: calc(100% - 38px);
+}

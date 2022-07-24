@@ -1,0 +1,74 @@
+.editor_user {
+  &:not(:first-child) td {
+    border-top: 1px solid rgba(var(--wasd-color-switch--rgb), 0.24);
+  }
+
+  img {
+    border-radius: 50% !important;
+    width: 34px;
+    height: 34px;
+  }
+  td {
+    padding: 5px 0;
+  }
+
+  td:not(:first-child) {
+    width: 105px;
+  }
+  td:not(:first-child) div {
+    display: flex;
+    justify-content: center;
+  }
+  td:first-child div {
+    display: flex;
+    align-items: center;
+  }
+  &-user_login {
+    margin-left: 5px;
+    color: inherit;
+
+    &.loading {
+      height: 16px;
+    }
+  }
+
+  &:nth-child(1) &-user_login.loading {
+    width: 80px;
+  }
+  &:nth-child(2) &-user_login.loading {
+    width: 105px;
+  }
+  &:nth-child(3) &-user_login.loading {
+    width: 90px;
+  }
+
+  .check-box_wrapper {
+    height: 16px;
+
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
+
+    &.loading {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  button {
+    width: 24px;
+
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
+  }
+
+  .button.loading {
+    height: 24px;
+    width: 24px;
+
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
+  }
+}

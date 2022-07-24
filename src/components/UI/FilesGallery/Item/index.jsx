@@ -1,68 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState } from "react";
 
 import styles from "./emote.module.scss";
 
 import playSvg from "../svg/play.svg";
 import pauseSvg from "../svg/pause.svg";
 
-const GalleryItem = ({ onSelect, onDelete, data, active, sound_volume }) => {
-  const [isPlayed, setIsPlayed] = useState(false);
+const GalleryItem = ({ onSelect, onDelete, onPlay, itemPlayed, data, active, access }) => {
   const [isHover, setIsHover] = useState(false);
 
   const isCanPlay = data.mimeType.includes("audio");
-
-  const play = () => {
-    if (!isCanPlay) return;
-    if (isPlayed) {
-      isPlayed.pause();
-      return setIsPlayed(false);
-    }
-    const audio = new Audio(data.rawLink);
-    audio.volume = sound_volume / 100;
-    setIsPlayed(audio);
-    audio.play();
-    audio.onended = () => setIsPlayed(false);
-    audio.onerror = () => {
-      setIsPlayed(false);
-      toast.error("Мы не можем воспроизвести этот звук");
-    };
-  };
-
-  useEffect(() => {
-    return () => {
-      if (isPlayed) isPlayed.pause();
-    };
-  }, [isPlayed]);
 
   return (
     <div
       className={styles.wrapper}
       onDoubleClick={() => onSelect(data)}
-      onClick={(e) => e.target.className !== styles["delete-emote"] && play()}
+      onClick={(e) => e.target.className !== styles["delete-emote"] && isCanPlay && onPlay(data)}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
       <div className={styles.card}>
         <img
           referrerPolicy="no-referrer"
-          src={
-            !isCanPlay
-              ? data.thumbnailLink || data.iconLink
-              : !isPlayed
-              ? isHover
-                ? playSvg
-                : data.thumbnailLink || data.iconLink
-              : pauseSvg
-          }
+          src={!isCanPlay ? data.thumbnailLink || data.iconLink : itemPlayed?.rawLink !== data.rawLink ? (isHover ? playSvg : data.thumbnailLink || data.iconLink) : pauseSvg}
           alt={data.name}
         />
 
-        <div className={styles["delete-emote"]} onClick={() => onDelete(data.id)}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px">
-            <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z" />
-          </svg>
-        </div>
+        {access && (
+          <div className={styles["delete-emote"]} onClick={() => onDelete(data)}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px">
+              <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z" />
+            </svg>
+          </div>
+        )}
 
         {active.rawLink === data.rawLink && (
           <div className={styles["active-item"]}>

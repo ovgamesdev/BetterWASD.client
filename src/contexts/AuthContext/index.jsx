@@ -5,8 +5,10 @@ export const AuthContext = createContext({
   user: null,
   editor: null,
   token: null,
+  files: { sounds: { channel: [], global: [], isLoading: true }, images: { channel: [], global: [], isLoading: true } },
   setUser: () => {},
   setEditor: () => {},
   setToken: () => {},
+  setFiles: () => {},
   logOut: () => {},
 });

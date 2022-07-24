@@ -500,9 +500,3 @@ button[disabled]:before {
     stroke-dashoffset: -600;
   }
 }
-
-/******************************/
-
--viewer-card button > * {
-  pointer-events: none;
-}

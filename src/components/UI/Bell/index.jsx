@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 
 import useComponentVisible from "../../../hooks/useComponentVisible/index.tsx";
 import BellItem from "./Item";
+import api from "../../../services/api";
 
 import notifications_svg from "./svg/notifications.svg";
 import "./bell.scss";
-import api from "../../../services/api";
 
 const Bell = () => {
   const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false, (is) => !is && updateNotifyReaded());
@@ -13,25 +13,25 @@ const Bell = () => {
   const [bells, setBells] = useState([]);
 
   const updateNotifyReaded = () => {
-    if (isClick) {
-      localStorage["notify-readed"] = bells.map((bell) => bell._id + "&").join("");
-    }
+    if (isClick) localStorage["notify-readed"] = bells.map((bell) => bell._id + "&").join("");
     setIsClick(false);
   };
 
   const isNotifyReaded = () => {
     let notifyReaded = localStorage["notify-readed"];
     let is = true;
-    if (!notifyReaded) return false;
+    let newNotices = {};
+    if (!notifyReaded) notifyReaded = "";
     for (let bell of bells) {
       let isR = !notifyReaded.match(bell._id);
+      newNotices[bell._id] = isR;
       if (isR) {
         is = false;
-        break;
       }
     }
-    return is;
+    return { is: is, new: newNotices };
   };
+  const isBellReaded = isNotifyReaded();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +45,7 @@ const Bell = () => {
   return (
     <div className="bell" ref={ref}>
       <div
-        className={`bell__icon-wrap ${isNotifyReaded() ? "" : "bell__icon-wrap--new-msg"}`}
+        className={`bell__icon-wrap ${isBellReaded.is ? "" : "bell__icon-wrap--new-msg"}`}
         onClick={() => {
           setIsComponentVisible(!isComponentVisible);
           setIsClick(true);
@@ -67,6 +67,7 @@ const Bell = () => {
                 linkText={bell.linkText}
                 date={bell.date}
                 onClose={() => setIsComponentVisible(false)}
+                isNew={isBellReaded?.new && isBellReaded?.new[bell?._id]}
               />
             ))}
           </div>

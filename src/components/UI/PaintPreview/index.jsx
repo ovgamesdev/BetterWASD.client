@@ -1,21 +1,4 @@
-const userColors = [
-  "#7fba40",
-  "#1c3fc8",
-  "#a5276d",
-  "#913ca7",
-  "#4332b6",
-  "#266bc5",
-  "#5bc3c1",
-  "#d87539",
-  "#a9ad47",
-  "#3ca13b",
-  "#4db89a",
-  "#6a4691",
-  "#f5a623",
-  "#e7719e",
-  "#9fcbef",
-  "#7b4b4b",
-];
+const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
 
 const PaintPreview = ({ paint = "", user_login, user_id }) => {
   return (

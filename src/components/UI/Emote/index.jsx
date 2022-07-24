@@ -57,9 +57,7 @@ const Emotes = (props) => {
         <div>
           <span>{encoded}</span>
           {props.showUsername && <span>{props.emote.user?.user_login}</span>}
-          {!!props.emote.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length && (
-            <div className={styles["zero-width"]}> &gt; &lt; </div>
-          )}
+          {!!props.emote.visibility_simple?.filter((t) => t === "ZERO_WIDTH").length && <div className={styles["zero-width"]}> &gt; &lt; </div>}
         </div>
       </Link>
     </div>

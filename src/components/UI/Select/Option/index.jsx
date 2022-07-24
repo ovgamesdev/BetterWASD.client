@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 const Option = ({ onClick, defaultValue, option, isMulti }) => {
-  const isActive =
-    typeof defaultValue.value === "string" ? option.value === defaultValue.value : defaultValue.find((o) => o.value === option.value);
+  const isActive = typeof defaultValue.value === "string" ? option.value === defaultValue.value : defaultValue.find((o) => o.value === option.value);
 
   const [getIsActive, setIsActive] = useState(isActive);
 

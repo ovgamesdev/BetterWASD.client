@@ -57,11 +57,6 @@
         width: 38px;
         height: 38px;
       }
-
-      .wasd-input-wrapper {
-        padding-left: 10px;
-        width: calc(100% - 38px);
-      }
     }
 
     .tooltip_wrapper {
@@ -94,7 +89,7 @@
 
 .copy-input {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   top: 0px;
   left: 0px;
   bottom: 0px;
@@ -104,8 +99,5 @@
   justify-content: center;
   text-align: center;
   border-radius: 4px;
-}
-
-.range-slider__tooltip__label {
-  font-size: 12px !important;
+  pointer-events: none;
 }

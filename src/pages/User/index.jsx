@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import Emote from "../components/UI/Emote";
+import Emote from "../../components/UI/Emote";
 
-import useMeta from "../hooks/useMeta/index.tsx";
-import api from "../services/api/index.js";
+import useMeta from "../../hooks/useMeta/index.tsx";
+import api from "../../services/api/index.js";
 
 const Emotes = () => {
   const { id } = useParams();
