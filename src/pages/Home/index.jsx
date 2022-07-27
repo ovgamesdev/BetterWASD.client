@@ -25,7 +25,9 @@ const Home = () => {
             <a href="https://chrome.google.com/webstore/detail/cokaeiijnnpcfaoehijmdfcgbkpffgbh" target="_blank noreferrer" className="button button-big blue">
               Скачать для Google Chrome
             </a>
-            {/*<button className="button-big white"></button>*/}
+            <a href="https://addons.mozilla.org/ru/firefox/addon/betterwasya/" target="_blank noreferrer" className="button button-big blue">
+              Firefox
+            </a>
           </div>
         </div>
 
