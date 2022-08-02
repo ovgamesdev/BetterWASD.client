@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { decode } from "../../../lib/code-mnem";
-import { HOSTURL } from "../../../index";
 
 import styles from "./emote.module.scss";
 
 const Emotes = (props) => {
   const [isLoadedImage, setIsLoadedImage] = useState(false);
 
-  if (props.loading) {
+  if (props.loading && !props.emote.url) {
     return (
       <div className={`${styles.wrapper} skelet-loading ${props.showUsername ? styles.user : ""}`}>
         <div className={styles.card}>
@@ -32,13 +31,7 @@ const Emotes = (props) => {
   return (
     <div className={`${styles.wrapper} ${props.showUsername ? styles.user : ""} ${isLoadedImage ? "" : "skelet-loading"}`}>
       <Link to={"/emotes/" + props.emote._id} className={styles.card} title={encoded}>
-        <img
-          src={HOSTURL + "/cached/emote/" + props.emote._id + "/2x"}
-          alt={encoded}
-          style={{ display: `${isLoadedImage ? "" : "none"}` }}
-          onLoad={() => setIsLoadedImage(true)}
-          onError={() => setIsLoadedImage(false)}
-        />
+        <img src={props.emote.url["x2"]} alt={encoded} style={{ display: `${isLoadedImage ? "" : "none"}` }} onLoad={() => setIsLoadedImage(true)} onError={() => setIsLoadedImage(false)} />
         {!isLoadedImage && (
           <img
             style={{ minWidth: "50px" }}

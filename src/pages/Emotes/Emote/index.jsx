@@ -6,7 +6,6 @@ import User from "../../../components/UI/User";
 import ButtonLoading from "../../../components/UI/Loading";
 
 import NotFound from "../../NotFound";
-import { HOSTURL } from "../../../index";
 import api from "../../../services/api/index.js";
 import useAuth from "../../../hooks/useAuth";
 import useMeta from "../../../hooks/useMeta/index.tsx";
@@ -104,7 +103,7 @@ const Emote = () => {
     {
       title: `BetterWASYA | Emote ${data?.code ? "| " + encoded : ""}`,
       description: `Emote ${data?.code ? "| " + encoded : ""}`,
-      image: HOSTURL + "/cached/emote/" + data?._id + "/3x",
+      image: data?.url ? data?.url["x3"] : "",
     },
     [data]
   );
@@ -350,9 +349,9 @@ const Emote = () => {
             </div>
             <div className={styles["root-body"]}>
               <div className={styles.content}>
-                <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/1x"} alt="1x" />
-                <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/2x"} alt="2x" />
-                <img style={column[5]} src={HOSTURL + "/cached/emote/" + data._id + "/3x"} alt="3x" />
+                <img style={column[5]} src={data.url["x1"]} alt="1x" />
+                <img style={column[5]} src={data.url["x2"]} alt="2x" />
+                <img style={column[5]} src={data.url["x3"]} alt="3x" />
               </div>
 
               <Time className={styles.date} date={new Date(data.createdAt)} format="Создано DD.MM.YYYY" />
@@ -416,7 +415,7 @@ const Emote = () => {
             <div className={styles["root-header"]}>
               <div className={styles.title}>
                 Настройка
-                <img src={HOSTURL + "/cached/emote/" + data._id + "/1x"} alt="emote" />
+                <img src={data.url["x1"]} alt="emote" />
               </div>
               <div className={styles.user_login}>
                 автор
