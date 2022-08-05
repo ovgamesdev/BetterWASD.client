@@ -15,7 +15,7 @@ const EmotesGlobal = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isFirsLoading, setIsFirsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(Array(22).fill({}));
+  const [data, setData] = useState(Array(23).fill({}));
 
   const [searchParams] = useSearchParams();
   const limit = 30 * 2;
