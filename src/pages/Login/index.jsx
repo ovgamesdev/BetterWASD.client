@@ -63,6 +63,12 @@ const Login = () => {
       <section className="main-section">
         <div className="block">
           <div className="main-title">Авторизация</div>
+          {searchParams.get("redirect") && (
+            <div className="descr" style={{ maxWidth: "none" }}>
+              Для перехода в раздел «{window.location.origin}
+              {searchParams.get("redirect")}» нужна авторизация.
+            </div>
+          )}
           <div className="descr">На данный момент мы можем вас авторизовать только через API токен.</div>
           <div className="buttons">
             <button className="button-big white" onClick={() => setShowAuth(true)}>
