@@ -34,7 +34,9 @@ const AppRoutes = () => {
         path="/faq/support"
         element={
           <UserOnlyRoute to="/">
-            <FagSupport />
+            <PrivateRoute>
+              <FagSupport />
+            </PrivateRoute>
           </UserOnlyRoute>
         }
       />
@@ -42,7 +44,9 @@ const AppRoutes = () => {
         path="/faq/support/reply/:id"
         element={
           <UserOnlyRoute to="/">
-            <FagSupport />
+            <PrivateRoute>
+              <FagSupport />
+            </PrivateRoute>
           </UserOnlyRoute>
         }
       />
