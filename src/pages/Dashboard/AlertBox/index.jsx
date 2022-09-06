@@ -202,16 +202,16 @@ const DashboardAlertBox = () => {
 
           <p style={{ marginTop: "20px" }}>При открытом и работающем виджете, используйте кнопки ниже для показа тестовых оповещений.</p>
           <div className="flat-btn" style={{ display: "flex" }}>
-            <button className="basic medium" disabled={isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
+            <button className="basic medium" disabled={true || isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
               {isLoadingTest === "Follow" && <ButtonLoading />} Тест Фоллоу
             </button>
-            <button className="basic medium" disabled={isLoadingTest === "Sub"} onClick={() => createEvent.Sub()} style={{ margin: "0 5px" }}>
+            <button className="basic medium" disabled={true || isLoadingTest === "Sub"} onClick={() => createEvent.Sub()} style={{ margin: "0 5px" }}>
               {isLoadingTest === "Sub" && <ButtonLoading />} Тест Подписка
             </button>
-            <button className="basic medium" disabled={isLoadingTest === "PaidMessage"} onClick={() => createEvent.PaidMessage()}>
+            <button className="basic medium" disabled={true || isLoadingTest === "PaidMessage"} onClick={() => createEvent.PaidMessage()}>
               {isLoadingTest === "PaidMessage" && <ButtonLoading />} Тест Платное сообщение
             </button>
-            <button className="basic medium" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()} style={{ margin: "0 5px" }}>
+            <button className="basic medium" disabled={true || isLoadingTest === "Raid"} onClick={() => createEvent.Raid()} style={{ margin: "0 5px" }}>
               {isLoadingTest === "Raid" && <ButtonLoading />} Тест Рейд
             </button>
           </div>
