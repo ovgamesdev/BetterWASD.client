@@ -15,6 +15,7 @@ import api from "../../../services/api/index.js";
 import General from "./General";
 import Follows from "./Follows";
 import Subscriptions from "./Subscriptions";
+import PaidMessage from "./PaidMessage";
 import Raids from "./Raids";
 
 import "./options.scss";
@@ -24,12 +25,14 @@ const colourOptions = [
   { label: "Подписка", value: "subscriptions" },
   { label: "Переподписка", value: "resubs" },
   { label: "Фоллоу", value: "follows" },
+  { label: "Платное сообщение", value: "paid_message" },
   { label: "Рейд", value: "raids" },
 ];
 const tabOptions = [
   { label: "Основные настройки", value: "general" },
   { label: "Фоллоу", value: "follows" },
   { label: "Подписка", value: "subscriptions" },
+  { label: "Платное сообщение", value: "paid_message" },
   { label: "Рейд", value: "raids" },
 ];
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
@@ -77,7 +80,7 @@ const DashboardAlertBox = () => {
       toast.success("Оповещения сохранены!");
       setDefaultSettings(settings);
     } catch (e) {
-      if (e.response.data.code === "NOT_ACCESS") {
+      if (e.response?.data?.code === "NOT_ACCESS") {
         toast.error("Нет доступа");
       } else {
         toast.error("Ошибка сохранения оповещений");
@@ -94,7 +97,7 @@ const DashboardAlertBox = () => {
         await api.alertBox.testFollow(auth.editor?.user_id);
         toast("Оповещение отправлено!");
       } catch (e) {
-        if (e.response.data.code === "NOT_ACCESS") {
+        if (e.response?.data?.code === "NOT_ACCESS") {
           toast.error("Нет доступа");
         } else {
           toast.error("Ошибка отправки уведомления");
@@ -109,7 +112,22 @@ const DashboardAlertBox = () => {
         await api.alertBox.testSub(auth.editor?.user_id);
         toast("Оповещение отправлено!");
       } catch (e) {
-        if (e.response.data.code === "NOT_ACCESS") {
+        if (e.response?.data?.code === "NOT_ACCESS") {
+          toast.error("Нет доступа");
+        } else {
+          toast.error("Ошибка отправки уведомления");
+        }
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
+    PaidMessage: async () => {
+      try {
+        setIsLoadingTest("PaidMessage");
+        await api.alertBox.testPaidMessage(auth.editor?.user_id);
+        toast("Оповещение отправлено!");
+      } catch (e) {
+        if (e.response?.data?.code === "NOT_ACCESS") {
           toast.error("Нет доступа");
         } else {
           toast.error("Ошибка отправки уведомления");
@@ -124,7 +142,7 @@ const DashboardAlertBox = () => {
         await api.alertBox.testRaid(auth.editor?.user_id);
         toast("Оповещение отправлено!");
       } catch (e) {
-        if (e.response.data.code === "NOT_ACCESS") {
+        if (e.response?.data?.code === "NOT_ACCESS") {
           toast.error("Нет доступа");
         } else {
           toast.error("Ошибка отправки уведомления");
@@ -190,7 +208,10 @@ const DashboardAlertBox = () => {
             <button className="basic medium" disabled={isLoadingTest === "Sub"} onClick={() => createEvent.Sub()} style={{ margin: "0 5px" }}>
               {isLoadingTest === "Sub" && <ButtonLoading />} Тест Подписка
             </button>
-            <button className="basic medium" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()}>
+            <button className="basic medium" disabled={isLoadingTest === "PaidMessage"} onClick={() => createEvent.PaidMessage()}>
+              {isLoadingTest === "PaidMessage" && <ButtonLoading />} Тест Платное сообщение
+            </button>
+            <button className="basic medium" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()} style={{ margin: "0 5px" }}>
               {isLoadingTest === "Raid" && <ButtonLoading />} Тест Рейд
             </button>
           </div>
@@ -211,6 +232,7 @@ const DashboardAlertBox = () => {
           {activeTab === "follows" && <Follows settings={settings} setSettings={setSettings} />}
           {activeTab === "subscriptions" && <Subscriptions settings={settings} setSettings={setSettings} />}
           {activeTab === "raids" && <Raids settings={settings} setSettings={setSettings} />}
+          {activeTab === "paid_message" && <PaidMessage settings={settings} setSettings={setSettings} />}
 
           <div className="item__border" />
           <div className="flat-btn" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>

@@ -12,16 +12,15 @@ const AlertWebSocket = async (callback = () => {}, token, settings) => {
   const follows = !!searchParams.get("follows");
   const subscriptions = !!searchParams.get("subscriptions");
   const resubs = !!searchParams.get("resubs");
+  const paid_message = !!searchParams.get("paid_message");
   const raids = !!searchParams.get("raids");
 
-  const isAll = !subscriptions && !resubs && !follows && !raids;
+  const isAll = !subscriptions && !resubs && !follows && !paid_message && !raids;
 
   useEffect(() => {
     const init = async () => {
       try {
-        socketRef.current = new WebSocket(
-          `${localStorage.debug === "true" ? "ws://localhost:5000" : "wss://betterwasd.herokuapp.com"}/alertbox/${token}`
-        );
+        socketRef.current = new WebSocket(`${localStorage.debug === "true" ? "ws://localhost:5000" : "wss://betterwasd.herokuapp.com"}/alertbox/${token}`);
         socketRef.current.onopen = () => {
           intervalcheck.current = setInterval(() => {
             if (socketRef.current) {
@@ -47,6 +46,13 @@ const AlertWebSocket = async (callback = () => {}, token, settings) => {
               }
               case "SUBSCRIBE": {
                 if (isAll || subscriptions) {
+                  callback({ event: data[0], payload: { ...data[1], ...settingsRef.current } });
+                }
+                break;
+              }
+              case "paidMessage": {
+                if (isAll || paid_message) {
+                  if (settingsRef.current.paid_message_alert_min_amount !== 0 && settingsRef.current.paid_message_alert_min_amount < data[1].price_amount) return;
                   callback({ event: data[0], payload: { ...data[1], ...settingsRef.current } });
                 }
                 break;

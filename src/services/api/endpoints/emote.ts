@@ -23,6 +23,9 @@ const endpoint = {
 
   updateAlias: (id: any, alias: string, user_id: number) => axios.put(`/v1/emote/${id}/alias/${typeof user_id !== "undefined" ? user_id : ""}`, { alias: alias }),
   deleteAlias: (id: any, user_id: number) => axios.delete(`/v1/emote/${id}/alias/${typeof user_id !== "undefined" ? user_id : ""}`),
+
+  getUserEmotesById: (user_id: number) => axios.get(`/v1/users?user_id=${user_id}`),
+  getUserEmotesByLogin: (user_login: string) => axios.get(`/v1/users?user_login=${user_login}`),
 };
 
 export default endpoint;

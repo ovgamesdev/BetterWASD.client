@@ -18,6 +18,8 @@ import Uninstall from "../../pages/Uninstall";
 import AdminDashboard from "../../pages/AdminDashboard";
 import FagSupport from "../../pages/FagSupport";
 
+import AlertProvider from "../../providers/AlertProvider";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -27,7 +29,14 @@ const AppRoutes = () => {
       <Route path="/emotes/*" element={<EmotesRoutes />} />
       <Route path="/users/:id" element={<User />} />
 
-      <Route path="/alert-box/v1/:token" element={<AlertBox />} />
+      <Route
+        path="/alert-box/v1/:token"
+        element={
+          <AlertProvider>
+            <AlertBox />
+          </AlertProvider>
+        }
+      />
       <Route path="/uninstall/:user_id" element={<Uninstall />} />
 
       <Route
