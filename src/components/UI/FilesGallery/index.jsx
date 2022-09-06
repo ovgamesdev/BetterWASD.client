@@ -89,7 +89,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
         setActive(def);
         setDefaultValue(def);
 
-        onChange({ raw: def.rawLink, metadata: { name: def.name, thumbnailLink: def.thumbnailLink, rawLink: def.rawLink } });
+        onChange({ raw: def.rawLink, metadata: { name: def.name, thumbnailLink: def.thumbnailLink, rawLink: def.rawLink, mimeType: def.mimeType } });
       }
 
       await api.upload.delete(fileType, item.id, auth.editor?.user_id);
@@ -210,8 +210,8 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                 alt="close"
                 title={"Remove " + fileType}
                 onClick={() => {
-                  onChange({ raw: "", metadata: { name: "", thumbnailLink: "", rawLink: "" } });
-                  setDefaultValue({ name: "", thumbnailLink: "", rawLink: "" });
+                  onChange({ raw: "", metadata: { name: "", thumbnailLink: "", rawLink: "", mimeType: "" } });
+                  setDefaultValue({ name: "", thumbnailLink: "", rawLink: "", mimeType: "" });
                 }}
               />
             )}
@@ -293,7 +293,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
             style={{ width: "141.2px" }}
             className="primary medium basic hide"
             onClick={() => {
-              onChange({ raw: active.rawLink, metadata: { name: active.name, thumbnailLink: active.thumbnailLink, rawLink: active.rawLink } });
+              onChange({ raw: active.rawLink, metadata: { name: active.name, thumbnailLink: active.thumbnailLink, rawLink: active.rawLink, mimeType: active.mimeType } });
               setDefaultValue(active);
               setIsComponentVisible(false);
             }}
@@ -350,8 +350,8 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
             disabled={linkValueError}
             onClick={() => {
               setIsLinkVisible(false);
-              onChange({ raw: linkValue, metadata: { name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue } });
-              setDefaultValue({ name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue });
+              onChange({ raw: linkValue, metadata: { name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue, mimeType: "image/gif" } });
+              setDefaultValue({ name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue, mimeType: "image/gif" });
               setLinkValue("");
             }}
           >

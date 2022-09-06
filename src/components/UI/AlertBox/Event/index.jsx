@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import reactStringReplace from "react-string-replace";
 
 import "react-toastify/dist/ReactToastify.minimal.css";
@@ -11,11 +11,18 @@ import "../custom.css";
 const Event = (props) => {
   // console.log(props.info);
 
-  const { image, layout, message_template, sound, sound_volume, text_animation, text_delay, font, font_size, font_weight, font_color, font_color2, payload } = props.info;
+  const { image, metadata, layout, message_template, sound, sound_volume, text_animation, text_delay, font, font_size, font_weight, font_color, font_color2, payload } = props.info;
 
   // eslint-disable-next-line no-unused-vars
-  const [playing, toggle, audio] = useAudio(sound, sound_volume);
+  const [_, __, audio] = useAudio(sound, sound_volume);
   const [isShowText, setShowText] = useState(false);
+
+  const vid = useCallback(
+    (x) => {
+      if (x) x.volume = sound_volume / 100;
+    },
+    [sound_volume]
+  );
 
   useEffect(() => {
     audio && audio.play();
@@ -31,9 +38,7 @@ const Event = (props) => {
     //   window.speechSynthesis.speak(speech);
     // }, text_delay);
 
-    return () => {
-      audio && audio.pause();
-    };
+    return () => audio && audio.pause();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -49,15 +54,19 @@ const Event = (props) => {
     </span>
   ));
 
-  const userMessage = "";
+  // const userMessage = "";
+
+  const isVideo = metadata.mimeType && metadata.mimeType.includes("video");
 
   return (
     <div id="widget" className="widget-AlertBox" data-layout={layout}>
       <div id="alert-box">
-        <div id="particles" />
+        {/* <div id="particles" /> */}
         <div id="wrap">
           <div id="alert-image-wrap">
-            <div id="alert-image" style={{ backgroundImage: "url(" + image + ")" }} />
+            <div id="alert-image" style={{ backgroundImage: isVideo ? "none" : "url(" + image + ")" }}>
+              {isVideo && <video ref={vid} id="alert-image" autoPlay controls={false} loop src={image}></video>}
+            </div>
           </div>
 
           <div id="alert-text-wrap" className={`${isShowText ? "animated fadeIn" : "hidden"}`}>
@@ -73,7 +82,7 @@ const Event = (props) => {
               >
                 {messageTemplate}
               </div>
-              <div id="alert-user-message">{userMessage}</div>
+              {/* <div id="alert-user-message">{userMessage}</div> */}
             </div>
           </div>
         </div>

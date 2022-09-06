@@ -30,6 +30,7 @@ const AlertBox = () => {
           <Event
             info={{
               image: payload.follow_image,
+              metadata: payload.follow_image_metadata,
               layout: payload.follow_layout,
               message_template: payload.follow_message_template,
               sound: payload.follow_sound,
@@ -72,6 +73,7 @@ const AlertBox = () => {
           <Event
             info={{
               image: payload.sub_image,
+              metadata: payload.sub_image_metadata,
               layout: payload.sub_layout,
               message_template: payload.sub_message_template,
               sound: payload.sub_sound,
@@ -114,6 +116,7 @@ const AlertBox = () => {
           <Event
             info={{
               image: payload.raid_image,
+              metadata: payload.raid_image_metadata,
               layout: payload.raid_layout,
               message_template: payload.raid_message_template,
               sound: payload.raid_sound,
@@ -183,22 +186,32 @@ const AlertBox = () => {
     <>
       {settings && (
         <div style={{ display: "none" }}>
-          <link
-            href={`https://fonts.googleapis.com/css?family=${settings.follow_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
-            rel="stylesheet"
-          />
-          <link
-            href={`https://fonts.googleapis.com/css?family=${settings.sub_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
-            rel="stylesheet"
-          />
-          <link
-            href={`https://fonts.googleapis.com/css?family=${settings.raid_font.replace(/ /g, "+")}:300,400,600,700,800,900`}
-            rel="stylesheet"
-          />
+          <link href={`https://fonts.googleapis.com/css?family=${settings.follow_font.replace(/ /g, "+")}:300,400,600,700,800,900`} rel="stylesheet" />
+          <link href={`https://fonts.googleapis.com/css?family=${settings.sub_font.replace(/ /g, "+")}:300,400,600,700,800,900`} rel="stylesheet" />
+          <link href={`https://fonts.googleapis.com/css?family=${settings.raid_font.replace(/ /g, "+")}:300,400,600,700,800,900`} rel="stylesheet" />
 
-          <img src={settings.follow_image} alt="follow-preload"></img>
+          {/* <img src={settings.follow_image} alt="follow-preload"></img>
           <img src={settings.sub_image} alt="follow-preload"></img>
-          <img src={settings.raid_image} alt="follow-preload"></img>
+          <img src={settings.raid_image} alt="follow-preload"></img> */}
+
+          {settings.follow_image_metadata && settings.follow_image_metadata.mimeType && (
+            <link rel="preload" as={settings.follow_image_metadata.mimeType.split("/")[0]} href={settings.follow_image_metadata.rawLink}></link>
+          )}
+          {settings.follow_sound_metadata && settings.follow_sound_metadata.mimeType && (
+            <link rel="preload" as={settings.follow_sound_metadata.mimeType.split("/")[0]} href={settings.follow_sound_metadata.rawLink}></link>
+          )}
+          {settings.raid_image_metadata && settings.raid_image_metadata.mimeType && (
+            <link rel="preload" as={settings.raid_image_metadata.mimeType.split("/")[0]} href={settings.raid_image_metadata.rawLink}></link>
+          )}
+          {settings.raid_sound_metadata && settings.raid_sound_metadata.mimeType && (
+            <link rel="preload" as={settings.raid_sound_metadata.mimeType.split("/")[0]} href={settings.raid_sound_metadata.rawLink}></link>
+          )}
+          {settings.sub_image_metadata && settings.sub_image_metadata.mimeType && (
+            <link rel="preload" as={settings.sub_image_metadata.mimeType.split("/")[0]} href={settings.sub_image_metadata.rawLink}></link>
+          )}
+          {settings.sub_sound_metadata && settings.sub_sound_metadata.mimeType && (
+            <link rel="preload" as={settings.sub_sound_metadata.mimeType.split("/")[0]} href={settings.sub_sound_metadata.rawLink}></link>
+          )}
         </div>
       )}
 
