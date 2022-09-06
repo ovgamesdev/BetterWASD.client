@@ -168,7 +168,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
   };
 
   const accessUploadFile = auth.editor?.access ? (auth.editor?.access?.canUploadFile ? true : false) : true;
-  const isVideo = value.mimeType.includes("video");
+  const isVideo = value?.mimeType?.includes("video") || false;
 
   return (
     <>
