@@ -13,8 +13,10 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
   const follows = !!searchParams.get("follows");
   const subscriptions = !!searchParams.get("subscriptions");
   const resubs = !!searchParams.get("resubs");
+  const paid_message = !!searchParams.get("paid_message");
   const raids = !!searchParams.get("raids");
-  const isAll = !subscriptions && !resubs && !follows && !raids;
+
+  const isAll = !subscriptions && !resubs && !follows && !paid_message && !raids;
 
   let lastFollowers = {};
   let intervalId = null;
@@ -34,9 +36,7 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
 
         socketRef.current = io("wss://chat.wasd.tv/", { transports: ["websocket"], query: { path: "/socket.io", EIO: 3 } });
 
-        socketRef.current.on("connect_error", () => {
-          console.log(`Ошибка подключения.`);
-        });
+        socketRef.current.on("connect_error", () => console.log(`Ошибка подключения.`));
 
         socketRef.current.on("connect", async () => {
           const streamId = await api.wasd.getStreamId(profileInfo.user_profile.channel_id);
@@ -50,9 +50,7 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
           });
         });
 
-        socketRef.current.on("disconnect", () => {
-          console.log("Отключено");
-        });
+        socketRef.current.on("disconnect", () => console.log("Отключено"));
 
         socketRef.current.on("event", (event) => {
           setTimeout(() => {
@@ -62,13 +60,7 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
               lastFollowers[event.payload.user_login] = 1;
               console.log("Последние добавления в избранное", lastFollowers);
 
-              callback({
-                event: event.event_type,
-                payload: {
-                  ...event,
-                  ...data.current.settings,
-                },
-              });
+              callback({ event: event.event_type, payload: { ...event, ...data.current.settings } });
             }
           }, data.current.settings.alert_delay);
         });
@@ -76,17 +68,20 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
         socketRef.current.on("subscribe", (event) => {
           setTimeout(() => {
             if (isAll || subscriptions) {
-              callback({
-                event: "SUBSCRIBE",
-                payload: { ...event, ...data.current.settings },
-              });
+              callback({ event: "SUBSCRIBE", payload: { ...event, ...data.current.settings } });
             }
           }, data.current.settings.alert_delay);
         });
 
-        socketRef.current.on("joined", (msg) => {
-          console.log("Присоединился, роль:", msg.user_channel_role);
+        socketRef.current.on("paidMessage", (event) => {
+          setTimeout(() => {
+            if (isAll || paid_message) {
+              callback({ event: "paidMessage", payload: { ...event, ...data.current.settings } });
+            }
+          }, data.current.settings.alert_delay);
         });
+
+        socketRef.current.on("joined", (msg) => console.log("Присоединился, роль:", msg.user_channel_role));
       } catch (e) {
         if (e.code === "USER_ID_NOT_FOUND") {
           return setTimeout(() => init(), 50);

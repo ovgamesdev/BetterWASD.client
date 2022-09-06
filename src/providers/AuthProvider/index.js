@@ -47,14 +47,14 @@ function AuthProvider(props) {
   }, [loadData]);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchData = async () => {
       setFiles({ sounds: { channel: [], global: [], isLoading: true }, images: { channel: [], global: [], isLoading: true } });
       const { data: dataSounds } = await api.upload.get("sounds", editor?.user_id);
       setFiles({ sounds: { ...dataSounds, isLoading: false }, images: {} });
       const { data: dataImages } = await api.upload.get("images", editor?.user_id);
       setFiles({ sounds: { ...dataSounds, isLoading: false }, images: { ...dataImages, isLoading: false } });
     };
-    fetch();
+    fetchData();
   }, [editor]);
 
   const contextValue = useMemo(

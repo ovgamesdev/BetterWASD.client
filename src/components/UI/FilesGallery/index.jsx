@@ -35,6 +35,8 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
   const [isPlayed, setIsPlayed] = useState(null);
   const [itemPlayed, setItemPlayed] = useState(null);
 
+  const videoRef = useRef(null);
+
   const inputFile = useRef(null);
   const toastId = useRef(null);
 
@@ -52,6 +54,10 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
       itemPlayed && itemPlayed.audio.pause();
     };
   }, [isPlayed, itemPlayed]);
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.volume = parseFloat(sound_volume / 100) || 1;
+  }, [sound_volume]);
 
   const onPlay = (item) => {
     if (itemPlayed?.rawLink === item.rawLink) {
@@ -89,7 +95,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
         setActive(def);
         setDefaultValue(def);
 
-        onChange({ raw: def.rawLink, metadata: { name: def.name, thumbnailLink: def.thumbnailLink, rawLink: def.rawLink } });
+        onChange({ raw: def.rawLink, metadata: { name: def.name, rawLink: def.rawLink, mimeType: def.mimeType } });
       }
 
       await api.upload.delete(fileType, item.id, auth.editor?.user_id);
@@ -162,11 +168,16 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
   };
 
   const accessUploadFile = auth.editor?.access ? (auth.editor?.access?.canUploadFile ? true : false) : true;
+  const isVideo = value.mimeType.includes("video");
 
   return (
     <>
       <div className="preview" style={style}>
-        {!isInputOnly && fileType === "images" && <div className="img" style={{ backgroundImage: `url(${value.thumbnailLink || image_svg})` }} />}
+        {!isInputOnly && fileType === "images" && (
+          <div className="img" style={{ backgroundImage: isVideo ? "none" : `url(${value.rawLink || image_svg})` }}>
+            {isVideo && <video ref={videoRef} src={value.rawLink} onClick={(e) => (e.target.muted = !e.target.muted)} muted autoPlay loop style={{ width: "100%", height: "100%" }}></video>}
+          </div>
+        )}
         {!isInputOnly && fileType === "sounds" && (
           <div className="flat-btn">
             <button
@@ -210,8 +221,8 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
                 alt="close"
                 title={"Remove " + fileType}
                 onClick={() => {
-                  onChange({ raw: "", metadata: { name: "", thumbnailLink: "", rawLink: "" } });
-                  setDefaultValue({ name: "", thumbnailLink: "", rawLink: "" });
+                  onChange({ raw: "", metadata: { name: "", rawLink: "", mimeType: "" } });
+                  setDefaultValue({ name: "", rawLink: "", mimeType: "" });
                 }}
               />
             )}
@@ -293,7 +304,7 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
             style={{ width: "141.2px" }}
             className="primary medium basic hide"
             onClick={() => {
-              onChange({ raw: active.rawLink, metadata: { name: active.name, thumbnailLink: active.thumbnailLink, rawLink: active.rawLink } });
+              onChange({ raw: active.rawLink, metadata: { name: active.name, rawLink: active.rawLink, mimeType: active.mimeType } });
               setDefaultValue(active);
               setIsComponentVisible(false);
             }}
@@ -350,8 +361,8 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
             disabled={linkValueError}
             onClick={() => {
               setIsLinkVisible(false);
-              onChange({ raw: linkValue, metadata: { name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue } });
-              setDefaultValue({ name: linkValue.split("/")[linkValue.split("/").length - 1], thumbnailLink: linkValue, rawLink: linkValue });
+              onChange({ raw: linkValue, metadata: { name: linkValue.split("/")[linkValue.split("/").length - 1], rawLink: linkValue, mimeType: "image/gif" } });
+              setDefaultValue({ name: linkValue.split("/")[linkValue.split("/").length - 1], rawLink: linkValue, mimeType: "image/gif" });
               setLinkValue("");
             }}
           >

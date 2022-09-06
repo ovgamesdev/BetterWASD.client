@@ -127,11 +127,7 @@ tab = "Alpha|Beta|Gamma|Delta|Epsilon|Zeta|Eta|Theta|Iota|Kappa|Lambda|Mu|Nu|Xi|
 for (x = 0; x < 17; x++) mnem[913 + x] = tab[x];
 tab = "Sigma|Tau|Upsilon|Phi|Chi|Psi|Omega".split("|");
 for (x = 0; x < 7; x++) mnem[931 + x] = tab[x];
-tab = (
-  "alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|" +
-  "lambda|mu|nu|xi|omicron|pi|rho|sigmaf|sigma|tau|upsilon|phi|chi|" +
-  "psi|omega"
-).split("|");
+tab = "alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigmaf|sigma|tau|upsilon|phi|chi|psi|omega".split("|");
 for (x = 0; x < 25; x++) mnem[945 + x] = tab[x];
 
 const encode = (text) => {
@@ -143,7 +139,7 @@ const encode = (text) => {
 
 const decode = (text) => {
   if (!text) return "";
-  return text.replace(/&#?(\w+);/g, function (a, b) {
+  return text.replace(/&#?(\w+);/g, function (_, b) {
     if (Number(b)) return String.fromCharCode(Number(b));
     for (x in mnem) {
       if (mnem[x] === b) return String.fromCharCode(x);
