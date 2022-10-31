@@ -15,8 +15,9 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
   const resubs = !!searchParams.get("resubs");
   const paid_message = !!searchParams.get("paid_message");
   const raids = !!searchParams.get("raids");
+  const bans = !!searchParams.get("bans");
 
-  const isAll = !subscriptions && !resubs && !follows && !paid_message && !raids;
+  const isAll = !subscriptions && !resubs && !follows && !paid_message && !raids && !bans;
 
   let lastFollowers = {};
   let intervalId = null;
@@ -24,7 +25,7 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
   useEffect(() => {
     const init = async () => {
       try {
-        if (!data.current.user_id) throw Object.assign(new Error("Не удалось получит user_id"), { code: "USER_ID_NOT_FOUND" });
+        if (!data.current.user_id) throw Object.assign(new Error("Не удалось получить user_id"), { code: "USER_ID_NOT_FOUND" });
 
         const jwt = await api.wasd.getJWTToken();
         const profileInfo = await api.wasd.getProfileInfo(data.current.user_id);
@@ -77,6 +78,15 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
           setTimeout(() => {
             if (isAll || paid_message) {
               callback({ event: "paidMessage", payload: { ...event, ...data.current.settings } });
+            }
+          }, data.current.settings.alert_delay);
+        });
+
+        socketRef.current.on("user_ban", (event) => {
+          console.log(event);
+          setTimeout(() => {
+            if (isAll || bans) {
+              callback({ event: "BAN", payload: { ...event, ...data.current.settings } });
             }
           }, data.current.settings.alert_delay);
         });

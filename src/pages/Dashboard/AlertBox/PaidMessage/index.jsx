@@ -21,6 +21,14 @@ const Raids = ({ settings, setSettings }) => {
     <>
       <div className="row">
         <div className="left">
+          <label>Включено</label>
+        </div>
+        <div className="right">
+          <CheckBox checked={settings.paid_message_enabled} onChange={(e) => setSettings({ ...settings, paid_message_enabled: e.target.checked })} />
+        </div>
+      </div>
+      <div className="row">
+        <div className="left">
           <label>Расположение</label>
         </div>
         <div className="right">
@@ -130,11 +138,11 @@ const Raids = ({ settings, setSettings }) => {
               placeholder="используйте {name} чтобы заменить его на имя рейдера"
               onChange={(e) => setSettings({ ...settings, paid_message_message_template: e.target.value })}
             />
-            <div className="tooltip_wrapper" data-tip="{name} - Имя рейдера">
+            <div className="tooltip_wrapper" data-tip="{name} - Имя рейдера <br/> {amount} - Сумма">
               ?
             </div>
 
-            <ReactTooltip />
+            <ReactTooltip multiline={true} effect="solid" />
           </div>
         </div>
       </div>
@@ -169,7 +177,7 @@ const Raids = ({ settings, setSettings }) => {
             title="Галерея изображений"
             title_link="Ссылка на изображение"
             fileType="images"
-            fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
+            fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webp,.avif,.webm,.mp4"
             onChange={(value) => setSettings({ ...settings, paid_message_image: value.raw, paid_message_image_metadata: value.metadata })}
           />
         </div>

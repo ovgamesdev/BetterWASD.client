@@ -17,6 +17,7 @@ import Follows from "./Follows";
 import Subscriptions from "./Subscriptions";
 import PaidMessage from "./PaidMessage";
 import Raids from "./Raids";
+import Bans from "./Ban";
 
 import "./options.scss";
 import isEqual from "../../../lib/isEqual";
@@ -27,6 +28,7 @@ const colourOptions = [
   { label: "Фоллоу", value: "follows" },
   { label: "Платное сообщение", value: "paid_message" },
   { label: "Рейд", value: "raids" },
+  { label: "Бан", value: "bans" },
 ];
 const tabOptions = [
   { label: "Основные настройки", value: "general" },
@@ -34,6 +36,7 @@ const tabOptions = [
   { label: "Подписка", value: "subscriptions" },
   { label: "Платное сообщение", value: "paid_message" },
   { label: "Рейд", value: "raids" },
+  { label: "Бан", value: "bans" },
 ];
 const optionsToSearch = (options) => options.map((option, i) => `${i === 0 ? "?" : "&"}${option.value}=1`).join("");
 
@@ -151,6 +154,21 @@ const DashboardAlertBox = () => {
         setIsLoadingTest(false);
       }
     },
+    Ban: async () => {
+      try {
+        setIsLoadingTest("Ban");
+        await api.alertBox.testBan(auth.editor?.user_id);
+        toast("Оповещение отправлено!");
+      } catch (e) {
+        if (e.response?.data?.code === "NOT_ACCESS") {
+          toast.error("Нет доступа");
+        } else {
+          toast.error("Ошибка отправки уведомления");
+        }
+      } finally {
+        setIsLoadingTest(false);
+      }
+    },
   };
 
   return (
@@ -201,18 +219,21 @@ const DashboardAlertBox = () => {
           </div>
 
           <p style={{ marginTop: "20px" }}>При открытом и работающем виджете, используйте кнопки ниже для показа тестовых оповещений.</p>
-          <div className="flat-btn" style={{ display: "flex" }}>
+          <div className="flat-btn" style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
             <button className="basic medium" disabled={isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
               {isLoadingTest === "Follow" && <ButtonLoading />} Тест Фоллоу
             </button>
-            <button className="basic medium" disabled={isLoadingTest === "Sub"} onClick={() => createEvent.Sub()} style={{ margin: "0 5px" }}>
+            <button className="basic medium" disabled={isLoadingTest === "Sub"} onClick={() => createEvent.Sub()}>
               {isLoadingTest === "Sub" && <ButtonLoading />} Тест Подписка
             </button>
             <button className="basic medium" disabled={isLoadingTest === "PaidMessage"} onClick={() => createEvent.PaidMessage()}>
               {isLoadingTest === "PaidMessage" && <ButtonLoading />} Тест Платное сообщение
             </button>
-            <button className="basic medium" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()} style={{ margin: "0 5px" }}>
+            <button className="basic medium" disabled={isLoadingTest === "Raid"} onClick={() => createEvent.Raid()}>
               {isLoadingTest === "Raid" && <ButtonLoading />} Тест Рейд
+            </button>
+            <button className="basic medium" disabled={isLoadingTest === "Ban"} onClick={() => createEvent.Ban()}>
+              {isLoadingTest === "Ban" && <ButtonLoading />} Тест Бан
             </button>
           </div>
 
@@ -233,6 +254,7 @@ const DashboardAlertBox = () => {
           {activeTab === "subscriptions" && <Subscriptions settings={settings} setSettings={setSettings} />}
           {activeTab === "raids" && <Raids settings={settings} setSettings={setSettings} />}
           {activeTab === "paid_message" && <PaidMessage settings={settings} setSettings={setSettings} />}
+          {activeTab === "bans" && <Bans settings={settings} setSettings={setSettings} />}
 
           <div className="item__border" />
           <div className="flat-btn" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>

@@ -216,6 +216,50 @@ const AlertBox = () => {
         activeToasts.current.push(id);
         break;
       }
+      case "BAN": {
+        const id = toast(
+          <Event
+            info={{
+              image: payload.ban_image,
+              metadata: payload.ban_image_metadata,
+              layout: payload.ban_layout,
+              message_template: payload.ban_message_template,
+              sound: payload.ban_sound,
+              sound_volume: payload.ban_sound_volume,
+              text_animation: payload.ban_text_animation,
+              text_delay: payload.ban_text_delay,
+              // font
+              font: payload.ban_font,
+              font_size: payload.ban_font_size,
+              font_weight: payload.ban_font_weight,
+              font_color: payload.ban_font_color,
+              font_color2: payload.ban_font_color2,
+              // payload
+              payload: {
+                user_login: payload.payload.user_login,
+                duration: payload.payload.duration,
+              },
+            }}
+          />,
+          {
+            autoClose: payload.ban_alert_duration,
+            transition: cssTransition({
+              enter: "animated " + payload.ban_show_animation,
+              exit: "animated " + payload.ban_hide_animation,
+            }),
+            onOpen: () => {
+              setTimeout(() => {
+                if (payload.interrupt_mode && activeToasts.current.length >= 2) toast.dismiss(activeToasts.current[0]);
+              }, payload.interrupt_mode_delay);
+            },
+            onClose: (e) => {
+              activeToasts.current = activeToasts.current.filter((v) => v !== e.toastProps.toastId);
+            },
+          }
+        );
+        activeToasts.current.push(id);
+        break;
+      }
       case "UPDATE_SETTINGS":
         setSettings(payload);
         break;
@@ -235,10 +279,7 @@ const AlertBox = () => {
           <link href={`https://fonts.googleapis.com/css?family=${settings.follow_font.replace(/ /g, "+")}:300,400,600,700,800,900`} rel="stylesheet" />
           <link href={`https://fonts.googleapis.com/css?family=${settings.sub_font.replace(/ /g, "+")}:300,400,600,700,800,900`} rel="stylesheet" />
           <link href={`https://fonts.googleapis.com/css?family=${settings.raid_font.replace(/ /g, "+")}:300,400,600,700,800,900`} rel="stylesheet" />
-
-          {/* <img src={settings.follow_image} alt="follow-preload"></img>
-          <img src={settings.sub_image} alt="follow-preload"></img>
-          <img src={settings.raid_image} alt="follow-preload"></img> */}
+          <link href={`https://fonts.googleapis.com/css?family=${settings.ban_font.replace(/ /g, "+")}:300,400,600,700,800,900`} rel="stylesheet" />
 
           {settings.follow_image_metadata && settings.follow_image_metadata.mimeType && (
             <link rel="preload" as={settings.follow_image_metadata.mimeType.split("/")[0]} href={settings.follow_image_metadata.rawLink}></link>
@@ -257,6 +298,12 @@ const AlertBox = () => {
           )}
           {settings.sub_sound_metadata && settings.sub_sound_metadata.mimeType && (
             <link rel="preload" as={settings.sub_sound_metadata.mimeType.split("/")[0]} href={settings.sub_sound_metadata.rawLink}></link>
+          )}
+          {settings.ban_image_metadata && settings.ban_image_metadata.mimeType && (
+            <link rel="preload" as={settings.ban_image_metadata.mimeType.split("/")[0]} href={settings.ban_image_metadata.rawLink}></link>
+          )}
+          {settings.ban_sound_metadata && settings.ban_sound_metadata.mimeType && (
+            <link rel="preload" as={settings.ban_sound_metadata.mimeType.split("/")[0]} href={settings.ban_sound_metadata.rawLink}></link>
           )}
         </div>
       )}

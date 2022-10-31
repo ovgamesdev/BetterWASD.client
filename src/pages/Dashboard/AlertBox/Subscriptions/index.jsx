@@ -12,12 +12,21 @@ import fonts from "../fonts.json";
 import animationAlertShow from "../animation-alert-show.json";
 import animationAlertHide from "../animation-alert-hide.json";
 import animationText from "../animation-text.json";
+import CheckBox from "../../../../components/UI/CheckBox";
 
 const fontOptions = fonts.map((v) => ({ label: v, value: v }));
 
 const Subscriptions = ({ settings, setSettings }) => {
   return (
     <>
+      <div className="row">
+        <div className="left">
+          <label>Включено</label>
+        </div>
+        <div className="right">
+          <CheckBox checked={settings.sub_enabled} onChange={(e) => setSettings({ ...settings, sub_enabled: e.target.checked })} />
+        </div>
+      </div>
       <div className="row">
         <div className="left">
           <label>Расположение</label>
@@ -60,7 +69,7 @@ const Subscriptions = ({ settings, setSettings }) => {
               ?
             </div>
 
-            <ReactTooltip />
+            <ReactTooltip effect="solid" />
           </div>
         </div>
       </div>
@@ -91,7 +100,7 @@ const Subscriptions = ({ settings, setSettings }) => {
             title="Галерея изображений"
             title_link="Ссылка на изображение"
             fileType="images"
-            fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
+            fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webp,.avif,.webm,.mp4"
             onChange={(value) => setSettings({ ...settings, sub_image: value.raw, sub_image_metadata: value.metadata })}
           />
         </div>

@@ -23,7 +23,19 @@ const clearTTSMessage = (max, message) => {
 };
 const replaceEmotes = (text, emotes) => {
   for (const emote of emotes) {
-    text = reactStringReplace(text, decode(emote.code), (e, i) => <img key={e + "_" + i} src={emote.url["x2"]} alt={decode(emote.code)} />);
+    text = reactStringReplace(text, decode(emote.code), (e, i) => {
+      return e === emote.code ? (
+        <img
+          width={`calc(${(emote.width.x1 / emote.height.x1).toFixed(3)} * 1.5em)`}
+          key={e + "_" + i}
+          src={emote.url["x1"]}
+          srcSet={emote.url["x2"] + " x2, " + emote.url["x3"] + " x3"}
+          alt={decode(emote.code)}
+        />
+      ) : (
+        e
+      );
+    });
   }
   return text;
 };
@@ -110,7 +122,7 @@ const Event = (props) => {
     ));
   }
 
-  const isVideo = metadata.mimeType && metadata.mimeType.includes("video");
+  const isVideo = metadata && metadata.mimeType && metadata.mimeType.includes("video");
 
   return (
     <div id="widget" className="widget-AlertBox" data-layout={layout}>
@@ -130,7 +142,7 @@ const Event = (props) => {
                 style={{
                   fontSize: font_size,
                   color: font_color,
-                  fontFamily: font.replace(/\+/g, " "),
+                  fontFamily: font?.replace(/\+/g, " "),
                   fontWeight: font_weight,
                 }}
               >

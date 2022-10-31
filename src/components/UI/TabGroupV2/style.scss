@@ -48,9 +48,12 @@
       height: 28px;
       letter-spacing: 0.2px;
       line-height: 1.43;
-      padding: 0 16px;
+      padding: 0 12px;
       position: relative;
       white-space: nowrap;
+      &:first-child {
+        padding-right: 0;
+      }
       &:hover {
         color: rgba(var(--color-system-blue), 0.8);
         &:focus {

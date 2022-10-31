@@ -22,7 +22,7 @@ const TabGroup = ({ subIcons, defBadges, setIsLoadedImages, isLoadedImages, setS
         title="Галерея изображений"
         title_link="Ссылка на изображение"
         fileType="images"
-        fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webm,.mp4"
+        fileAccept=".jpg,.png,.gif,.jpeg,.svg,.webp,.avif,.webm,.mp4"
         onChange={(value) => setSubIcons({ ...subIcons, [item]: value.raw })}
       />
     </div>
