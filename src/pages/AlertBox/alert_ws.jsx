@@ -65,7 +65,7 @@ const AlertWebSocket = async (callback = () => {}, token, settings) => {
                 break;
               }
               case "BAN": {
-                if ((isAll || bans) && settingsRef.current.ban_enabled) {
+                if ((isAll || bans) && settingsRef.current.ban_enabled && !data[1].payload.duration) {
                   callback({ event: data[0], payload: { ...data[1], ...settingsRef.current } });
                 }
                 break;

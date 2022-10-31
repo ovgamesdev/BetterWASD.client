@@ -55,7 +55,7 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
 
         socketRef.current.on("event", (event) => {
           setTimeout(() => {
-            if (event.event_type === "NEW_FOLLOWER" && (isAll || follows)) {
+            if (event.event_type === "NEW_FOLLOWER" && (isAll || follows) && data.current.settings.follow_enabled) {
               if (lastFollowers[event.payload.user_login]) return;
 
               lastFollowers[event.payload.user_login] = 1;
@@ -68,7 +68,7 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
 
         socketRef.current.on("subscribe", (event) => {
           setTimeout(() => {
-            if (isAll || subscriptions) {
+            if ((isAll || subscriptions) && data.current.settings.sub_enabled) {
               callback({ event: "SUBSCRIBE", payload: { ...event, ...data.current.settings } });
             }
           }, data.current.settings.alert_delay);
@@ -76,16 +76,15 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
 
         socketRef.current.on("paidMessage", (event) => {
           setTimeout(() => {
-            if (isAll || paid_message) {
+            if ((isAll || paid_message) && data.current.settings.paid_message_enabled) {
               callback({ event: "paidMessage", payload: { ...event, ...data.current.settings } });
             }
           }, data.current.settings.alert_delay);
         });
 
         socketRef.current.on("user_ban", (event) => {
-          console.log(event);
           setTimeout(() => {
-            if (isAll || bans) {
+            if ((isAll || bans) && data.current.settings.ban_enabled && !event.payload.duration) {
               callback({ event: "BAN", payload: { ...event, ...data.current.settings } });
             }
           }, data.current.settings.alert_delay);
@@ -134,7 +133,7 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
           return;
         }
 
-        if (isAll || raids) {
+        if ((isAll || raids) && data.current.settings.raid_enabled) {
           const isRaid = channelInfo.channel.raid_info;
 
           if (isRaid && !(lastRaid && lastRaid.begin_at === isRaid.begin_at && lastRaid.raid_mc_id === isRaid.raid_mc_id)) {
