@@ -46,8 +46,6 @@ const Home = () => {
         <Link to="terms">Terms of Service</Link>
         {" • "}
         <Link to="privacy">Privacy Policy</Link>
-        {" • "}
-        <Link to="support_ovgames">Support OvGames</Link>
       </footer>
     </>
   );
