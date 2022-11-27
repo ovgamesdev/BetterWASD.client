@@ -49,6 +49,14 @@ const endpoint = {
       return Promise.reject();
     }
   },
+  smiles: async () => {
+    try {
+      const { data } = await axios.get(`https://static.wasd.tv/settings/smiles.json`);
+      return Promise.resolve(data.result);
+    } catch (e) {
+      return Promise.reject();
+    }
+  },
 };
 
 export default endpoint;

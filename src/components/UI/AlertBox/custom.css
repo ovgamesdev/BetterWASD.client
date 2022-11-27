@@ -32,8 +32,9 @@ html {
   text-align: center;
 }
 #alert-user-message img {
-  vertical-align: middle;
   height: 1.5em;
+  margin: -0.5rem 0;
+  position: relative;
 }
 #alert-image {
   position: relative;

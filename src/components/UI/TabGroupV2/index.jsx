@@ -15,7 +15,7 @@ const TabGroup = (props) => {
   const onClick = (e, index) => {
     setActive({ index: index, element: e });
     if (index === 0) {
-      setPosition({ left: e.target.offsetLeft, width: e.target.offsetWidth - 16 });
+      setPosition({ left: e.target.offsetLeft + 8, width: e.target.offsetWidth - 16 });
     } else {
       setPosition({ left: e.target.offsetLeft + 16, width: e.target.offsetWidth - 32 });
     }
