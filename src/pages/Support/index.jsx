@@ -5,6 +5,8 @@ import useMeta from "../../hooks/useMeta/index.tsx";
 import BoostyLogo from "./logo/boosty-white.png";
 import PatreonLogo from "./logo/patreon-white.png";
 
+import "./index.scss";
+
 const Support = () => {
   useMeta({ title: "BetterWASYA | Support" });
 
@@ -20,34 +22,22 @@ const Support = () => {
             <a
               href="https://boosty.to/ovgames"
               target="_blank noreferrer"
-              className="button button-big "
-              style={{
-                backgroundColor: "#F15F2C",
-                boxShadow: "0 18px 30px -12px rgb(241 95 44 / 35%)",
-              }}
+              className="button button-big boosty"
             >
               <img
                 src={BoostyLogo}
                 alt="Boosty Logo"
-                height={30}
-                style={{ marginRight: 5 }}
               />
               Boosty
             </a>
             <a
               href="https://www.patreon.com/ovgames"
               target="_blank noreferrer"
-              className="button button-big "
-              style={{
-                backgroundColor: "#FF424D",
-                boxShadow: "0 18px 30px -12px rgb(255 66 77 / 35%)",
-              }}
+              className="button button-big patreon"
             >
               <img
                 src={PatreonLogo}
                 alt="Patreon Logo"
-                height={30}
-                style={{ marginRight: 5 }}
               />
               Patreon
             </a>
