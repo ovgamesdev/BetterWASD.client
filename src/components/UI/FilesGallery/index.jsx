@@ -155,9 +155,18 @@ const FilesGallery = ({ value, onChange, fileType, title, title_link, fileAccept
 
       toast.update(toastId.current, { render: "Файл загружен!", type: "success", isLoading: false, autoClose: 5000 });
     } catch (e) {
-      if (e.response.data.code === "LIMIT_FILE_SIZE") {
+
+      console.log(Object.keys(e))
+
+      console.log(e.config)
+      console.log(e.request)
+      console.log(e.response)
+      console.log(e.isAxiosError)
+      console.log(e.toJSON())
+
+      if (e.response?.data?.code === "LIMIT_FILE_SIZE") {
         toast.update(toastId.current, { render: "Размер файла превысил 2,5 Мб.", type: "error", isLoading: false, autoClose: 5000 });
-      } else if (e.response.data.code === "NOT_ACCESS") {
+      } else if (e.response?.data?.code === "NOT_ACCESS") {
         toast.update(toastId.current, { render: "Нет доступа", type: "error", isLoading: false, autoClose: 5000 });
       } else {
         toast.update(toastId.current, { render: "Мы не можем загрузить этот файл.", type: "error", isLoading: false, autoClose: 5000 });

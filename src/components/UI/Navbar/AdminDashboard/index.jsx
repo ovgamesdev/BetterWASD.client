@@ -11,6 +11,9 @@ const AdminNavbarDashboard = () => {
       <br />
       <br />
       <NavLink to="/admin/support">Обратная связь</NavLink>
+      <br />
+      <br />
+      <NavLink to="/admin/disabled-options">Отключенные опции</NavLink>
     </>
   );
 };
