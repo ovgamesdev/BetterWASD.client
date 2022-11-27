@@ -17,6 +17,7 @@ import AlertBox from "../../pages/AlertBox";
 import Uninstall from "../../pages/Uninstall";
 import AdminDashboard from "../../pages/AdminDashboard";
 import FagSupport from "../../pages/FagSupport";
+import Support from "../../pages/Support";
 
 import AlertProvider from "../../providers/AlertProvider";
 
@@ -28,6 +29,7 @@ const AppRoutes = () => {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/emotes/*" element={<EmotesRoutes />} />
       <Route path="/users/:id" element={<User />} />
+      <Route path="/support" element={<Support />} />
 
       <Route
         path="/alert-box/v1/:token"
