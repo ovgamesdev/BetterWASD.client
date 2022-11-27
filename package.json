@@ -1,7 +1,15 @@
 {
   "name": "ovgames",
   "version": "0.1.0",
+  "author": "OvGames",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovgamesdev/BetterWASYA.client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ovgamesdev/BetterWASYA.client/issues"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",

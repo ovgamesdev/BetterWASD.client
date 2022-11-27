@@ -9,7 +9,8 @@ import admin from "./endpoints/admin.ts";
 import bells from "./endpoints/bells.ts";
 import support from "./endpoints/support.ts";
 import upload from "./endpoints/upload.ts";
+import disabledOptions from "./endpoints/disabled-options.ts";
 
-const api = { auth, emote, paint, subBadge, wasd, uninstall, alertBox, admin, bells, support, upload };
+const api = { auth, emote, paint, subBadge, wasd, uninstall, alertBox, admin, bells, support, upload, disabledOptions };
 
 export default api;
