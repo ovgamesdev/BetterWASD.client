@@ -7,6 +7,7 @@ const NavbarDashboard = () => {
 
   const accessAlertBox = auth.editor?.access ? (auth.editor?.access?.canAlertBox ? true : false) : true;
   const accessSubBadges = auth.editor?.access ? (auth.editor?.access?.canSubBadges ? true : false) : true;
+  const accessChatBox = auth.editor?.access ? (auth.editor?.access?.canChatBox ? true : false) : true;
 
   return (
     <>
@@ -20,6 +21,9 @@ const NavbarDashboard = () => {
       {accessAlertBox && <br />}
       {accessAlertBox && <br />}
       {accessAlertBox && <NavLink to="/dashboard/alertbox">Оповещения</NavLink>}
+      {accessChatBox && <br />}
+      {accessChatBox && <br />}
+      {accessChatBox && <NavLink to="/dashboard/chatbox">Окно чата</NavLink>}
       {auth.editor === null && <br />}
       {auth.editor === null && <br />}
       {auth.editor === null && <NavLink to="/dashboard/editors">Редакторы</NavLink>}

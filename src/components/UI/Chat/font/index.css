@@ -1,0 +1,80 @@
+
+@font-face {
+  font-family: Roboto-Light;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Light.8be2d1487420548b3b8d.ttf)
+}
+
+@font-face {
+  font-family: Roboto-Regular;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Regular.a8d6ac03c7b96b7acb62.ttf)
+}
+
+@font-face {
+  font-family: Roboto-Medium;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Medium.7429a63c09f79a1760b0.ttf)
+}
+
+@font-face {
+  font-family: Roboto-Bold;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Bold.75371f53f06181df75f1.ttf)
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Light.8be2d1487420548b3b8d.ttf);
+  font-weight: 300
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Regular.a8d6ac03c7b96b7acb62.ttf);
+  font-weight: 400
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Medium.7429a63c09f79a1760b0.ttf);
+  font-weight: 500
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(https://static.wasd.tv/assets/fe/Roboto-Bold.75371f53f06181df75f1.ttf);
+  font-weight: 700
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url(https://static.wasd.tv/assets/fe/Montserrat-Light.02afb26fe72fcc052988.ttf);
+  font-weight: 300
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url(https://static.wasd.tv/assets/fe/Montserrat-Regular.3cd786652b8a2e9d41f2.ttf);
+  font-weight: 400
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url(https://static.wasd.tv/assets/fe/Montserrat-Medium.e2d60bc49517598c0ce8.ttf);
+  font-weight: 500
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url(https://static.wasd.tv/assets/fe/Montserrat-SemiBold.fa8441f345d83a0bc4ec.ttf);
+  font-weight: 600
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url(https://static.wasd.tv/assets/fe/Montserrat-Bold.079ca05d3ded9bc107ab.ttf);
+  font-weight: 700
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url(https://static.wasd.tv/assets/fe/Montserrat-ExtraBold.1944c8d1a118759a4435.ttf);
+  font-weight: 800
+}

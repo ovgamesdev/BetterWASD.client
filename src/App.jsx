@@ -21,12 +21,12 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.isLoaded]);
 
-  const wrapperClassName = (window.location.pathname.match("/alert-box/") ? " alert_mode" : "") + (window.location.pathname.match("/uninstall/") ? " uninstall_mode" : "");
+  const wrapperClassName = (window.location.pathname.match("/alert-box/") ? " alert_mode" : "") + (window.location.pathname.match("/chat-box/") ? " chat_mode" : "") + (window.location.pathname.match("/uninstall/") ? " uninstall_mode" : "");
 
   return (
     <>
       <BrowserRouter>
-        {!window.location.pathname.match("/alert-box/") && (
+        {!(window.location.pathname.match("/alert-box/") || window.location.pathname.match("/chat-box/")) && (
           <ToastContainer
             position="top-left"
             autoClose={5000}

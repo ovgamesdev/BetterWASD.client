@@ -1,0 +1,140 @@
+[
+  {
+    "user_id": "94252",
+    "user_channel_role": "CHANNEL_OWNER",
+    "other_roles": [],
+    "user_login": "Mildewed"
+  },
+  {
+    "user_id": "96510",
+    "user_channel_role": "CHANNEL_MODERATOR",
+    "other_roles": ["CHANNEL_FOLLOWER"],
+    "user_login": "ParasiteTown"
+  },
+  {
+    "user_id": "306144",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["PROMO_CODE_WINNER"],
+    "user_login": "OvGames"
+  },
+  {
+    "user_id": "77632",
+    "user_channel_role": "CHANNEL_MODERATOR",
+    "other_roles": ["CHANNEL_SUBSCRIBER"],
+    "user_login": "Gerbilator",
+    "meta": {
+      "days_as_sub": 0
+    }
+  },
+  {
+    "user_id": "68367",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": [],
+    "user_login": "RustySilver"
+  },
+  {
+    "user_id": "99669",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["CHANNEL_SUBSCRIBER"],
+    "user_login": "NumbLeg",
+    "meta": {
+      "days_as_sub": 0
+    }
+  },
+  {
+    "user_id": "101708",
+    "user_channel_role": "WASD_ADMIN",
+    "other_roles": ["CHANNEL_SUBSCRIBER"],
+    "user_login": "Pelfox",
+    "meta": {
+      "days_as_sub": 0
+    }
+  },
+  {
+    "user_id": "52688",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["WASD_PARTNER"],
+    "user_login": "ZetanChamp"
+  },
+  {
+    "user_id": "99512",
+    "user_channel_role": "WASD_ADMIN",
+    "other_roles": [],
+    "user_login": "GilFrog"
+  },
+  {
+    "user_id": "90357",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["CHANNEL_SUBSCRIBER"],
+    "user_login": "Salamandrine",
+    "meta": {
+      "days_as_sub": 0
+    }
+  },
+  {
+    "user_id": "103986",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": [],
+    "user_login": "SlitherTuft"
+  },
+  {
+    "user_id": "62820",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["PROMO_CODE_WINNER"],
+    "user_login": "Gigadude"
+  },
+  {
+    "user_id": "76905",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["CHANNEL_SUBSCRIBER"],
+    "user_login": "Crazywar",
+    "meta": {
+      "days_as_sub": 0
+    }
+  },
+  {
+    "user_id": "57157",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": [],
+    "user_login": "Scoundrella"
+  },
+  {
+    "user_id": "72260",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": [],
+    "user_login": "oineIsm"
+  },
+  {
+    "user_id": "83073",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": [],
+    "user_login": "Deadlight"
+  },
+  {
+    "user_id": "102201",
+    "user_channel_role": "CHANNEL_MODERATOR",
+    "other_roles": [],
+    "user_login": "Mayflower"
+  },
+  {
+    "user_id": "88221",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["WASD_PARTNER"],
+    "user_login": "Oblation"
+  },
+  {
+    "user_id": "68559",
+    "user_channel_role": "CHANNEL_MODERATOR",
+    "other_roles": ["CHANNEL_SUBSCRIBER", "PROMO_CODE_WINNER"],
+    "user_login": "Absconcier",
+    "meta": {
+      "days_as_sub": 0
+    }
+  },
+  {
+    "user_id": "86784",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": [],
+    "user_login": "KnuckleDust"
+  }
+]

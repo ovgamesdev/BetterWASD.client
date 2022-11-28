@@ -218,7 +218,7 @@ const DashboardAlertBox = () => {
             <p style={{ fontSize: "14px" }}>Используйте приведенный выше URL-адрес в OBS Studio или просто запустите его с помощью захвата окна.</p>
           </div>
 
-          <p style={{ marginTop: "20px" }}>При открытом и работающем виджете, используйте кнопки ниже для показа тестовых оповещений.</p>
+          {/* <p style={{ marginTop: "20px" }}>При открытом и работающем виджете, используйте кнопки ниже для показа тестовых оповещений.</p>
           <div className="flat-btn" style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
             <button className="basic medium" disabled={isLoadingTest === "Follow"} onClick={() => createEvent.Follow()}>
               {isLoadingTest === "Follow" && <ButtonLoading />} Тест Фоллоу
@@ -235,7 +235,9 @@ const DashboardAlertBox = () => {
             <button className="basic medium" disabled={isLoadingTest === "Ban"} onClick={() => createEvent.Ban()}>
               {isLoadingTest === "Ban" && <ButtonLoading />} Тест Бан
             </button>
-          </div>
+          </div> */}
+
+          <p style={{ marginTop: "20px", color: "var(--wasd-color-warning)" }}>Показ тестовых оповещений отключен на неизвестный период времени.</p>
 
           <TabGroup
             style={{ marginTop: "25px", marginBottom: "10px" }}
@@ -261,6 +263,7 @@ const DashboardAlertBox = () => {
             <button onClick={onSave} disabled={isLoadingUpdate || isEqual(defaultSettings, settings)} className="primary medium" style={{ width: "300px" }}>
               {isLoadingUpdate ? <ButtonLoading /> : "Сохранить"}
             </button>
+            {!(isLoadingUpdate || isEqual(defaultSettings, settings)) && <span style={{color: "var(--wasd-color-warning)"}}>Обновите виджет после его сохранения!</span>}
           </div>
         </>
       )}

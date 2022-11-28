@@ -57,6 +57,14 @@ const endpoint = {
       return Promise.reject();
     }
   },
+  getMessages: async (streamId: number, limit = 51, offset = 0): Promise<Array<any>> => {
+    try {
+      const { data } = await axios.get(`https://wasd.tv/api/chat/streams/${streamId}/messages?limit=${limit}&offset=${offset}`);
+      return Promise.resolve(data.result);
+    } catch (e) {
+      return Promise.reject();
+    }
+  },
 };
 
 export default endpoint;

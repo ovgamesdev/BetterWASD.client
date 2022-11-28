@@ -1,28 +1,24 @@
 import { useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
 import io from "socket.io-client";
 
 import api from "../../services/api/index.js";
 
-const WebSocket = async (callback = () => {}, user_id, settings) => {
+const WebSocket = async (callback = () => {}, user_id, settings, { maxMessages }) => {
   const socketRef = useRef(null);
   const data = useRef(null);
+  const isShowHi = useRef(false);
   data.current = { user_id: user_id, settings: settings };
 
-  const [searchParams] = useSearchParams();
-  const follows = !!searchParams.get("follows");
-  const subscriptions = !!searchParams.get("subscriptions");
-  const resubs = !!searchParams.get("resubs");
-  const paid_message = !!searchParams.get("paid_message");
-  const raids = !!searchParams.get("raids");
-  const bans = !!searchParams.get("bans");
-
-  const isAll = !subscriptions && !resubs && !follows && !paid_message && !raids && !bans;
+  const follows = true;
+  const subscriptions = true;
+  const paid_message = true;
 
   let lastFollowers = {};
   let intervalId = null;
 
   useEffect(() => {
+    if (!settings && !isShowHi.current) return false;
+
     const init = async () => {
       try {
         if (!data.current.user_id) throw Object.assign(new Error("Не удалось получить user_id"), { code: "USER_ID_NOT_FOUND" });
@@ -43,6 +39,14 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
           const streamId = await api.wasd.getStreamId(profileInfo.user_profile.channel_id);
           if (!streamId) return;
           console.log(`StreamID: ${streamId}`);
+
+          if (!isShowHi.current) {
+            const oldMessages = await api.wasd.getMessages(streamId, maxMessages);
+            oldMessages.reverse().forEach((e) => {
+              callback({ event: e.type, payload: { id: e.id, messageType: 'message', ...e.info } });
+            });
+          }
+
           socketRef.current.emit("join", {
             streamId,
             channelId: profileInfo.user_profile.channel_id,
@@ -55,42 +59,57 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
 
         socketRef.current.on("event", (event) => {
           setTimeout(() => {
-            if (event.event_type === "NEW_FOLLOWER" && (isAll || follows) && data.current.settings.follow_enabled) {
+            if (event.event_type === "NEW_FOLLOWER" && follows && data.current.settings.follow_enabled) {
               if (lastFollowers[event.payload.user_login]) return;
 
               lastFollowers[event.payload.user_login] = 1;
               console.log("Последние добавления в избранное", lastFollowers);
 
-              callback({ event: event.event_type, payload: { ...event, ...data.current.settings } });
+              callback({ event: event.event_type, payload: event });
             }
           }, data.current.settings.alert_delay);
         });
 
         socketRef.current.on("subscribe", (event) => {
           setTimeout(() => {
-            if ((isAll || subscriptions) && data.current.settings.sub_enabled) {
-              callback({ event: "SUBSCRIBE", payload: { ...event, ...data.current.settings } });
+            if (subscriptions && data.current.settings.sub_enabled) {
+              callback({ event: "SUBSCRIBE", payload: event });
             }
           }, data.current.settings.alert_delay);
         });
 
         socketRef.current.on("paidMessage", (event) => {
           setTimeout(() => {
-            if ((isAll || paid_message) && data.current.settings.paid_message_enabled) {
-              callback({ event: "paidMessage", payload: { ...event, ...data.current.settings } });
+            if (paid_message && data.current.settings.paid_message_enabled) {
+              callback({ event: "PAID_MESSAGE", payload: event });
             }
           }, data.current.settings.alert_delay);
         });
 
         socketRef.current.on("user_ban", (event) => {
           setTimeout(() => {
-            if ((isAll || bans) && data.current.settings.ban_enabled && !event.payload.duration) {
-              callback({ event: "BAN", payload: { ...event, ...data.current.settings } });
-            }
+            callback({ event: "USER_BAN", payload: event });
           }, data.current.settings.alert_delay);
         });
 
-        socketRef.current.on("joined", (msg) => console.log("Присоединился, роль:", msg.user_channel_role));
+        socketRef.current.on("message", (event) => {
+          setTimeout(() => {
+            callback({ event: "MESSAGE", payload: {...event, messageType: 'message'} });
+          }, data.current.settings.message_show_delay);
+        });
+
+        socketRef.current.on("sticker", (event) => {
+          setTimeout(() => {
+            if (data.current.settings.show_sticker) {
+              callback({ event: "STICKER", payload: {...event, messageType: 'message'} });
+            }
+          }, data.current.settings.message_show_delay);
+        });
+
+        socketRef.current.on("joined", (msg) => {
+          isShowHi.current = true;
+          console.log("Присоединился, роль:", msg.user_channel_role);
+        });
       } catch (e) {
         if (e.code === "USER_ID_NOT_FOUND") {
           return setTimeout(() => init(), 50);
@@ -103,11 +122,10 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
 
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [settings]);
 
-  const startFetchMedia = async (channel_id, settings, info) => {
+  const startFetchMedia = async (channel_id, _, info) => {
     const { profileInfo, jwt } = info;
-    let lastRaid = null;
     let lastStreamId = await api.wasd.getStreamId(profileInfo.user_profile.channel_id);
 
     const fetchMedia = async () => {
@@ -131,23 +149,6 @@ const WebSocket = async (callback = () => {}, user_id, settings) => {
           }, 150);
 
           return;
-        }
-
-        if ((isAll || raids) && data.current.settings.raid_enabled) {
-          const isRaid = channelInfo.channel.raid_info;
-
-          if (isRaid && !(lastRaid && lastRaid.begin_at === isRaid.begin_at && lastRaid.raid_mc_id === isRaid.raid_mc_id)) {
-            lastRaid = isRaid;
-            setTimeout(() => {
-              callback({
-                event: "RAID",
-                payload: {
-                  ...isRaid,
-                  ...settings,
-                },
-              });
-            }, settings.alert_delay);
-          }
         }
       } catch (e) {
         console.error(e);

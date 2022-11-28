@@ -40,6 +40,7 @@ const EditorUser = (props) => {
               <div className="check-box_wrapper loading" />
               <div className="check-box_wrapper loading" />
               <div className="check-box_wrapper loading" />
+              <div className="check-box_wrapper loading" />
             </div>
           )}
         </td>
@@ -73,6 +74,9 @@ const EditorUser = (props) => {
             </div>
             <div data-tip="управление оповещениями" className="check-box_wrapper">
               <input type="checkbox" checked={props.user.access?.canAlertBox} onChange={(e) => props.setAccess({ ...props.user.access, canAlertBox: e.target.checked }, props.user._id)} />
+            </div>
+            <div data-tip="управление окном чата" className="check-box_wrapper">
+              <input type="checkbox" checked={props.user.access?.canChatBox} onChange={(e) => props.setAccess({ ...props.user.access, canChatBox: e.target.checked }, props.user._id)} />
             </div>
             <div data-tip="доступ к загрузке/удалению файлов (можно использовать ссылку)" className="check-box_wrapper">
               <input type="checkbox" checked={props.user.access?.canUploadFile} onChange={(e) => props.setAccess({ ...props.user.access, canUploadFile: e.target.checked }, props.user._id)} />

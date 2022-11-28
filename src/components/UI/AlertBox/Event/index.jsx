@@ -21,23 +21,16 @@ const clearTTSMessage = (max, message) => {
     .replace(/\s{2,}/gim, " ")
     .trim();
 };
-const replaceEmotes = (text, emotes) => {
-  for (const emote of emotes) {
-    text = reactStringReplace(text, decode(emote.code), (e, i) => {
-      return e === emote.code ? (
-        <img
-          width={`calc(${(emote.width.x1 / emote.height.x1).toFixed(3)} * 1.5em)`}
-          key={e + "_" + i}
-          src={emote.url["x1"]}
-          srcSet={emote.url["x2"] + " x2, " + emote.url["x3"] + " x3"}
-          alt={decode(emote.code)}
-        />
-      ) : (
-        e
-      );
-    });
+export const replaceEmotes = (text = '', emotes = {}) => {
+  let newText = [];
+  for (let word of text.split(" ")) {
+    if (emotes[word]) {
+      word = `<img class="chat-emoji" style="width: calc(${(emotes[word].width.x1 / emotes[word].height.x1).toFixed(3)} * 1.5em);" alt="${word}" src="${emotes[word]?.url[`x1`]}" srcset="${emotes[word]?.url[`x2`]}" />`;
+    }
+
+    newText.push(word);
   }
-  return text;
+  return newText.join(" ");
 };
 
 const Event = (props) => {
@@ -157,8 +150,8 @@ const Event = (props) => {
                     fontFamily: message_font?.replace(/\+/g, " "),
                     fontWeight: message_font_weight,
                   }}
+                  dangerouslySetInnerHTML={{ __html: message_allow_emotes ? replaceEmotes(payload.message, emotes) : payload.message }}
                 >
-                  {message_allow_emotes ? replaceEmotes(payload.message, emotes) : payload.message}
                 </div>
               )}
             </div>

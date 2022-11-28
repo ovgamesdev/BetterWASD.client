@@ -66,8 +66,7 @@ const EmotesTop = () => {
       <div className="emotes">
         {error && error.message}
         {isLoading && !isFirsLoading && <Loading />}
-        {data.length !== 0 &&
-          data.map((emote, index) => <Emote showUsername={true} key={emote._id || index} emote={emote} loading={isFirsLoading} />)}
+        {data.length !== 0 && data.map((emote, index) => <Emote showUsername={true} key={emote._id || index} emote={emote} loading={isFirsLoading} />)}
         {data.length === 0 && search !== "" && <div>Здесь нет ничего</div>}
       </div>
       <Pagination page={page} total={total} search={search} limit={limit} setPage={setPage} />

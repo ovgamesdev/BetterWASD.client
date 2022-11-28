@@ -5,6 +5,7 @@ import DashboardEmotes from "./Emotes";
 import DashboardPaint from "./Paint";
 import DashboardSub from "./Sub";
 import DashboardEditor from "./Editor";
+import DashboardChatBox from "./ChatBox";
 // import DashboardPro from "./Pro";
 import DashboardAlertBox from "./AlertBox";
 import UserOnlyRoute from "../../routes/components/UserOnlyRoute";
@@ -22,6 +23,7 @@ const DashboardRoutes = () => {
 
   const accessAlertBox = auth.editor?.access ? (auth.editor?.access?.canAlertBox ? true : false) : true;
   const accessSubBadges = auth.editor?.access ? (auth.editor?.access?.canSubBadges ? true : false) : true;
+  const accessChatBox = auth.editor?.access ? (auth.editor?.access?.canChatBox ? true : false) : true;
 
   return (
     <section className="question-section" style={{ paddingBottom: "160px" }}>
@@ -58,6 +60,7 @@ const DashboardRoutes = () => {
           /> */}
           {accessSubBadges && <Route path="sub-badges" element={<DashboardSub />} />}
           {accessAlertBox && <Route path="alertbox" element={<DashboardAlertBox />} />}
+          {accessChatBox && <Route path="chatbox" element={<DashboardChatBox />} />}
           <Route path="*" element={<Navigate to="emotes" />} />
         </Routes>
       </div>
