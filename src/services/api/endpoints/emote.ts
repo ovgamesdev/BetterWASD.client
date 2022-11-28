@@ -31,8 +31,8 @@ const endpoint = {
   getFullEmotes: async (user_id: number) => {
     const wasdEmotes = await api.wasd.smiles();
     const wasdSmiles = wasdEmotes
-      .map((c) =>
-        c.smiles.map((s) => ({
+      .map((c: any) =>
+        c.smiles.map((s: any) => ({
           _id: s.id,
           code: s.token,
           visibility_simple: [],
@@ -47,12 +47,19 @@ const endpoint = {
 
     const preRes = [...data.sharedEmotes, ...data.channelEmotes, ...data.global, ...wasdSmiles];
     const res = {};
-
     preRes.forEach((e) => {
       res[e.code] = e;
     });
 
-    return { dataEmotes: res, dataSubBadges: data.subBadges };
+    const resPersonal = {}
+    for (const user in data.personalEmotesById) {
+      resPersonal[user] = {}
+      for (const emote of data.personalEmotesById[user]) {
+        resPersonal[user][emote.code] = emote
+      }
+    }
+
+    return { dataEmotes: res, dataSubBadges: data.subBadges, dataPersonalEmotes: resPersonal };
   },
 };
 

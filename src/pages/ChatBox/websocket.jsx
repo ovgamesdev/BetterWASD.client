@@ -43,7 +43,7 @@ const WebSocket = async (callback = () => {}, user_id, settings, { maxMessages }
           if (!isShowHi.current) {
             const oldMessages = await api.wasd.getMessages(streamId, maxMessages);
             oldMessages.reverse().forEach((e) => {
-              callback({ event: e.type, payload: { id: e.id, messageType: 'message', ...e.info } });
+              callback({ event: e.type, payload: { id: e.id, messageType: "message", ...e.info } });
             });
           }
 
@@ -86,25 +86,23 @@ const WebSocket = async (callback = () => {}, user_id, settings, { maxMessages }
           }, data.current.settings.alert_delay);
         });
 
-        socketRef.current.on("user_ban", (event) => {
-          setTimeout(() => {
-            callback({ event: "USER_BAN", payload: event });
-          }, data.current.settings.alert_delay);
-        });
+        socketRef.current.on("user_ban", (event) => callback({ event: "USER_BAN", payload: event }));
 
         socketRef.current.on("message", (event) => {
           setTimeout(() => {
-            callback({ event: "MESSAGE", payload: {...event, messageType: 'message'} });
+            callback({ event: "MESSAGE", payload: { ...event, messageType: "message" } });
           }, data.current.settings.message_show_delay);
         });
 
         socketRef.current.on("sticker", (event) => {
           setTimeout(() => {
             if (data.current.settings.show_sticker) {
-              callback({ event: "STICKER", payload: {...event, messageType: 'message'} });
+              callback({ event: "STICKER", payload: { ...event, messageType: "message" } });
             }
           }, data.current.settings.message_show_delay);
         });
+
+        socketRef.current.on("messageDeleted", (event) => callback({ event: "MESSAGE_DELETED", payload: event }));
 
         socketRef.current.on("joined", (msg) => {
           isShowHi.current = true;

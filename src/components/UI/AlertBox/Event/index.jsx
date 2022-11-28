@@ -21,20 +21,20 @@ const clearTTSMessage = (max, message) => {
     .replace(/\s{2,}/gim, " ")
     .trim();
 };
-export const replaceEmotes = (text = '', emotes = {}) => {
+export const replaceEmotes = (text = "", emotes = {}, personalEmotes = {}, user_id = 0) => {
   let newText = [];
   for (let word of text.split(" ")) {
-    if (emotes[word]) {
-      word = `<img class="chat-emoji" style="width: calc(${(emotes[word].width.x1 / emotes[word].height.x1).toFixed(3)} * 1.5em);" alt="${word}" src="${emotes[word]?.url[`x1`]}" srcset="${emotes[word]?.url[`x2`]}" />`;
+    const emote = (personalEmotes[user_id] && personalEmotes[user_id][word]) || emotes[word];
+    if (emote) {
+      word = `<img class="chat-emoji" style="width: calc(${(emote.width.x1 / emote.height.x1).toFixed(3)} * 1.5em);" alt="${word}" src="${emote?.url[`x1`]}" srcset="${emote?.url[`x2`]}" />`;
     }
-
     newText.push(word);
   }
   return newText.join(" ");
 };
 
 const Event = (props) => {
-  const { emotes } = useAlertAuth();
+  const { emotes, personalEmotes } = useAlertAuth();
 
   const { image, metadata, layout, message_template, sound, sound_volume, text_animation, text_delay, font, font_size, font_weight, font_color, font_color2, payload } = props.info;
   const { alert_message_min_amount, message_allow_emotes, message_font, message_font_color, message_font_size, message_font_weight, message_show } = props.info;
@@ -150,9 +150,8 @@ const Event = (props) => {
                     fontFamily: message_font?.replace(/\+/g, " "),
                     fontWeight: message_font_weight,
                   }}
-                  dangerouslySetInnerHTML={{ __html: message_allow_emotes ? replaceEmotes(payload.message, emotes) : payload.message }}
-                >
-                </div>
+                  dangerouslySetInnerHTML={{ __html: message_allow_emotes ? replaceEmotes(payload.message, emotes, personalEmotes, payload.user_id) : payload.message }}
+                ></div>
               )}
             </div>
           </div>

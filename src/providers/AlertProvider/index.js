@@ -9,6 +9,7 @@ function AlertProvider(props) {
   const [user, setUser] = useState(null);
   const [settings, setSettings] = useState(null);
   const [emotes, setEmotes] = useState({});
+  const [personalEmotes, setPersonalEmotes] = useState({});
 
   const { token } = useParams();
 
@@ -20,8 +21,9 @@ function AlertProvider(props) {
       setUser(user_id);
       setSettings(settings);
 
-      const { dataEmotes } = await api.emote.getFullEmotes(user_id);
+      const { dataEmotes, dataPersonalEmotes } = await api.emote.getFullEmotes(user_id);
       setEmotes(dataEmotes);
+      setPersonalEmotes(dataPersonalEmotes);
     } finally {
       setIsLoaded(true);
     }
@@ -37,12 +39,14 @@ function AlertProvider(props) {
       token,
       user,
       emotes,
+      personalEmotes,
       settings,
       setUser,
       setEmotes,
+      setPersonalEmotes,
       setSettings,
     }),
-    [isLoaded, token, user, emotes, settings, setUser, setEmotes, setSettings]
+    [isLoaded, token, user, emotes, personalEmotes, settings, setUser, setEmotes, setPersonalEmotes, setSettings]
   );
 
   return <AlertContext.Provider value={contextValue}>{props.children}</AlertContext.Provider>;

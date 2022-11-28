@@ -9,6 +9,7 @@ function ChatProvider(props) {
   const [user, setUser] = useState(null);
   const [settings, setSettings] = useState(null);
   const [emotes, setEmotes] = useState([]);
+  const [personalEmotes, setPersonalEmotes] = useState({});
   const [subBadges, setSubBadges] = useState({ "1mon": "", "3mon": "", "6mon": "", "9mon": "", "12mon": "", "18mon": "", "24mon": "" });
   const [paints, setPaints] = useState([]);
 
@@ -23,11 +24,12 @@ function ChatProvider(props) {
       setSettings(settings);
 
       const dataPaint = await api.paint.getPaints();
-      const { dataEmotes, dataSubBadges } = await api.emote.getFullEmotes(user_id);
+      const { dataEmotes, dataSubBadges, dataPersonalEmotes } = await api.emote.getFullEmotes(user_id);
 
       setPaints(dataPaint);
       setSubBadges(dataSubBadges || subBadges);
       setEmotes(dataEmotes);
+      setPersonalEmotes(dataPersonalEmotes)
     } finally {
       setIsLoaded(true);
     }
@@ -43,16 +45,18 @@ function ChatProvider(props) {
       token,
       user,
       emotes,
+      personalEmotes,
       subBadges,
       paints,
       settings,
       setUser,
       setEmotes,
+      setPersonalEmotes,
       setSubBadges,
       setPaints,
       setSettings,
     }),
-    [isLoaded, token, user, emotes, subBadges, paints, settings, setUser, setEmotes, setSubBadges, setPaints, setSettings]
+    [isLoaded, token, user, emotes, personalEmotes, subBadges, paints, settings, setUser, setEmotes, setPersonalEmotes, setSubBadges, setPaints, setSettings]
   );
 
   return <ChatContext.Provider value={contextValue}>{props.children}</ChatContext.Provider>;

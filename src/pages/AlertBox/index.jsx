@@ -191,6 +191,7 @@ const AlertBox = () => {
               // payload
               payload: {
                 user_login: payload.sender_nickname,
+                user_id: payload.sender_id,
                 message: payload.message,
                 price_amount: payload.price_amount,
                 currency: payload.currency,

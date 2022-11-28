@@ -4,7 +4,7 @@ import { replaceEmotes } from "../../AlertBox/Event";
 const userColors = ["#7fba40", "#1c3fc8", "#a5276d", "#913ca7", "#4332b6", "#266bc5", "#5bc3c1", "#d87539", "#a9ad47", "#3ca13b", "#4db89a", "#6a4691", "#f5a623", "#e7719e", "#9fcbef", "#7b4b4b"];
 const getColor = (user_id) => userColors[user_id % (userColors.length - 1)];
 
-const Message = ({ data, settings, emotes, subBadges, paints }) => {
+const Message = ({ data, settings, emotes, personalEmotes, subBadges, paints }) => {
   // const { settings, emotes, subBadges, paints } = useChatAuth();
   const { user_login, user_id, user_channel_role, other_roles, message, sticker, meta } = data;
 
@@ -20,7 +20,7 @@ const Message = ({ data, settings, emotes, subBadges, paints }) => {
   const canColorName = isOwner ? null : isMod ? null : isAdmin ? null : true;
   const canBetterPaint = settings.better_paints_enabled;
 
-  const msg = replaceEmotes(message, emotes);
+  const msg = replaceEmotes(message, emotes, personalEmotes, user_id);
 
   const subscriptionPeriods = [
     { startDays: 0, iconUrl: 'url("https://static.wasd.tv/images/subscribers/1mon.png")' },

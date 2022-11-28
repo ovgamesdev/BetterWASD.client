@@ -11,7 +11,7 @@ import "./paints.css";
 
 import "./font/index.css";
 
-const Chat = ({ messages, style, settings, emotes, subBadges, paints }) => {
+const Chat = ({ messages, style, settings, emotes, personalEmotes, subBadges, paints }) => {
   console.log("messages", messages);
 
   const includeProfanityWords = (msg) => (typeof msg === "string" ? !settings.profanity_custom_words.every((word) => !msg.split(" ").includes(word)) : false);
@@ -32,7 +32,7 @@ const Chat = ({ messages, style, settings, emotes, subBadges, paints }) => {
                     (settings.hide_commands && d.message?.slice(0, 1) === "!") ||
                     settings.muted_chatters.includes(d.user_login.toLowerCase()) ||
                     includeProfanityWords(d.message) ? null : (
-                      <Message data={d} settings={settings} key={d?.id} emotes={emotes} subBadges={subBadges} paints={paints} />
+                      <Message data={d} settings={settings} key={d?.id} emotes={emotes} personalEmotes={personalEmotes} subBadges={subBadges} paints={paints} />
                     )
                   ) : d.messageType === "system_message" ? (
                     <SystemMessage data={d} settings={settings} key={uuidv4()} />
