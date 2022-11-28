@@ -13,6 +13,7 @@ const Navbar = () => {
 
   return (
     !window.location.pathname.match("/alert-box/") &&
+    !window.location.pathname.match("/chat-box/") &&
     !window.location.pathname.match("/uninstall/") && (
       <header className="nav__wrapper">
         <div className="nav">

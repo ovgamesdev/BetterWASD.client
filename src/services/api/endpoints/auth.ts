@@ -16,6 +16,10 @@ const endpoint = {
   getAlertSettings: (user_id: number) => axios.get(`/v1/profile/alert/${typeof user_id !== "undefined" ? user_id : ""}`),
   getAlertSettingsByToken: (token: string) => axios.get("/v1/profile/current/alert/" + token),
   editAlertSettings: (data: any, user_id: number) => axios.put(`/v1/profile/alert/${typeof user_id !== "undefined" ? user_id : ""}`, data),
+
+  getChatSettings: (user_id: number) => axios.get(`/v1/profile/chat/${typeof user_id !== "undefined" ? user_id : ""}`),
+  getChatSettingsByToken: (token: string) => axios.get("/v1/profile/current/chat/" + token),
+  editChatSettings: (data: any, user_id: number) => axios.put(`/v1/profile/chat/${typeof user_id !== "undefined" ? user_id : ""}`, data),
 };
 
 export default endpoint;

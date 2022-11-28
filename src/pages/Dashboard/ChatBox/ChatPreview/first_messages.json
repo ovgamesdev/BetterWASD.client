@@ -1,0 +1,71 @@
+[
+  {
+    "id": "0",
+    "messageType": "message",
+    "user_id": 0,
+    "user_login": "Blanchard",
+    "user_channel_role": "CHANNEL_USER",
+    "other_roles": ["CHANNEL_FOLLOWER", "CHANNEL_SUBSCRIBER"],
+    "message": "Привет, ниже ты можешь настроить чат pepega",
+    "hash": "0",
+    "meta": {
+      "days_as_sub": 0
+    }
+  },
+  {
+    "id": "1",
+    "messageType": "message",
+    "user_id": 1,
+    "user_login": "Montgomery",
+    "user_channel_role": "CHANNEL_MODERATOR",
+    "other_roles": ["CHANNEL_FOLLOWER"],
+    "sticker": {
+      "sticker_image": {
+        "large": "https://st.wasd.tv/upload/stickers/0d2bf3cb-4bbb-4a4b-b39c-34d27bfc6d45/original.png",
+        "medium": "https://st.wasd.tv/upload/stickers/0d2bf3cb-4bbb-4a4b-b39c-34d27bfc6d45/128x128.png",
+        "small": "https://st.wasd.tv/upload/stickers/0d2bf3cb-4bbb-4a4b-b39c-34d27bfc6d45/64x64.png"
+      }
+    },
+    "hash": "1",
+    "meta": null
+  },
+  {
+    "id": "2",
+    "messageType": "message",
+    "user_id": 2,
+    "user_login": "Sapphire",
+    "user_channel_role": "CHANNEL_OWNER",
+    "other_roles": ["WASD_PARTNER"],
+    "message": "!help",
+    "hash": "2",
+    "meta": null
+  },
+  {
+    "id": "3",
+    "messageType": "message",
+    "user_id": 306144,
+    "user_login": "OvGames",
+    "user_channel_role": "CHANNEL_FOLLOWER",
+    "other_roles": ["PROMO_CODE_WINNER"],
+    "message": "Всем peepoHey",
+    "hash": "3",
+    "meta": null
+  },
+  {
+    "id": "4",
+    "messageType": "message",
+    "user_id": 4,
+    "user_login": "Salinas",
+    "user_channel_role": "WASD_ADMIN",
+    "other_roles": ["WASD_PARTNER"],
+    "message": "pepega",
+    "hash": "4",
+    "meta": null
+  },
+  {
+    "id": "loading",
+    "messageType": "system_message",
+    "message": "Загрузка...",
+    "meta": {}
+  }
+]

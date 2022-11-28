@@ -1,25 +1,27 @@
-.button:not([disabled]) {
+.button.button-big {
   img {
     margin-right: 5px;
-    height: 30px
+    height: 30px;
   }
 
+  &.boosty img {
+    width: 24.922px;
+  }
+
+  &.patreon img {
+    width: 30px;
+  }
+}
+
+.button.button-big {
   &.boosty {
     background-color: #f15f2c;
     box-shadow: 0 18px 30px -12px rgb(241 95 44 / 35%);
-
-    img {
-        width: 24.922px;
-    }
   }
 
   &.patreon {
     background-color: #ff424d;
     box-shadow: 0 18px 30px -12px rgb(255 66 77 / 35%);
-
-    img {
-        width: 30px;
-    }
   }
 
   &:hover {

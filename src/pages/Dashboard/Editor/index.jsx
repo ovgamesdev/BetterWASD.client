@@ -144,9 +144,9 @@ const DashboardEditor = () => {
           <div className="bonuses__icons">
             <table className="paint__table">
               <tbody>
-                {auth.user.channel_editor.map((editor, index) => (
-                  <EditorUser key={index} user={editor} loading={isLoading} deleteEditor={deleteEditor} />
-                ))}
+                {!isLoading
+                  ? auth.user.channel_editor.map((editor, index) => <EditorUser key={index} user={editor} deleteEditor={deleteEditor} />)
+                  : [...Array(3).fill({})].map((editor, index) => <EditorUser key={index} user={editor} loading deleteEditor={deleteEditor} />)}
               </tbody>
             </table>
           </div>

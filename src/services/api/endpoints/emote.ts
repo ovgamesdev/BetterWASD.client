@@ -1,3 +1,4 @@
+import api from "..";
 import axios from "../axios";
 
 const endpoint = {
@@ -26,6 +27,33 @@ const endpoint = {
 
   getUserEmotesById: (user_id: number) => axios.get(`/v1/users?user_id=${user_id}`),
   getUserEmotesByLogin: (user_login: string) => axios.get(`/v1/users?user_login=${user_login}`),
+
+  getFullEmotes: async (user_id: number) => {
+    const wasdEmotes = await api.wasd.smiles();
+    const wasdSmiles = wasdEmotes
+      .map((c) =>
+        c.smiles.map((s) => ({
+          _id: s.id,
+          code: s.token,
+          visibility_simple: [],
+          url: { x1: s.image_url, x2: s.image_url_retina, x3: s.image_preview_url_retina },
+          width: { x1: 28, x2: 28, x3: 28 },
+          height: { x1: 28, x2: 28, x3: 28 },
+        }))
+      )
+      .flat();
+
+    const { data } = await api.emote.getUserEmotesById(user_id);
+
+    const preRes = [...data.sharedEmotes, ...data.channelEmotes, ...data.global, ...wasdSmiles];
+    const res = {};
+
+    preRes.forEach((e) => {
+      res[e.code] = e;
+    });
+
+    return { dataEmotes: res, dataSubBadges: data.subBadges };
+  },
 };
 
 export default endpoint;

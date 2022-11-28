@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { AlertContext } from "../../contexts/AlertContext/index.jsx";
+import { ChatContext } from "../../contexts/ChatContext/index.jsx";
 import api from "../../services/api/index.js";
 
-function AlertProvider(props) {
+function ChatProvider(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [user, setUser] = useState(null);
   const [settings, setSettings] = useState(null);
-  const [emotes, setEmotes] = useState({});
+  const [emotes, setEmotes] = useState([]);
+  const [subBadges, setSubBadges] = useState({ "1mon": "", "3mon": "", "6mon": "", "9mon": "", "12mon": "", "18mon": "", "24mon": "" });
+  const [paints, setPaints] = useState([]);
 
   const { token } = useParams();
 
@@ -16,11 +18,15 @@ function AlertProvider(props) {
     try {
       const {
         data: { user_id, settings },
-      } = await api.auth.getAlertSettingsByToken(token);
+      } = await api.auth.getChatSettingsByToken(token);
       setUser(user_id);
       setSettings(settings);
 
-      const { dataEmotes } = await api.emote.getFullEmotes(user_id);
+      const dataPaint = await api.paint.getPaints();
+      const { dataEmotes, dataSubBadges } = await api.emote.getFullEmotes(user_id);
+
+      setPaints(dataPaint);
+      setSubBadges(dataSubBadges || subBadges);
       setEmotes(dataEmotes);
     } finally {
       setIsLoaded(true);
@@ -37,15 +43,19 @@ function AlertProvider(props) {
       token,
       user,
       emotes,
+      subBadges,
+      paints,
       settings,
       setUser,
       setEmotes,
+      setSubBadges,
+      setPaints,
       setSettings,
     }),
-    [isLoaded, token, user, emotes, settings, setUser, setEmotes, setSettings]
+    [isLoaded, token, user, emotes, subBadges, paints, settings, setUser, setEmotes, setSubBadges, setPaints, setSettings]
   );
 
-  return <AlertContext.Provider value={contextValue}>{props.children}</AlertContext.Provider>;
+  return <ChatContext.Provider value={contextValue}>{props.children}</ChatContext.Provider>;
 }
 
-export default AlertProvider;
+export default ChatProvider;

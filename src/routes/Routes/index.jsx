@@ -14,12 +14,14 @@ import Privacy from "../../pages/Privacy";
 import Dashboard from "../../pages/Dashboard";
 import EmotesRoutes from "../../pages/Emotes";
 import AlertBox from "../../pages/AlertBox";
+import ChatBox from "../../pages/ChatBox";
 import Uninstall from "../../pages/Uninstall";
 import AdminDashboard from "../../pages/AdminDashboard";
 import FagSupport from "../../pages/FagSupport";
 import Support from "../../pages/Support";
 
 import AlertProvider from "../../providers/AlertProvider";
+import ChatProvider from "../../providers/ChatProvider";
 
 const AppRoutes = () => {
   return (
@@ -37,6 +39,14 @@ const AppRoutes = () => {
           <AlertProvider>
             <AlertBox />
           </AlertProvider>
+        }
+      />
+      <Route
+        path="/chat-box/v1/:token"
+        element={
+          <ChatProvider>
+            <ChatBox />
+          </ChatProvider>
         }
       />
       <Route path="/uninstall/:user_id" element={<Uninstall />} />

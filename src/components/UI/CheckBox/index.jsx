@@ -7,11 +7,11 @@ const makeid = (length = 15) => {
   return result;
 };
 
-const CheckBox = ({ checked, onChange, text }) => {
+const CheckBox = ({ checked, onChange, text, style }) => {
   const id = makeid();
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: "flex", alignItems: "center", ...style }}>
       <input type="checkbox" checked={checked} onChange={onChange} id={id} />
       <label htmlFor={id} style={{ marginLeft: "8px", fontSize: "12px", opacity: ".8", cursor: "pointer" }}>
         {text}
